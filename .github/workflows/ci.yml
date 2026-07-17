@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  GOTOOLCHAIN: local
+
+jobs:
+  quality:
+    name: Quality, tests, and contracts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out query package
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          path: go-api-query
+      - name: Check out pinned validation dependency
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          repository: faustbrian/go-validation
+          ref: 238f8ef9a96a498b45cb34b7bee5edbdf55f9104
+          path: go-validation
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go-api-query/go.mod
+          cache-dependency-path: go-api-query/go.sum
+      - name: Run blocking local-equivalent gates
+        working-directory: go-api-query
+        run: make check
+      - name: Run advisory NilAway
+        working-directory: go-api-query
+        run: make nilaway
+
+  mutation:
+    name: Mutation testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          path: go-api-query
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          repository: faustbrian/go-validation
+          ref: 238f8ef9a96a498b45cb34b7bee5edbdf55f9104
+          path: go-validation
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go-api-query/go.mod
+          cache-dependency-path: go-api-query/go.sum
+      - working-directory: go-api-query
+        run: make mutation
+
+  postgres:
+    name: PostgreSQL integration
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: apiquery_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d apiquery_test"
+          --health-interval 2s
+          --health-timeout 5s
+          --health-retries 30
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          path: go-api-query
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          repository: faustbrian/go-validation
+          ref: 238f8ef9a96a498b45cb34b7bee5edbdf55f9104
+          path: go-validation
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go-api-query/go.mod
+          cache-dependency-path: go-api-query/go.sum
+      - working-directory: go-api-query
+        env:
+          APIQUERY_TEST_DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/apiquery_test?sslmode=disable
+        run: make postgres
+
+  benchmarks:
+    name: Benchmarks and allocation budgets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          path: go-api-query
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          repository: faustbrian/go-validation
+          ref: 238f8ef9a96a498b45cb34b7bee5edbdf55f9104
+          path: go-validation
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go-api-query/go.mod
+          cache-dependency-path: go-api-query/go.sum
+      - working-directory: go-api-query
+        run: make benchmarks
