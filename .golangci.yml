@@ -1,26 +1,34 @@
 version: "2"
 
-run:
-  timeout: 10m
-
 linters:
-  default: standard
+  default: none
   enable:
+    - asciicheck
+    - bidichk
     - bodyclose
+    - copyloopvar
+    - durationcheck
+    - errcheck
     - errorlint
     - exhaustive
     - gocritic
     - gosec
+    - govet
+    - ineffassign
+    - misspell
     - nilerr
     - noctx
-    - prealloc
-    - revive
     - rowserrcheck
     - sqlclosecheck
-    - testifylint
+    - staticcheck
     - unconvert
-    - unparam
-    - wastedassign
+    - unused
+
+  settings:
+    govet:
+      enable-all: true
+      disable:
+        - fieldalignment
 
 issues:
   max-issues-per-linter: 0
