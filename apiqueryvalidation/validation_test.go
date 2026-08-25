@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
-	"github.com/faustbrian/golib/pkg/api-query/apiqueryvalidation"
-	validation "github.com/faustbrian/golib/pkg/validation"
+	apiquery "github.com/faustbrian/go-api-query"
+	"github.com/faustbrian/go-api-query/apiqueryvalidation"
+	validation "github.com/faustbrian/go-validation"
 )
 
 func TestReportPreservesStructuredSafeQueryViolations(t *testing.T) {

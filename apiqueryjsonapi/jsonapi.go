@@ -1,13 +1,13 @@
 // Package apiqueryjsonapi composes parsed jsonapi queries with apiquery.
 // JSON:API names, syntax, extensions, and recommendations remain exclusively
-// owned by github.com/faustbrian/golib/pkg/jsonapi.
+// owned by github.com/faustbrian/go-jsonapi.
 package apiqueryjsonapi
 
 import (
 	"errors"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
-	jsonapi "github.com/faustbrian/golib/pkg/jsonapi"
+	apiquery "github.com/faustbrian/go-api-query"
+	jsonapi "github.com/faustbrian/go-jsonapi"
 )
 
 // ErrInvalid reports an invalid bridge configuration or callback result.

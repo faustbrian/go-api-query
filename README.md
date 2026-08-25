@@ -1,5 +1,15 @@
 # api-query
 
+[![CI](https://github.com/faustbrian/go-api-query/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/faustbrian/go-api-query/actions/workflows/ci.yml)
+[![CodeQL](https://img.shields.io/badge/CodeQL-required-blue)](https://github.com/faustbrian/go-api-query/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
+[![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
+[![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
+[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-api-query.svg)](https://pkg.go.dev/github.com/faustbrian/go-api-query)
+[![Release](https://img.shields.io/github/v/release/faustbrian/go-api-query?sort=semver)](https://github.com/faustbrian/go-api-query/releases)
+[![Go](https://img.shields.io/badge/go-1.26.6-00ADD8?logo=go)](https://go.dev/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 `api-query` compiles explicitly declared API query capabilities into an
 immutable, storage-neutral plan. It covers field projection, relationships,
 typed filters, deterministic sorting, cursor or offset pagination, conservative

@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
-	validation "github.com/faustbrian/golib/pkg/validation"
+	apiquery "github.com/faustbrian/go-api-query"
+	validation "github.com/faustbrian/go-validation"
 )
 
 // Report converts structured query violations into an immutable validation

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/api-query/cursor"
+	"github.com/faustbrian/go-api-query/cursor"
 )
 
 func TestBuildPageMakesBoundarySemanticsExplicit(t *testing.T) {

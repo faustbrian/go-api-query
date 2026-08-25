@@ -1,7 +1,7 @@
 # JSON:API composition
 
 This project does not define JSON:API query syntax. Parse and validate JSON:API
-parameters with `github.com/faustbrian/golib/pkg/jsonapi`; its names, extensions,
+parameters with `github.com/faustbrian/go-jsonapi`; its names, extensions,
 profiles, and recommendations remain authoritative. Then pass the parsed
 `jsonapi.Query` to `apiqueryjsonapi.FromQuery`.
 

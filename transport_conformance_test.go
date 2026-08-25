@@ -8,12 +8,12 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
-	"github.com/faustbrian/golib/pkg/api-query/apiqueryhttp"
-	"github.com/faustbrian/golib/pkg/api-query/apiqueryjsonapi"
-	"github.com/faustbrian/golib/pkg/api-query/apiqueryrpc"
-	"github.com/faustbrian/golib/pkg/api-query/cursor"
-	jsonapi "github.com/faustbrian/golib/pkg/jsonapi"
+	apiquery "github.com/faustbrian/go-api-query"
+	"github.com/faustbrian/go-api-query/apiqueryhttp"
+	"github.com/faustbrian/go-api-query/apiqueryjsonapi"
+	"github.com/faustbrian/go-api-query/apiqueryrpc"
+	"github.com/faustbrian/go-api-query/cursor"
+	jsonapi "github.com/faustbrian/go-jsonapi"
 )
 
 func TestHTTPRPCJSONAPIAndOpenRPCProduceEquivalentContracts(t *testing.T) {

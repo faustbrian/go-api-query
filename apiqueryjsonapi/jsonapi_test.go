@@ -5,9 +5,9 @@ import (
 	"net/url"
 	"testing"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
-	"github.com/faustbrian/golib/pkg/api-query/apiqueryjsonapi"
-	jsonapi "github.com/faustbrian/golib/pkg/jsonapi"
+	apiquery "github.com/faustbrian/go-api-query"
+	"github.com/faustbrian/go-api-query/apiqueryjsonapi"
+	jsonapi "github.com/faustbrian/go-jsonapi"
 )
 
 func TestBridgeComposesAuthoritativeJSONAPIQuery(t *testing.T) {

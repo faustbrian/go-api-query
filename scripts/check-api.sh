@@ -11,7 +11,7 @@ run_apidiff() {
 	fi
 }
 
-output=$(run_apidiff -m api/v1.txt github.com/faustbrian/golib/pkg/api-query)
+output=$(run_apidiff -m api/v1.txt github.com/faustbrian/go-api-query)
 if [ -n "$output" ]; then
 	printf '%s\n' "$output"
 	exit 1

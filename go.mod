@@ -1,9 +1,9 @@
-module github.com/faustbrian/golib/pkg/api-query
+module github.com/faustbrian/go-api-query
 
 go 1.26.6
 
 require (
-	github.com/faustbrian/golib/pkg/jsonapi v0.0.0
+	github.com/faustbrian/go-jsonapi v1.0.0
 	github.com/jackc/pgx/v5 v5.10.0
 )
 
@@ -13,6 +13,6 @@ require (
 )
 
 require (
-	github.com/faustbrian/golib/pkg/validation v0.0.0
+	github.com/faustbrian/go-validation v1.0.0
 	golang.org/x/text v0.41.0 // indirect
 )

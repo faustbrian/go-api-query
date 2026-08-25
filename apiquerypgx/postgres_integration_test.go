@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
-	"github.com/faustbrian/golib/pkg/api-query/apiquerypgx"
+	apiquery "github.com/faustbrian/go-api-query"
+	"github.com/faustbrian/go-api-query/apiquerypgx"
 	"github.com/jackc/pgx/v5"
 )
 

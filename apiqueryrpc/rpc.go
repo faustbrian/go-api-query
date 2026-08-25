@@ -5,8 +5,8 @@ package apiqueryrpc
 import (
 	"errors"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
-	"github.com/faustbrian/golib/pkg/api-query/internal/strictjson"
+	apiquery "github.com/faustbrian/go-api-query"
+	"github.com/faustbrian/go-api-query/internal/strictjson"
 )
 
 // ErrInvalid is the sanitized JSON-RPC parameter failure.

@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
-	"github.com/faustbrian/golib/pkg/api-query/cursor"
+	apiquery "github.com/faustbrian/go-api-query"
+	"github.com/faustbrian/go-api-query/cursor"
 )
 
 func TestCodecEncryptsAndBindsCursorState(t *testing.T) {

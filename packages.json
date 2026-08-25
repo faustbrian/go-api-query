@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-api-query",
+  "packages": [
+    {
+      "module_directory": ".",
+      "directory": ".",
+      "name": "apiquery",
+      "import_path": "github.com/faustbrian/go-api-query",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "apiqueryhttp",
+      "name": "apiqueryhttp",
+      "import_path": "github.com/faustbrian/go-api-query/apiqueryhttp",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "apiqueryjsonapi",
+      "name": "apiqueryjsonapi",
+      "import_path": "github.com/faustbrian/go-api-query/apiqueryjsonapi",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "apiquerypgx",
+      "name": "apiquerypgx",
+      "import_path": "github.com/faustbrian/go-api-query/apiquerypgx",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "apiqueryrpc",
+      "name": "apiqueryrpc",
+      "import_path": "github.com/faustbrian/go-api-query/apiqueryrpc",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "apiquerytest",
+      "name": "apiquerytest",
+      "import_path": "github.com/faustbrian/go-api-query/apiquerytest",
+      "kind": "test support",
+      "production": false,
+      "executable": true,
+      "coverage_required": false,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "apiqueryvalidation",
+      "name": "apiqueryvalidation",
+      "import_path": "github.com/faustbrian/go-api-query/apiqueryvalidation",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "cursor",
+      "name": "cursor",
+      "import_path": "github.com/faustbrian/go-api-query/cursor",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "internal/strictjson",
+      "name": "strictjson",
+      "import_path": "github.com/faustbrian/go-api-query/internal/strictjson",
+      "kind": "internal",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    }
+  ]
+}

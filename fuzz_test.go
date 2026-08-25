@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
+	apiquery "github.com/faustbrian/go-api-query"
 )
 
 func FuzzCompileFilterExpression(f *testing.F) {

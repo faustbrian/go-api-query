@@ -8,7 +8,7 @@ import (
 	"strings"
 	"unicode"
 
-	apiquery "github.com/faustbrian/golib/pkg/api-query"
+	apiquery "github.com/faustbrian/go-api-query"
 )
 
 // ErrInvalid reports an incomplete or unsafe application-owned mapping.

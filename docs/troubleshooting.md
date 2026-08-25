@@ -40,6 +40,6 @@ decoders to `apiquerytest.RunCanonicalConformance`.
 ## Local `validation` replacement
 
 Before the dependency's implementation commit is published, this repository
-uses `replace github.com/faustbrian/golib/pkg/validation => ../validation` for fully
+uses `replace github.com/faustbrian/go-validation => ../validation` for fully
 offline development. Release order is: publish `validation`, pin its public
 pseudo-version or tag here, remove the replacement, run `make ci`, then tag v1.
