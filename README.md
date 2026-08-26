@@ -105,10 +105,10 @@ database. No package executes queries or contacts a service at runtime.
 
 The repository is preparing v1. Public compatibility rules are in
 [docs/compatibility.md](docs/compatibility.md), current changes are in
-[CHANGELOG.md](CHANGELOG.md), and the exported v1 candidate is recorded in
+[CHANGELOG.md](CHANGELOG.md), and the stable exported API is recorded in
 `api/v1.txt`.
 
-## Ecosystem
+## Documentation
 
-Use the [Golib documentation portal](https://github.com/faustbrian/golib/blob/main/docs/index.md)
-to choose companion packages, supported stacks, recipes, and operations guidance.
+Start with the [documentation index](docs/README.md) for transport, cursor,
+authorization, SQL, compatibility, and operations guidance.
