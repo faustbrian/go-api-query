@@ -21,6 +21,6 @@ Apple M4 Max, Go 1.26.5 baseline (1 second sample, July 16, 2026):
 | Cursor encode | 2,510 | 3,814 | 18 |
 | Cursor decode | 4,661 | 4,104 | 47 |
 
-Run `make benchmarks` on comparable hardware and retain multiple samples before
-changing budgets. Tune public structural bounds from workload evidence; never
-raise them merely to accept a hostile or accidental expensive query.
+Run `make check` on comparable hardware and retain multiple samples before changing
+budgets. Tune public structural bounds from workload evidence; never raise them
+merely to accept a hostile or accidental expensive query.
