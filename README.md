@@ -89,17 +89,15 @@ adoption guides cover [HTTP](docs/http.md), [OpenRPC](docs/openrpc.md),
 ## Local quality gates
 
 ```sh
-make check       # formatting, analysis, tests, coverage, race, fuzz, docs, API
-make mutation    # 100% mutation efficacy and mutant coverage
-make postgres    # disposable PostgreSQL integration
-make benchmarks  # allocation-reporting performance baselines
-make nilaway     # visible advisory diagnostics, intentionally non-blocking
-make ci          # complete local release-equivalent gate stack
+make inventory   # repository and package manifest consistency
+make check       # the complete shared module contract
+make ci          # repository contract plus the complete module contract
 ```
 
-All tools are pinned in `go.mod`. PostgreSQL defaults to a digest-pinned
-disposable container; set `APIQUERY_TEST_DATABASE_URL` to use an existing test
-database. No package executes queries or contacts a service at runtime.
+Verification is provided by the pinned `go-library-tools` release declared in
+`.golib.yaml`. PostgreSQL defaults to the shared task-owned fixture; set
+`APIQUERY_TEST_DATABASE_URL` to use an existing test database. No package
+executes queries or contacts a service at runtime.
 
 ## Stability
 

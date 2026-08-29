@@ -5,10 +5,16 @@ versioning once v1 is released.
 
 ## Unreleased
 
+### Changed
+
+- Replace copied repository verification tooling with the pinned
+  `go-library-tools` v1.0.4 contract while preserving the package API baseline,
+  mutation checkpoints, and PostgreSQL integration evidence.
+
 ### Documentation
 
-- Remove stale pre-release evidence and replace the archived monorepo link
-  with package-owned documentation.
+- Replace stale pre-release tooling references with the shared repository
+  verification commands and package-owned documentation.
 
 ## 1.0.0 - 2026-08-25
 
