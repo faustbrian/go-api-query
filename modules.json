@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "repository": "github.com/faustbrian/go-api-query",
   "go_version": "1.26.6",
   "modules": [
@@ -125,6 +125,105 @@
       "family_label": "Service Edge",
       "family_description": "Request-edge policy, identity, access decisions, routing, middleware, and process lifecycle.",
       "family_order": 2,
+      "cohesion": {
+        "family": "service-edge",
+        "secondary_capabilities": [
+          "database-and-storage",
+          "http-and-service-edge",
+          "protocols-and-schemas",
+          "testing-and-conformance"
+        ],
+        "responsibility": "Compile declared API query capabilities into immutable, bounded, storage-neutral plans and adapt reviewed plans to explicit transport, validation, and persistence boundaries.",
+        "non_goals": [
+          "Act as an ORM, query executor, SQL language, repository, or database abstraction.",
+          "Own application authorization, mandatory tenant constraints, transport policy, or persistence lifecycle.",
+          "Accept client-supplied identifiers, joins, functions, regular expressions, or execution behavior."
+        ],
+        "public_package_identifier": "apiquery",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-api-query"
+        ],
+        "package_selection": {
+          "github.com/faustbrian/go-api-query": "Use for declaring bounded query capabilities and compiling authorized transport-neutral requests into immutable plans.",
+          "github.com/faustbrian/go-api-query/apiqueryhttp": "Use to parse the repository's strict conventional HTTP query representation before core compilation.",
+          "github.com/faustbrian/go-api-query/apiqueryjsonapi": "Use to map validated JSON:API query members into the transport-neutral request model.",
+          "github.com/faustbrian/go-api-query/apiquerypgx": "Use to compile reviewed plans into allowlisted PostgreSQL query fragments without executing them.",
+          "github.com/faustbrian/go-api-query/apiqueryrpc": "Use to parse bounded JSON-RPC parameters and describe the optional OpenRPC query content.",
+          "github.com/faustbrian/go-api-query/apiquerytest": "Use in tests for deterministic builders, fixtures, assertions, and cross-transport conformance.",
+          "github.com/faustbrian/go-api-query/apiqueryvalidation": "Use to translate query violations into immutable go-validation reports.",
+          "github.com/faustbrian/go-api-query/cursor": "Use for bounded authenticated cursor encoding, rotation, expiry, and replay policy."
+        },
+        "lifecycle_status": "active",
+        "maturity": "stable",
+        "construction_styles": [
+          "builder-build",
+          "must-helper",
+          "new-config",
+          "plain-function",
+          "validated-value"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "none",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [
+          "github.com/faustbrian/go-api-query/apiqueryhttp",
+          "github.com/faustbrian/go-api-query/apiqueryjsonapi",
+          "github.com/faustbrian/go-api-query/apiquerypgx",
+          "github.com/faustbrian/go-api-query/apiqueryrpc",
+          "github.com/faustbrian/go-api-query/apiqueryvalidation"
+        ],
+        "companions": [
+          "github.com/faustbrian/go-api-query/apiquerytest",
+          "github.com/faustbrian/go-api-query/cursor"
+        ],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [
+          "postgresql"
+        ],
+        "supported_protocols": [
+          "http",
+          "json-api",
+          "json-rpc",
+          "openrpc"
+        ],
+        "documentation": {
+          "readme": "README.md",
+          "api": "docs/api.md",
+          "adoption": "README.md",
+          "security": "SECURITY.md",
+          "compatibility": "docs/compatibility.md",
+          "performance": "docs/performance.md",
+          "examples": "README.md",
+          "faq": "docs/faq.md",
+          "changelog": "CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-api-query",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "not-started",
+          "hardening": "not-started",
+          "release": "not-started"
+        }
+      },
       "version": "1.0.0",
       "tag_prefix": "v",
       "owned_dependencies": [
