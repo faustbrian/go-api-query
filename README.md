@@ -85,6 +85,8 @@ Start with the [complete API reference](docs/api.md),
 adoption guides cover [HTTP](docs/http.md), [OpenRPC](docs/openrpc.md),
 [JSON:API composition](docs/jsonapi.md), [SQLC](docs/sqlc.md), and
 [Laravel/Cline RPC migration](docs/migration-laravel-cline.md).
+Shared construction, ownership, lifecycle, and composition expectations are in
+the versioned [Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md).
 
 ## Local quality gates
 
