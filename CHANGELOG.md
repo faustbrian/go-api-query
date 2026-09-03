@@ -10,11 +10,19 @@ versioning once v1 is released.
 - Replace copied repository verification tooling with the pinned
   `go-library-tools` v1.0.13 contract while preserving the package API baseline,
   mutation checkpoints, and PostgreSQL integration evidence.
+- Adopt the `go-library-tools` v1.4.0 schema-v2 cohesion contract without
+  changing the package API or runtime behavior.
+- Pin reusable CI to the immutable v1.4.0 W14-enforcement workflow and retain
+  the complete required repository contract.
+- Reconcile owned v1.0.0 dependency checksums with their transparency-log
+  authenticated public module archives without changing dependency versions.
 
 ### Documentation
 
 - Replace stale pre-release tooling references with the shared repository
   verification commands and package-owned documentation.
+- Link package documentation to the immutable v1.4.0 ecosystem index and
+  Service Edge family guidance.
 
 ## 1.0.0 - 2026-08-25
 
