@@ -1,6 +1,8 @@
 // Package apiqueryjsonapi composes parsed jsonapi queries with apiquery.
 // JSON:API names, syntax, extensions, and recommendations remain exclusively
 // owned by github.com/faustbrian/go-jsonapi.
+//
+// Deprecated: use github.com/faustbrian/go-api-query/adapters/jsonapi. This package remains supported through the documented compatibility interval.
 package apiqueryjsonapi
 
 import (

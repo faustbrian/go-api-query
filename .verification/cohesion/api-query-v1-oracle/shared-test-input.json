@@ -1,0 +1,73 @@
+{
+  "command_contract": {
+    "oracle": "go run ./harness.go ./input.json",
+    "package_test_prefix": "go test -count=1 -json"
+  },
+  "dependency_graph": {
+    "path": ".verification/cohesion/api-query-v1-oracle/module-graph.txt",
+    "sha256": "0aee4c263acc2aa052bc56df4e169cf95f73557d00303212b064640ebd17ed31"
+  },
+  "environment": {
+    "cgo_enabled": "1",
+    "goarch": "arm64",
+    "gocache": "task-owned-disposable",
+    "goflags": "",
+    "gomodcache": "task-owned-disposable",
+    "goos": "darwin",
+    "gotmpdir": "task-owned-disposable",
+    "gowork": "off",
+    "tmpdir": "task-owned-disposable"
+  },
+  "external_module": {
+    "go_mod": {
+      "path": ".verification/cohesion/api-query-v1-oracle/external-go.mod",
+      "sha256": "2112850e1bb1ca072fe8a7c0b9b3a87e1add3a9d1d666127046e655ab7d7bf97"
+    },
+    "go_sum": {
+      "path": ".verification/cohesion/api-query-v1-oracle/external-go.sum",
+      "sha256": "4746caa1433eba170248f21207f427ca0df6d20ed04960af7d3ff5ff67a88b70"
+    },
+    "replace_directives": 0,
+    "workspace_directives": 0
+  },
+  "postgres": {
+    "container_id": "864e0c981a40051c63da3382bb500de52edaefd5d674f08c24233e599f4a0ff9",
+    "container_inspect": {
+      "path": ".verification/cohesion/api-query-v1-oracle/postgres-container-inspect.json",
+      "sha256": "50850c108dd0949ce8b72cff7d79b9c7377ec07b8d89430810c0e75a456d9202"
+    },
+    "database": "oracle",
+    "dsn": "postgres://oracle:%3Credacted%3E@127.0.0.1:58965/oracle?sslmode=disable",
+    "image_id": "sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15",
+    "image_inspect": {
+      "path": ".verification/cohesion/api-query-v1-oracle/postgres-image-inspect.json",
+      "sha256": "fe446d22319ff0be1678c782f5c104766eea83cd918b82994c49773b86680f0c"
+    },
+    "repository_digest": "postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15",
+    "user": "oracle"
+  },
+  "public_resolution": {
+    "command": "go mod download -json github.com/faustbrian/go-api-query@v1.0.0",
+    "gonosumdb": "",
+    "goprivate": "",
+    "goproxy": "https://proxy.golang.org",
+    "gosumdb": "sum.golang.org",
+    "outcome": "passed"
+  },
+  "schema": "api-query-v1-package-test-shared-input-v1",
+  "source": {
+    "download_receipt": {
+      "path": ".verification/cohesion/api-query-v1-oracle/published-module-download.json",
+      "sha256": "4c9981945c2041137a82aa4fc9a95745d36666f903febabb9e314b5fe8479e73"
+    },
+    "go_mod_sum": "h1:mPb20YI2uLgkJ8DGdfAYmWa1zSH+dZt6I9AP2P4Er2s=",
+    "module": "github.com/faustbrian/go-api-query",
+    "module_sum": "h1:rXR1zo1cbIETTx5y+Rp+zyDp0fMWphYIz8gKTwEQETg=",
+    "module_zip_sha256": "2443509a7e303de19e1468e7348002a523be13067404a8d37e3ce5103ef60072",
+    "version": "v1.0.0"
+  },
+  "toolchain": {
+    "executable_sha256": "a1c83801d1756c3eca78366c6b585f2c21c20694fb1c7eb92c446a0580420412",
+    "identity": "go version go1.26.6 darwin/arm64"
+  }
+}

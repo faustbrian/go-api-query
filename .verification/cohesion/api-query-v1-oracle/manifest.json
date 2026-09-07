@@ -1,0 +1,220 @@
+{
+  "artifacts": [
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root.json",
+      "sha256": "9ebff95ca6c636104e53158551710ec876bff30d41b38608a1efdf5a18bb5c48"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiqueryhttp.json",
+      "sha256": "0767426ae8f312422896223f76ccc6e80423051dd50f4788693bae805ada97de"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiqueryjsonapi.json",
+      "sha256": "b9da17a81e37129aa232a5ebd6dbf5dea44d81fae631d6f09c0464c28ec560a8"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiquerypgx.json",
+      "sha256": "3a90026e04c152d368f4a42ae9e66a6010ed9ad19c73e12744e86499a192d2bf"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiqueryrpc.json",
+      "sha256": "798a847bc1611cd2fe25c9ed1b1568b0fd687dd1c2ac5c5a738e5036ad228f9e"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiquerytest.json",
+      "sha256": "7edd4b71426e4c3cf5d642854c5695fd20bc2b4f62feed86f9877706c970d5a0"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiqueryvalidation.json",
+      "sha256": "f4f6b311400a5aa59d93256476f31262ab51402b788a99b73dc246855eaf9ac6"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__cursor.json",
+      "sha256": "f6da1224d700349959c2a0e9d73373cadb5572b597a85413d34a969184784756"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__internal__strictjson.json",
+      "sha256": "1841ea780dc947e12ac6d624477009ba8bb40d8c8bc5591f5fdd1bf308de0860"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/decision-freeze.json",
+      "sha256": "500758defec6f4747e55469f380278fda3a27a8b1d8a7dbb84c7b0ec28ac9feb"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/execution-result.json",
+      "sha256": "1e148040f48a6a00c3036a48fc17bcb882c96fb5e297a52c08d9d257f2306ab8"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/external-go.mod",
+      "sha256": "2112850e1bb1ca072fe8a7c0b9b3a87e1add3a9d1d666127046e655ab7d7bf97"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/external-go.sum",
+      "sha256": "4746caa1433eba170248f21207f427ca0df6d20ed04960af7d3ff5ff67a88b70"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/generate-contract.go",
+      "sha256": "81c87d1ef17cb41c412f51683c92586ae3f4101aa2b4da79f6d3e736bd821d26"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/harness.go",
+      "sha256": "08ef180f1531be0b038b40d9adf6a69489890ed45b11d4987b4f976001d8153e"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/input.json",
+      "sha256": "7287d53d7afffbe8f158081f20cc6dffe4a2d06da771285036d6b467e6bc67d8"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/module-graph.txt",
+      "sha256": "0aee4c263acc2aa052bc56df4e169cf95f73557d00303212b064640ebd17ed31"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/output-contract.json",
+      "sha256": "29265bc97313b2905e4858ce127471e1e24b58ece720b1e26cb7bc86ca48c516"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/output.json",
+      "sha256": "9da16adc97f2074c3e890a290a8b7028938803fdc702d4f2689cfd8c9cd3816b"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/postgres-container-inspect.json",
+      "sha256": "50850c108dd0949ce8b72cff7d79b9c7377ec07b8d89430810c0e75a456d9202"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/postgres-image-inspect.json",
+      "sha256": "fe446d22319ff0be1678c782f5c104766eea83cd918b82994c49773b86680f0c"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/published-module-download.json",
+      "sha256": "4c9981945c2041137a82aa4fc9a95745d36666f903febabb9e314b5fe8479e73"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/published-module.zip",
+      "sha256": "2443509a7e303de19e1468e7348002a523be13067404a8d37e3ce5103ef60072"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/release-allowed-signers",
+      "sha256": "333c9ce49cbc4f726189cc0d86adba997e3a8b36d80dca2e2d48cbcc91a83f96"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/shared-test-input.json",
+      "sha256": "fc12d137b71bab149ed04081e5f6f2700bcd48c890fe0ca9ee63106292abf054"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root.jsonl",
+      "sha256": "583feb5e88e7bf4424f7d32b312448ff27c87a8af60588793d1d72f007eb605e"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__apiqueryhttp.jsonl",
+      "sha256": "1534477edcb08f9b1175b0bc479d167b7c7109e984cd7c9aa9f1713f74907c6f"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__apiqueryjsonapi.jsonl",
+      "sha256": "997f508399181f408e857784ced2466b045b09ca4dc8bca62c835d35c125af42"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__apiquerypgx.jsonl",
+      "sha256": "ab8b674d1b3746ab4b5f832c8f4fff89c2b5bb142ea8ad0bae0f7ae4d8a831f6"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__apiqueryrpc.jsonl",
+      "sha256": "947d460ae5766cf128ff9a293e9d6237f31e6fcd8f809d1a8778ca329bdffeb7"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__apiquerytest.jsonl",
+      "sha256": "bd0083123b171cf6dad87815fbd49482892afafa2d37615779d558ae396e5979"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__apiqueryvalidation.jsonl",
+      "sha256": "2a80ce971daefa15771c92b0eebf09239b8a47ba211854219aab2c327f8a896e"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__cursor.jsonl",
+      "sha256": "13e5ac6518955e70a4c3b9b2ef362cf5668cd76a144adff501a11638fd4d431f"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__internal__strictjson.jsonl",
+      "sha256": "e8d03211df440503b96e01732b433a5f0751dcebb5d4e61bda814ba7a6e0892c"
+    },
+    {
+      "path": ".verification/cohesion/api-query-v1-oracle/verify.go",
+      "sha256": "8f2e9bd5b924e2dd553b1611432ea525b63f67e464d5c133c49c2475d8fcb6d9"
+    }
+  ],
+  "coverage": [
+    "HTTP success, invalid classes, exact byte limit, and sentinel equality",
+    "JSON:API family presence, callback order, nil and panic outcomes, and copy isolation",
+    "PostgreSQL mapping copy, all operators, constraint precedence, fragments, arguments, and real outcomes",
+    "JSON-RPC strict decode, bounds, empty and absent forms, request conversion, and nested descriptor copy",
+    "Validation nil, structured and bounded generic errors, nested paths, and immutable returned values",
+    "released source, API baseline, dependency, module graph, toolchain, and execution-input binding",
+    "observed stateless execution, goroutine stability, file-descriptor stability, and no returned resource owners"
+  ],
+  "decision": {
+    "path": ".verification/cohesion/api-query-v1-oracle/decision.md",
+    "sha256": "2b966f479b4953a2b3457c518110e5280f6a10ec267ae468eb472ed1bf08bca5"
+  },
+  "decision_freeze": {
+    "path": ".verification/cohesion/api-query-v1-oracle/decision-freeze.json",
+    "sha256": "500758defec6f4747e55469f380278fda3a27a8b1d8a7dbb84c7b0ec28ac9feb"
+  },
+  "execution": {
+    "input": {
+      "path": ".verification/cohesion/api-query-v1-oracle/shared-test-input.json",
+      "sha256": "fc12d137b71bab149ed04081e5f6f2700bcd48c890fe0ca9ee63106292abf054"
+    },
+    "outcome": "passed",
+    "result": {
+      "path": ".verification/cohesion/api-query-v1-oracle/execution-result.json",
+      "sha256": "1e148040f48a6a00c3036a48fc17bcb882c96fb5e297a52c08d9d257f2306ab8"
+    }
+  },
+  "module": "github.com/faustbrian/go-api-query",
+  "release": {
+    "allowed_signers": {
+      "path": ".verification/cohesion/api-query-v1-oracle/release-allowed-signers",
+      "sha256": "333c9ce49cbc4f726189cc0d86adba997e3a8b36d80dca2e2d48cbcc91a83f96"
+    },
+    "api_baseline": {
+      "blob": "ec28983aeaa00eedbfa61d2a6c5eeb67fc6c3185",
+      "bytes": 25021,
+      "path": "api/v1.txt",
+      "sha256": "b8eac531590599de50da2ed042591db7edf07c6a438e900085aca53ed6354fc5"
+    },
+    "go_mod_sum": "h1:mPb20YI2uLgkJ8DGdfAYmWa1zSH+dZt6I9AP2P4Er2s=",
+    "legacy_sources": [
+      {
+        "blob": "255f760cec857433c4162de8d56351f545a7f4f4",
+        "path": "apiqueryhttp/http.go",
+        "sha256": "9c27429ca3445a88651a7547009b5d82c433994a4a16a7f4f8f0bbabec545479"
+      },
+      {
+        "blob": "95e925c60cde7c77aecd9e4223badd73a83c182e",
+        "path": "apiqueryjsonapi/jsonapi.go",
+        "sha256": "666a63e8b78aa323a9a1833320543529da90e75864bcf26f2bfe8d3025612ec5"
+      },
+      {
+        "blob": "0d5e99de7cba55f7a47c4ad07ac2f150b9a9e271",
+        "path": "apiquerypgx/pgx.go",
+        "sha256": "e132e7ddcd1fcb13667521293983cb84d9132cd5060f12ce138706ce52199a19"
+      },
+      {
+        "blob": "e481cbf1e37d888b98694eb6f46f5b8880566ca7",
+        "path": "apiqueryrpc/rpc.go",
+        "sha256": "5cfe40c7a39e0ce18540f51a0937f678da220fa10782ad1d8942d9c446750b07"
+      },
+      {
+        "blob": "04d7a29f84fb32cb84b45bccc6dfa2b1b2673edb",
+        "path": "apiqueryvalidation/validation.go",
+        "sha256": "012b4ac9003fe78d1792fa993a14582f0dde74947b31ccfd78ef3f8175fe1f2e"
+      }
+    ],
+    "module_sum": "h1:rXR1zo1cbIETTx5y+Rp+zyDp0fMWphYIz8gKTwEQETg=",
+    "peeled_commit": "b69acc7edf26bafbca4496132715b2b71cc753b2",
+    "tag_kind": "annotated",
+    "tag_object": "ba85d7bc2a4d18e5f3a1b224c1d342a84b4c9b20",
+    "tree": "9a8c5f253649757afbf13f42b0c7c05171d8972a",
+    "version": "v1.0.0"
+  },
+  "schema": "api-query-v1-oracle-manifest-v2"
+}

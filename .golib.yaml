@@ -46,7 +46,17 @@ operations:
         budget: 5s
         timeout: 2m
       - type: go-test
+        packages: [./adapters/http]
+        fuzz: '^FuzzParse$'
+        budget: 5s
+        timeout: 2m
+      - type: go-test
         packages: [./apiqueryrpc]
+        fuzz: '^FuzzParse$'
+        budget: 5s
+        timeout: 2m
+      - type: go-test
+        packages: [./adapters/jsonrpc]
         fuzz: '^FuzzParse$'
         budget: 5s
         timeout: 2m

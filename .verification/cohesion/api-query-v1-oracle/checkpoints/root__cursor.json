@@ -1,0 +1,21 @@
+{
+  "command": "go test -count=1 -json github.com/faustbrian/go-api-query/cursor",
+  "execution_revision": "b69acc7edf26bafbca4496132715b2b71cc753b2",
+  "input_fingerprint": {
+    "algorithm": "sha256(lines:schema,package,command,execution_revision,shared_input_sha256)",
+    "sha256": "0a9b6d52b67c5213835e217c03c789372a1feb8144760e48a1fd234d50d98aff"
+  },
+  "package": "github.com/faustbrian/go-api-query/cursor",
+  "result": {
+    "log": {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__cursor.jsonl",
+      "sha256": "13e5ac6518955e70a4c3b9b2ef362cf5668cd76a144adff501a11638fd4d431f"
+    },
+    "outcome": "pass"
+  },
+  "schema": "api-query-v1-package-test-checkpoint-v1",
+  "shared_input": {
+    "path": ".verification/cohesion/api-query-v1-oracle/shared-test-input.json",
+    "sha256": "fc12d137b71bab149ed04081e5f6f2700bcd48c890fe0ca9ee63106292abf054"
+  }
+}

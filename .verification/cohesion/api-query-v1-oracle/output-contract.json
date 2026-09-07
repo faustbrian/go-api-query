@@ -1,0 +1,373 @@
+{
+  "schema": "api-query-v1-oracle-output-contract-v1",
+  "records": [
+    {
+      "name": "input-schema",
+      "value_sha256": "95615ddb5f70afb36a96e3f1c8f242830763eb94ae21ea1aa703103b3300e405"
+    },
+    {
+      "name": "sentinel-http",
+      "value_sha256": "ee5aed126b1c2ee8f09a88b822e99606427648c0a45226a75a3b70dcae7102a5"
+    },
+    {
+      "name": "sentinel-jsonapi-invalid",
+      "value_sha256": "c437483aa953979f01eed2bec7084e492676a88ec7881ca97d00b478964ad19b"
+    },
+    {
+      "name": "sentinel-jsonapi-unsupported",
+      "value_sha256": "39d9d6fe094e46236605dd764f8d6fe183ca8e67a6fcde83dcf461961e1578f8"
+    },
+    {
+      "name": "sentinel-postgres",
+      "value_sha256": "29d84d0ee721d632a117cc02eb5611ac8369ff813a6c13c8fc32bea9dcf729de"
+    },
+    {
+      "name": "sentinel-jsonrpc",
+      "value_sha256": "d001fb02c2292a477418f9b44fc794dbfe5ba9bf937e7572f79833e1f1fb785c"
+    },
+    {
+      "name": "named-types",
+      "value_sha256": "5b237e9307d0c38b875ff830ba3baebd07a0a61a54feca093073b5dfa36d40b2"
+    },
+    {
+      "name": "cursor-sentinel-invalid",
+      "value_sha256": "3cf4cb5754c023ea6e3ef5091f818e220018f4c8d76ae628e184689522dd009c"
+    },
+    {
+      "name": "cursor-sentinel-expired",
+      "value_sha256": "036ee945f87ee67677400de10b27acffb54645dc814cf64a680d7fd1d5b66b6e"
+    },
+    {
+      "name": "cursor-sentinel-version",
+      "value_sha256": "eeeda590d5fc0b28316b20ee355d4e0e4f7e34cabba3c23e1a7d3febb7f6556a"
+    },
+    {
+      "name": "cursor-sentinel-schema",
+      "value_sha256": "153956d985a4109fa88bd488bc624a5384900529bb14821fe6f4a813782982fa"
+    },
+    {
+      "name": "cursor-sentinel-sort",
+      "value_sha256": "a96d50a879f758525e87e038d6da83003a9f8eab3dee685b73a837fc5dc9fd20"
+    },
+    {
+      "name": "cursor-sentinel-replay",
+      "value_sha256": "89e666dc23f17dceaee39f4b1935259bcb732a219e0345e93bb0472da897dc9b"
+    },
+    {
+      "name": "http/complete",
+      "value_sha256": "4706ad29c9a440389d81144de1dd9463a3d00c0a48846d1f7f88df343f12ae2e"
+    },
+    {
+      "name": "http/explicit-empty",
+      "value_sha256": "27c761f7f892117ba18ccc23e0fcd4afd23c852d3e0a8f3937bb73c95072edd2"
+    },
+    {
+      "name": "http/empty",
+      "value_sha256": "3b26eb2338451335418ca8fc2cef4a981e02253c76ed336d128f3c79966077d3"
+    },
+    {
+      "name": "http/exact-byte-limit",
+      "value_sha256": "ea1d8836eb4963c602ca9e38da7e8f91325b242507bf55fb7b34e6b9da84d0f1"
+    },
+    {
+      "name": "http/disabled-limit",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/excess-bytes",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/invalid-raw-utf8",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/malformed-encoding",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/semicolon",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/unknown",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/duplicate",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/invalid-decoded-utf8",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/empty-field-member",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/empty-include-member",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/invalid-filter",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/empty-sort-name",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/invalid-page-size",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "http/invalid-page-offset",
+      "value_sha256": "64dc3f0c21a98fe6bc7177e8cbcef6a0a06b24b1eab0272f0ee8b9e9cdd9e9f2"
+    },
+    {
+      "name": "jsonapi/complete-copy-order",
+      "value_sha256": "57aa0db6acd9fc21ea88f5ef8d2e566c35e28a0779bdb28b5610f5469307c104"
+    },
+    {
+      "name": "jsonapi/absent-families",
+      "value_sha256": "93f71d6d2e8b9f0155cc893e855c230734a8c721b8689c370673b3ea75044404"
+    },
+    {
+      "name": "jsonapi/missing-resource",
+      "value_sha256": "13478bf749e9189abf2fb7fb001b689e7378a5b68bd1e22cbf73d80ae92ea289"
+    },
+    {
+      "name": "jsonapi/missing-filter-decoder",
+      "value_sha256": "2111a02a450cbf76a147cecc4bf3b4fc15c1512d28be525d70ca1730aa1f4994"
+    },
+    {
+      "name": "jsonapi/missing-page-decoder",
+      "value_sha256": "2111a02a450cbf76a147cecc4bf3b4fc15c1512d28be525d70ca1730aa1f4994"
+    },
+    {
+      "name": "jsonapi/filter-nil",
+      "value_sha256": "13478bf749e9189abf2fb7fb001b689e7378a5b68bd1e22cbf73d80ae92ea289"
+    },
+    {
+      "name": "jsonapi/filter-error",
+      "value_sha256": "13478bf749e9189abf2fb7fb001b689e7378a5b68bd1e22cbf73d80ae92ea289"
+    },
+    {
+      "name": "jsonapi/page-error",
+      "value_sha256": "13478bf749e9189abf2fb7fb001b689e7378a5b68bd1e22cbf73d80ae92ea289"
+    },
+    {
+      "name": "jsonapi/callback-panic",
+      "value_sha256": "82214056cea375e7442e9ced14f2e226e0703c7be97c8a6c0b8259deadc4adb7"
+    },
+    {
+      "name": "postgres/operator/eq",
+      "value_sha256": "c890da3bac077f9a7168cc596f55d69b03cd625cd1528cdaa8d90cad81b58b5c"
+    },
+    {
+      "name": "postgres/operator/neq",
+      "value_sha256": "9b2c77e6d47131b0388627091f9a7d578421e133ccda4f239097e6ea66802f76"
+    },
+    {
+      "name": "postgres/operator/lt",
+      "value_sha256": "1c884a1e1767debb6e38cad934242e1484cf9cbcb471175bb2db04fe7676fe7b"
+    },
+    {
+      "name": "postgres/operator/lte",
+      "value_sha256": "fc61506144a7a7e46606b35089a7020656c56283646ddb17fd57011f9700bd7b"
+    },
+    {
+      "name": "postgres/operator/gt",
+      "value_sha256": "7ddaa3dd38fc66bbd12bc14ccde2ab75d422c1135fcd152afc35a59be117a161"
+    },
+    {
+      "name": "postgres/operator/gte",
+      "value_sha256": "78c39cc6625729c42a393cae9babe7875b5168ae58772e19d1d8c7dd8e1127c1"
+    },
+    {
+      "name": "postgres/operator/in",
+      "value_sha256": "f27b1600c1843e064db0c838e36b93dd7a19afe1edd4921efa71c82d4155a209"
+    },
+    {
+      "name": "postgres/operator/not_in",
+      "value_sha256": "55009cffd125d60187829607031d534c53e2ab074fe640b042eb714066804abf"
+    },
+    {
+      "name": "postgres/operator/between",
+      "value_sha256": "4d861839bd7fd0bfffe9c3aeb3d932332ae548b60a75905c67c31860b73d5c86"
+    },
+    {
+      "name": "postgres/operator/is_null",
+      "value_sha256": "7b7d5fe4b7b11b0c9ac3f4fa971592752d6e4c1f60e1d8f54bba060e2cb2aa67"
+    },
+    {
+      "name": "postgres/operator/contains",
+      "value_sha256": "e2a5985e7ca0cb14274fe891352e8a9c1536b309a39d25634ff3fb0d14565321"
+    },
+    {
+      "name": "postgres/operator/starts_with",
+      "value_sha256": "a605315053e6d801bef11f1de53df993132ffc3d3fac2a64c84a7461bb39a91b"
+    },
+    {
+      "name": "postgres/operator/ends_with",
+      "value_sha256": "ce12fbff154a78a0759589920d841fc050b9d9ca8c1ef0d624446d9fed3d23c9"
+    },
+    {
+      "name": "postgres/operator/and",
+      "value_sha256": "b4df8ba176c1c935840a23a41ffd81e120d4a8b943a22a3c137498d349c77682"
+    },
+    {
+      "name": "postgres/operator/or",
+      "value_sha256": "f0c9ce8853acf055d5a59cf7e29827318891fdca0ca3d59f1497dc8a7a2fd99e"
+    },
+    {
+      "name": "postgres/operator/not",
+      "value_sha256": "71aa0e87c96e418ce2ec2f7d30abba3a9bff5d672ea5b4f50a6100e386684f51"
+    },
+    {
+      "name": "postgres/invalid-identifier/",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/invalid-identifier/.id",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/invalid-identifier/a.b.c.d",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/invalid-identifier/1table.id",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/invalid-identifier/table.bad-name",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/invalid-identifier/table.id;drop",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/empty-capability",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/nil-compiler",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/nil-plan",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/mapping-snapshot-and-constraint-precedence",
+      "value_sha256": "3614a3da5281340983ad0a1da7ec3da2a7790facb66d136866173ec1227c74d9"
+    },
+    {
+      "name": "postgres/missing-field",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/missing-filter",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/missing-sort",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/missing-constraint",
+      "value_sha256": "d0ea7e964f460b52339455cafbca03c71e91419032cc473437134310cd383451"
+    },
+    {
+      "name": "postgres/real-database",
+      "value_sha256": "9c66ce44f20c4b6e45d6e38fbe5ab2351649220ddcdcec6159193bd6c25b02d4"
+    },
+    {
+      "name": "jsonrpc/absent",
+      "value_sha256": "3b26eb2338451335418ca8fc2cef4a981e02253c76ed336d128f3c79966077d3"
+    },
+    {
+      "name": "jsonrpc/complete-copy",
+      "value_sha256": "30532691e34c6f3af833046771dc911a322d200e8da7240b5c6af284ba442c8f"
+    },
+    {
+      "name": "jsonrpc/exact-byte-limit",
+      "value_sha256": "6fcdb2d3d5b1fab9c78fa884eab97c96c1c2d478ff4037328e8dff72dd6f6dfc"
+    },
+    {
+      "name": "jsonrpc/explicit-empty",
+      "value_sha256": "7287c89d8bb0394b6f714a877a6d543bf442c8e3f6ed7f7d3cf087c9f5470fa5"
+    },
+    {
+      "name": "jsonrpc/invalid/array",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/invalid/disabled-bound",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/invalid/duplicate",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/invalid/excess-bound",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/invalid/excess-depth",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/invalid/invalid-utf8",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/invalid/nested-duplicate",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/invalid/nil",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/invalid/trailing",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/invalid/unknown",
+      "value_sha256": "1700976f33cd4a5ebf17e7fae94356f97d9040381025e3eced51dc24ae5bc5a7"
+    },
+    {
+      "name": "jsonrpc/descriptor-copy",
+      "value_sha256": "ae6d14bd3df10175c78c7d0ba565acfb2d497086e6fba2269733e0237c8899ad"
+    },
+    {
+      "name": "validation/nil",
+      "value_sha256": "0f0b69b7eaa0684aa748f351803411bd0ed7e997b1ff61e2d0dac4655688261e"
+    },
+    {
+      "name": "validation/generic",
+      "value_sha256": "f021e15f9037081b3d163c555d902a27f32603c3d957c39606d105904ff60d18"
+    },
+    {
+      "name": "validation/structured-copy",
+      "value_sha256": "551a9d436fe197b426254cad463055272ef2ddfe245e1680d3ddefdffbf47020"
+    },
+    {
+      "name": "validation/nested-path",
+      "value_sha256": "f2a59c8e1c25ed1b35e07cef745df8032f844a9b1daf4c0929386915c91cdb59"
+    },
+    {
+      "name": "validation/truncated",
+      "value_sha256": "ce37d6a031b0a69180a54b469c9d653ce86f247cd4d13b3f7566d868628d2526"
+    },
+    {
+      "name": "resources/observed-stateless",
+      "value_sha256": "038a5a7bb9e3acf4c9f50065648b8fba7ef0be079acd60bae05178acb2d1aa2f"
+    }
+  ]
+}

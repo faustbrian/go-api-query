@@ -1,0 +1,28 @@
+{"Time":"2026-09-07T10:23:30.916183+03:00","Action":"start","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation"}
+{"Time":"2026-09-07T10:23:31.111624+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportHandlesEmptyAndGenericErrors"}
+{"Time":"2026-09-07T10:23:31.111693+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportHandlesEmptyAndGenericErrors","Output":"=== RUN   TestReportHandlesEmptyAndGenericErrors\n"}
+{"Time":"2026-09-07T10:23:31.111713+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportHandlesEmptyAndGenericErrors","Output":"=== PAUSE TestReportHandlesEmptyAndGenericErrors\n"}
+{"Time":"2026-09-07T10:23:31.111718+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportHandlesEmptyAndGenericErrors"}
+{"Time":"2026-09-07T10:23:31.111723+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestParsePathSemanticMatrix"}
+{"Time":"2026-09-07T10:23:31.111727+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestParsePathSemanticMatrix","Output":"=== RUN   TestParsePathSemanticMatrix\n"}
+{"Time":"2026-09-07T10:23:31.111734+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestParsePathSemanticMatrix","Output":"=== PAUSE TestParsePathSemanticMatrix\n"}
+{"Time":"2026-09-07T10:23:31.111738+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestParsePathSemanticMatrix"}
+{"Time":"2026-09-07T10:23:31.111743+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportPreservesStructuredSafeQueryViolations"}
+{"Time":"2026-09-07T10:23:31.111755+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportPreservesStructuredSafeQueryViolations","Output":"=== RUN   TestReportPreservesStructuredSafeQueryViolations\n"}
+{"Time":"2026-09-07T10:23:31.11177+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportPreservesStructuredSafeQueryViolations","Output":"=== PAUSE TestReportPreservesStructuredSafeQueryViolations\n"}
+{"Time":"2026-09-07T10:23:31.111776+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportPreservesStructuredSafeQueryViolations"}
+{"Time":"2026-09-07T10:23:31.111782+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportHandlesEmptyAndGenericErrors"}
+{"Time":"2026-09-07T10:23:31.111786+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportHandlesEmptyAndGenericErrors","Output":"=== CONT  TestReportHandlesEmptyAndGenericErrors\n"}
+{"Time":"2026-09-07T10:23:31.111796+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportPreservesStructuredSafeQueryViolations"}
+{"Time":"2026-09-07T10:23:31.111801+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportPreservesStructuredSafeQueryViolations","Output":"=== CONT  TestReportPreservesStructuredSafeQueryViolations\n"}
+{"Time":"2026-09-07T10:23:31.111808+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestParsePathSemanticMatrix"}
+{"Time":"2026-09-07T10:23:31.111814+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestParsePathSemanticMatrix","Output":"=== CONT  TestParsePathSemanticMatrix\n"}
+{"Time":"2026-09-07T10:23:31.111823+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportHandlesEmptyAndGenericErrors","Output":"--- PASS: TestReportHandlesEmptyAndGenericErrors (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.11183+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportHandlesEmptyAndGenericErrors","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.111849+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestParsePathSemanticMatrix","Output":"--- PASS: TestParsePathSemanticMatrix (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.111853+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestParsePathSemanticMatrix","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.11186+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportPreservesStructuredSafeQueryViolations","Output":"--- PASS: TestReportPreservesStructuredSafeQueryViolations (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.111863+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Test":"TestReportPreservesStructuredSafeQueryViolations","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.111869+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Output":"PASS\n"}
+{"Time":"2026-09-07T10:23:31.112192+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Output":"ok  \tgithub.com/faustbrian/go-api-query/apiqueryvalidation\t0.196s\n"}
+{"Time":"2026-09-07T10:23:31.112213+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryvalidation","Elapsed":0.196}

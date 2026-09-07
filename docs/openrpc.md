@@ -1,6 +1,8 @@
 # OpenRPC and JSON-RPC
 
-`apiqueryrpc.Parse` accepts one strict bounded JSON object, normally using
+Import `github.com/faustbrian/go-api-query/adapters/jsonrpc` with its default
+package identifier `apiqueryjsonrpc`. `apiqueryjsonrpc.Parse` accepts one
+strict bounded JSON object, normally using
 `schema.Bounds().MaxRequestBytes`. Unknown or duplicate
 members, trailing data, malformed UTF-8/JSON, excess nesting, and excess bytes
 fail with `ErrInvalid`. `Params` uses pointers so absent values remain distinct
@@ -17,3 +19,6 @@ An RPC method should parse bounded transport input, compile with request policy,
 translate `Violations` to its stable application error envelope, execute an
 application-owned adapter, and use `cursor.Page` for response boundaries.
 OpenRPC generation must not compile or execute a request.
+
+The released `apiqueryrpc` path remains supported only as the documented
+compatibility path.

@@ -13,6 +13,6 @@ require (
 )
 
 require (
-	github.com/faustbrian/go-validation v1.0.0
+	github.com/faustbrian/go-validation v1.1.0
 	golang.org/x/text v0.41.0 // indirect
 )

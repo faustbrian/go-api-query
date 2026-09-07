@@ -4,8 +4,10 @@ import (
 	"context"
 	"os"
 	"testing"
+	"time"
 
 	apiquery "github.com/faustbrian/go-api-query"
+	apiquerypostgres "github.com/faustbrian/go-api-query/adapters/postgres"
 	"github.com/faustbrian/go-api-query/apiquerypgx"
 	"github.com/jackc/pgx/v5"
 )
@@ -15,7 +17,67 @@ func TestPostgresInjectionResistanceAndStableCursorOrder(t *testing.T) {
 	if databaseURL == "" {
 		t.Skip("APIQUERY_TEST_DATABASE_URL is not configured")
 	}
-	ctx := context.Background()
+	variants := []struct {
+		name    string
+		compile func(testing.TB) func(*apiquery.Plan) (integrationParts, error)
+	}{
+		{name: "compatibility", compile: legacyIntegrationCompiler},
+		{name: "preferred", compile: successorIntegrationCompiler},
+	}
+	for _, variant := range variants {
+		t.Run(variant.name, func(t *testing.T) {
+			exercisePostgresIntegration(t, databaseURL, variant.compile(t))
+		})
+	}
+}
+
+type integrationParts struct {
+	Projection string
+	Where      string
+	OrderBy    string
+	Arguments  []apiquery.Value
+}
+
+func legacyIntegrationCompiler(t testing.TB) func(*apiquery.Plan) (integrationParts, error) {
+	t.Helper()
+	compiler, err := apiquerypgx.NewCompiler(apiquerypgx.Mapping{
+		Fields: map[string]string{"id": "orders.id", "status": "orders.status",
+			"created_at": "orders.created_at"},
+		Filters:     map[string]string{"status": "orders.status"},
+		Sorts:       map[string]string{"created_at": "orders.created_at", "id": "orders.id"},
+		Constraints: map[string]string{"tenant_id": "orders.tenant_id"},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	return func(plan *apiquery.Plan) (integrationParts, error) {
+		parts, err := compiler.Compile(plan)
+		return integrationParts{Projection: parts.Projection, Where: parts.Where, OrderBy: parts.OrderBy, Arguments: parts.Arguments}, err
+	}
+}
+
+func successorIntegrationCompiler(t testing.TB) func(*apiquery.Plan) (integrationParts, error) {
+	t.Helper()
+	compiler, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{
+		Fields: map[string]string{"id": "orders.id", "status": "orders.status",
+			"created_at": "orders.created_at"},
+		Filters:     map[string]string{"status": "orders.status"},
+		Sorts:       map[string]string{"created_at": "orders.created_at", "id": "orders.id"},
+		Constraints: map[string]string{"tenant_id": "orders.tenant_id"},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	return func(plan *apiquery.Plan) (integrationParts, error) {
+		parts, err := compiler.Compile(plan)
+		return integrationParts{Projection: parts.Projection, Where: parts.Where, OrderBy: parts.OrderBy, Arguments: parts.Arguments}, err
+	}
+}
+
+func exercisePostgresIntegration(t *testing.T, databaseURL string, compile func(*apiquery.Plan) (integrationParts, error)) {
+	t.Helper()
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
 	connection, err := pgx.Connect(ctx, databaseURL)
 	if err != nil {
 		t.Fatal(err)
@@ -40,19 +102,8 @@ func TestPostgresInjectionResistanceAndStableCursorOrder(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	compiler, err := apiquerypgx.NewCompiler(apiquerypgx.Mapping{
-		Fields: map[string]string{"id": "orders.id", "status": "orders.status",
-			"created_at": "orders.created_at"},
-		Filters:     map[string]string{"status": "orders.status"},
-		Sorts:       map[string]string{"created_at": "orders.created_at", "id": "orders.id"},
-		Constraints: map[string]string{"tenant_id": "orders.tenant_id"},
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-
 	injectionPlan := postgresPlan(t, "paid' OR true --")
-	parts, err := compiler.Compile(injectionPlan)
+	parts, err := compile(injectionPlan)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -73,7 +124,7 @@ func TestPostgresInjectionResistanceAndStableCursorOrder(t *testing.T) {
 	}
 
 	pagePlan := postgresPlan(t, "paid")
-	parts, err = compiler.Compile(pagePlan)
+	parts, err = compile(pagePlan)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -1,5 +1,7 @@
 // Package apiqueryvalidation projects query failures into validation
 // reports without exposing rejected values or unsafe causes.
+//
+// Deprecated: use github.com/faustbrian/go-api-query/adapters/validation. This package remains supported through the documented compatibility interval.
 package apiqueryvalidation
 
 import (

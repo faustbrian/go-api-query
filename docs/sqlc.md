@@ -1,6 +1,8 @@
 # PostgreSQL and SQLC
 
-Core plans contain no SQL concepts. `apiquerypgx.Compiler` is optional and only
+Core plans contain no SQL concepts. Import
+`github.com/faustbrian/go-api-query/adapters/postgres` with its default package
+identifier `apiquerypostgres`. `apiquerypostgres.Compiler` is optional and only
 maps public capability names to application-reviewed PostgreSQL identifiers.
 Mappings are snapshotted and validated as at most three identifier segments.
 Client values always become positional arguments.
@@ -28,3 +30,6 @@ shape. Keep tenant/global predicates literal in every SQLC query. Cursor seek
 conditions must implement the exact ordered directions and null placement and
 bind decoded positions as parameters. Fetch one extra row to determine
 `has_more`; SQLC or pgx remains responsible for execution and scanning.
+
+The released `apiquerypgx` path remains supported only as the documented
+compatibility path.

@@ -1,5 +1,7 @@
 // Package apiqueryrpc parses bounded JSON-RPC query parameters and describes
 // their OpenRPC content without compiling or executing a query.
+//
+// Deprecated: use github.com/faustbrian/go-api-query/adapters/jsonrpc. This package remains supported through the documented compatibility interval.
 package apiqueryrpc
 
 import (

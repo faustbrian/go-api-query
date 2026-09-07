@@ -1,4 +1,7 @@
+//nolint:staticcheck // This conformance test intentionally exercises deprecated compatibility facades.
 package apiquery_test
+
+//lint:file-ignore SA1019 This conformance test intentionally exercises deprecated compatibility facades.
 
 import (
 	"context"

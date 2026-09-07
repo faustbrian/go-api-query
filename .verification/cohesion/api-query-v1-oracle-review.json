@@ -1,0 +1,26 @@
+{
+  "schema": "api-query-v1-oracle-review-v1",
+  "manifest_path": ".verification/cohesion/api-query-v1-oracle/manifest.json",
+  "manifest_sha256": "608832c45e401c0a6993d1af7950c6481ea86f118922df2dc4a6d066163faf0b",
+  "reviews": [
+    {
+      "dimension": "contract",
+      "reviewer": "api-query-oracle-contract-review-v2",
+      "outcome": "accepted-no-findings",
+      "findings": []
+    },
+    {
+      "dimension": "security-adversary",
+      "reviewer": "api-query-oracle-security-review-v2",
+      "outcome": "accepted-no-findings",
+      "findings": []
+    },
+    {
+      "dimension": "verification",
+      "reviewer": "api-query-oracle-verification-review-v2",
+      "outcome": "accepted-no-findings",
+      "findings": []
+    }
+  ],
+  "outcome": "accepted-no-findings"
+}

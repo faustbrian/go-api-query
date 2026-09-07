@@ -1,0 +1,29 @@
+{
+  "schema": "api-query-remediation-freeze-v1",
+  "decision_path": ".ai/cohesion/phase3/API_QUERY_REMEDIATION_DECISIONS.md",
+  "decision_sha256": "2b966f479b4953a2b3457c518110e5280f6a10ec267ae468eb472ed1bf08bca5",
+  "reviews": [
+    {
+      "dimension": "contract",
+      "reviewer": "api-query-contract-reviewer-v1",
+      "review_record_path": ".ai/cohesion/phase3/API_QUERY_REMEDIATION_CONTRACT_REVIEW.json",
+      "review_record_sha256": "84a16675089f7c664504ee935f42c32b430dea63e2b1876f3c73b29012a5d804",
+      "outcome": "accepted-no-findings"
+    },
+    {
+      "dimension": "execution-adversary",
+      "reviewer": "api-query-execution-reviewer-v1",
+      "review_record_path": ".ai/cohesion/phase3/API_QUERY_REMEDIATION_EXECUTION_REVIEW.json",
+      "review_record_sha256": "3261a608fba8e645784ada8b2a39431930cead41febc174955a2c4546bc58045",
+      "outcome": "accepted-no-findings"
+    },
+    {
+      "dimension": "verification",
+      "reviewer": "api-query-verification-reviewer-v1",
+      "review_record_path": ".ai/cohesion/phase3/API_QUERY_REMEDIATION_VERIFICATION_REVIEW.json",
+      "review_record_sha256": "c2003c7d0d63ef46d6a0edce8d2e8ecb0b11c7ca51d84004799f17e10b654b80",
+      "outcome": "accepted-no-findings"
+    }
+  ],
+  "outcome": "accepted-no-findings"
+}

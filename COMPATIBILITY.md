@@ -1,11 +1,10 @@
 # Compatibility Policy
 
-Each releasable directory is an independent Go module and follows semantic
-versioning. Tags use `<module-directory>/v<version>`.
+Each independently releasable module follows semantic versioning. The root
+module uses `v<version>` tags; an independently releasable nested module, when
+present, uses `<module-directory>/v<version>` tags.
 
-Before `v1`, minor releases MAY contain reviewed breaking changes, but every
-break MUST be documented with migration guidance. Patch releases MUST remain
-backward compatible. At and after `v1`, incompatible exported API or documented
+The module is on its stable v1 line. Incompatible exported API or documented
 behavior changes require a new major version.
 
 Compatibility includes exported Go APIs, error classification, serialization,
@@ -16,3 +15,7 @@ defaults. A compile-compatible change can still be behaviorally breaking.
 Specification-backed modules MUST NOT diverge from their declared standards.
 Ambiguities require documented decisions and stable tests. Deprecated APIs
 follow [`DEPRECATION.md`](DEPRECATION.md).
+
+The released adapter packages and their preferred `adapters/` successors remain
+supported together for the interval defined in
+[`docs/migration-adapters.md`](docs/migration-adapters.md).

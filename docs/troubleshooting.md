@@ -37,9 +37,9 @@ Check absent versus explicit empty components, field/include separators, sort
 directions, filter JSON types, page defaults, and schema revision. Add both
 decoders to `apiquerytest.RunCanonicalConformance`.
 
-## Local `validation` replacement
+## Validation dependency resolution fails
 
-Before the dependency's implementation commit is published, this repository
-uses `replace github.com/faustbrian/go-validation => ../validation` for fully
-offline development. Release order is: publish `validation`, pin its public
-pseudo-version or tag here, remove the replacement, run `make ci`, then tag v1.
+This module selects the published `github.com/faustbrian/go-validation` release
+recorded in `go.mod` without a replacement or workspace override. Use
+`GOWORK=off` when diagnosing resolution, and confirm that the selected version
+is available from the public module proxy and checksum database.

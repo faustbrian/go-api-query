@@ -92,3 +92,18 @@ func TestRequireEndDistinguishesTrailingValuesFromMalformedData(t *testing.T) {
 		t.Fatalf("requireEnd(malformed data) error = %v", err)
 	}
 }
+
+func TestDecodeClassifiesMismatchedCompositeTerminators(t *testing.T) {
+	t.Parallel()
+
+	for _, data := range []string{
+		`{"name":"x"]`,
+		`[1}`,
+	} {
+		var decoded any
+		err := Decode([]byte(data), 100, &decoded)
+		if err == nil || !strings.Contains(err.Error(), "close JSON value") {
+			t.Fatalf("Decode(%q) error = %v", data, err)
+		}
+	}
+}

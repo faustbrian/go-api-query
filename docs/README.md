@@ -8,6 +8,7 @@ to compare related independently adoptable libraries.
 ## Getting started
 
 - [API](api.md)
+- [Adapter package selection and migration](migration-adapters.md)
 - [HTTP](http.md)
 - [JSON:API](jsonapi.md)
 - [JSON-RPC](openrpc.md)
@@ -20,6 +21,8 @@ to compare related independently adoptable libraries.
 
 ## Operations and security
 
+- [Security](../SECURITY.md)
+- [Support](../SUPPORT.md)
 - [Performance](performance.md)
 - [Troubleshooting](troubleshooting.md)
 
@@ -29,5 +32,6 @@ to compare related independently adoptable libraries.
 - [Versioning](versioning.md)
 - [Laravel migration](migration-laravel-cline.md)
 - [FAQ](faq.md)
+- [Examples](../README.md#five-minute-json-rpc-quickstart)
 - [Contribution guide](../CONTRIBUTING.md)
 - [Release history](../CHANGELOG.md)

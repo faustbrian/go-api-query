@@ -1,5 +1,7 @@
 // Package apiqueryhttp strictly parses conventional HTTP query strings into
 // transport-neutral API query requests.
+//
+// Deprecated: use github.com/faustbrian/go-api-query/adapters/http. This package remains supported through the documented compatibility interval.
 package apiqueryhttp
 
 import (

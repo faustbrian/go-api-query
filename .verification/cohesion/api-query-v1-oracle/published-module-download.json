@@ -1,0 +1,12 @@
+{
+	"Path": "github.com/faustbrian/go-api-query",
+	"Version": "v1.0.0",
+	"Sum": "h1:rXR1zo1cbIETTx5y+Rp+zyDp0fMWphYIz8gKTwEQETg=",
+	"GoModSum": "h1:mPb20YI2uLgkJ8DGdfAYmWa1zSH+dZt6I9AP2P4Er2s=",
+	"Origin": {
+		"VCS": "git",
+		"URL": "https://github.com/faustbrian/go-api-query",
+		"Hash": "b69acc7edf26bafbca4496132715b2b71cc753b2",
+		"Ref": "refs/tags/v1.0.0"
+	}
+}

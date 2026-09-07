@@ -1,0 +1,108 @@
+{
+  "oracle": {
+    "command": "go run ./harness.go ./input.json",
+    "contract": {
+      "path": ".verification/cohesion/api-query-v1-oracle/output-contract.json",
+      "sha256": "29265bc97313b2905e4858ce127471e1e24b58ece720b1e26cb7bc86ca48c516"
+    },
+    "input": {
+      "path": ".verification/cohesion/api-query-v1-oracle/input.json",
+      "sha256": "7287d53d7afffbe8f158081f20cc6dffe4a2d06da771285036d6b467e6bc67d8"
+    },
+    "outcome": "passed",
+    "output": {
+      "path": ".verification/cohesion/api-query-v1-oracle/output.json",
+      "sha256": "9da16adc97f2074c3e890a290a8b7028938803fdc702d4f2689cfd8c9cd3816b"
+    },
+    "source": {
+      "path": ".verification/cohesion/api-query-v1-oracle/harness.go",
+      "sha256": "08ef180f1531be0b038b40d9adf6a69489890ed45b11d4987b4f976001d8153e"
+    }
+  },
+  "published_package_tests": {
+    "checkpoints": [
+      {
+        "command": "go test -count=1 -json github.com/faustbrian/go-api-query",
+        "input_fingerprint_sha256": "5be72c88932d0d9073e260ffdfc97c977808a68d9df6176ed64f262ec1fc6e56",
+        "outcome": "pass",
+        "package": "github.com/faustbrian/go-api-query",
+        "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root.json",
+        "sha256": "9ebff95ca6c636104e53158551710ec876bff30d41b38608a1efdf5a18bb5c48"
+      },
+      {
+        "command": "go test -count=1 -json github.com/faustbrian/go-api-query/apiqueryhttp",
+        "input_fingerprint_sha256": "e01518a3d055fe2e876aa9e3d65ae14c7bef35f1b6419e8a0c59f958adfa02d8",
+        "outcome": "pass",
+        "package": "github.com/faustbrian/go-api-query/apiqueryhttp",
+        "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiqueryhttp.json",
+        "sha256": "0767426ae8f312422896223f76ccc6e80423051dd50f4788693bae805ada97de"
+      },
+      {
+        "command": "go test -count=1 -json github.com/faustbrian/go-api-query/apiqueryjsonapi",
+        "input_fingerprint_sha256": "c2bb2f4c0ce226f57ee55c0ea2ea25b93a84988bf98a326e65f34b4d0eb45abd",
+        "outcome": "pass",
+        "package": "github.com/faustbrian/go-api-query/apiqueryjsonapi",
+        "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiqueryjsonapi.json",
+        "sha256": "b9da17a81e37129aa232a5ebd6dbf5dea44d81fae631d6f09c0464c28ec560a8"
+      },
+      {
+        "command": "go test -count=1 -json github.com/faustbrian/go-api-query/apiquerypgx",
+        "input_fingerprint_sha256": "f4ff477e10c37bcdc35f5f8d2908d265320349783d7312e8fd69d866350d84c3",
+        "outcome": "pass",
+        "package": "github.com/faustbrian/go-api-query/apiquerypgx",
+        "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiquerypgx.json",
+        "sha256": "3a90026e04c152d368f4a42ae9e66a6010ed9ad19c73e12744e86499a192d2bf"
+      },
+      {
+        "command": "go test -count=1 -json github.com/faustbrian/go-api-query/apiqueryrpc",
+        "input_fingerprint_sha256": "0e8dee81bdcd6ff0c00197958c8a28e3670edf31932189646915fed216058dfa",
+        "outcome": "pass",
+        "package": "github.com/faustbrian/go-api-query/apiqueryrpc",
+        "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiqueryrpc.json",
+        "sha256": "798a847bc1611cd2fe25c9ed1b1568b0fd687dd1c2ac5c5a738e5036ad228f9e"
+      },
+      {
+        "command": "go test -count=1 -json github.com/faustbrian/go-api-query/apiquerytest",
+        "input_fingerprint_sha256": "0c2d65a017747cd6ea04b0204c9b3026dcdd42125769beb555037105c3ecaad9",
+        "outcome": "pass",
+        "package": "github.com/faustbrian/go-api-query/apiquerytest",
+        "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiquerytest.json",
+        "sha256": "7edd4b71426e4c3cf5d642854c5695fd20bc2b4f62feed86f9877706c970d5a0"
+      },
+      {
+        "command": "go test -count=1 -json github.com/faustbrian/go-api-query/apiqueryvalidation",
+        "input_fingerprint_sha256": "7efc5ffe41c60fa5423a06af68e4d2db6271008de364e49d4b2e875ae940f63e",
+        "outcome": "pass",
+        "package": "github.com/faustbrian/go-api-query/apiqueryvalidation",
+        "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__apiqueryvalidation.json",
+        "sha256": "f4f6b311400a5aa59d93256476f31262ab51402b788a99b73dc246855eaf9ac6"
+      },
+      {
+        "command": "go test -count=1 -json github.com/faustbrian/go-api-query/cursor",
+        "input_fingerprint_sha256": "0a9b6d52b67c5213835e217c03c789372a1feb8144760e48a1fd234d50d98aff",
+        "outcome": "pass",
+        "package": "github.com/faustbrian/go-api-query/cursor",
+        "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__cursor.json",
+        "sha256": "f6da1224d700349959c2a0e9d73373cadb5572b597a85413d34a969184784756"
+      },
+      {
+        "command": "go test -count=1 -json github.com/faustbrian/go-api-query/internal/strictjson",
+        "input_fingerprint_sha256": "5d20d63de6c43b6c65bccae07ce1c4282c4e15702889b8d509d44085923ba38b",
+        "outcome": "pass",
+        "package": "github.com/faustbrian/go-api-query/internal/strictjson",
+        "path": ".verification/cohesion/api-query-v1-oracle/checkpoints/root__internal__strictjson.json",
+        "sha256": "1841ea780dc947e12ac6d624477009ba8bb40d8c8bc5591f5fdd1bf308de0860"
+      }
+    ],
+    "failed": 0,
+    "outcome": "passed",
+    "package_count": 9,
+    "passed": 9,
+    "postgres_integration_executed": true
+  },
+  "schema": "api-query-v1-oracle-execution-result-v2",
+  "shared_input": {
+    "path": ".verification/cohesion/api-query-v1-oracle/shared-test-input.json",
+    "sha256": "fc12d137b71bab149ed04081e5f6f2700bcd48c890fe0ca9ee63106292abf054"
+  }
+}

@@ -79,19 +79,29 @@ Collectors stop at `Bounds.MaxErrors`.
 Transport parsers expose one sanitized sentinel error. Cursor decoding exposes
 `ErrInvalid`, `ErrExpired`, `ErrVersion`, `ErrSchema`, `ErrSort`, and `ErrReplay`
 without payload content. PostgreSQL and JSON:API bridges fail with sanitized
-adapter errors. `apiqueryvalidation.Report` converts query violations into an
+adapter errors. The preferred Validation import path is
+`github.com/faustbrian/go-api-query/adapters/validation`;
+`apiqueryvalidation.Report` converts query violations into an
 immutable `validation` report and sanitizes unrelated errors.
 
 ## Adapter packages
 
-- `apiqueryhttp.Parse` strictly parses one bounded raw query string.
-- `apiqueryrpc.Parse` strictly parses bounded parameters; `Params.Request`
+- Import `github.com/faustbrian/go-api-query/adapters/http` and use
+  `apiqueryhttp.Parse` to strictly parse one bounded raw query string.
+- Import `github.com/faustbrian/go-api-query/adapters/jsonrpc` and use
+  `apiqueryjsonrpc.Parse` to strictly parse bounded parameters; `Params.Request`
   returns a defensive request; `OpenRPCContentDescriptor` returns fresh maps.
-- `apiqueryjsonapi.FromQuery` consumes a query parsed by `jsonapi`; callbacks
+- Import `github.com/faustbrian/go-api-query/adapters/jsonapi` and use
+  `apiqueryjsonapi.FromQuery` to consume a query parsed by `jsonapi`; callbacks
   explicitly own filter and pagination profile semantics.
-- `apiquerypgx.NewCompiler` snapshots allowlisted mappings. `Compile` returns
+- Import `github.com/faustbrian/go-api-query/adapters/postgres` and use
+  `apiquerypostgres.NewCompiler` to snapshot allowlisted mappings. `Compile` returns
   projection, where, order, and typed positional arguments, never execution.
 - `cursor.NewKeyring`, `Rotate`, `NewCodec`, `Encode`, `Decode`, and `BuildPage`
   implement the cursor protocol and response envelope.
 - `apiquerytest` provides schema/request builders, `MustCompile`, violation and
   canonical assertions, an order fixture, and cross-decoder conformance suite.
+
+The released `apiqueryhttp`, `apiqueryjsonapi`, `apiquerypgx`, `apiqueryrpc`,
+and `apiqueryvalidation` packages remain supported compatibility paths during
+the documented interval. See the [migration guide](migration-adapters.md).

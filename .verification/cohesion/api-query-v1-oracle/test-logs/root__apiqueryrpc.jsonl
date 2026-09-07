@@ -1,0 +1,44 @@
+{"Time":"2026-09-07T10:23:30.003355+03:00","Action":"start","Package":"github.com/faustbrian/go-api-query/apiqueryrpc"}
+{"Time":"2026-09-07T10:23:30.203966+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseAndRequestPreserveCompleteParams"}
+{"Time":"2026-09-07T10:23:30.204035+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseAndRequestPreserveCompleteParams","Output":"=== RUN   TestParseAndRequestPreserveCompleteParams\n"}
+{"Time":"2026-09-07T10:23:30.204061+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseAndRequestPreserveCompleteParams","Output":"=== PAUSE TestParseAndRequestPreserveCompleteParams\n"}
+{"Time":"2026-09-07T10:23:30.204069+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseAndRequestPreserveCompleteParams"}
+{"Time":"2026-09-07T10:23:30.204078+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseRejectsStrictJSONFailures"}
+{"Time":"2026-09-07T10:23:30.204086+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseRejectsStrictJSONFailures","Output":"=== RUN   TestParseRejectsStrictJSONFailures\n"}
+{"Time":"2026-09-07T10:23:30.204098+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseRejectsStrictJSONFailures","Output":"=== PAUSE TestParseRejectsStrictJSONFailures\n"}
+{"Time":"2026-09-07T10:23:30.204103+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseRejectsStrictJSONFailures"}
+{"Time":"2026-09-07T10:23:30.204109+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestOpenRPCDescriptorIsIndependent"}
+{"Time":"2026-09-07T10:23:30.204116+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestOpenRPCDescriptorIsIndependent","Output":"=== RUN   TestOpenRPCDescriptorIsIndependent\n"}
+{"Time":"2026-09-07T10:23:30.204122+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestOpenRPCDescriptorIsIndependent","Output":"=== PAUSE TestOpenRPCDescriptorIsIndependent\n"}
+{"Time":"2026-09-07T10:23:30.204126+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestOpenRPCDescriptorIsIndependent"}
+{"Time":"2026-09-07T10:23:30.204134+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseAndRequestPreserveCompleteParams"}
+{"Time":"2026-09-07T10:23:30.204141+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseAndRequestPreserveCompleteParams","Output":"=== CONT  TestParseAndRequestPreserveCompleteParams\n"}
+{"Time":"2026-09-07T10:23:30.204148+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestOpenRPCDescriptorIsIndependent"}
+{"Time":"2026-09-07T10:23:30.204154+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestOpenRPCDescriptorIsIndependent","Output":"=== CONT  TestOpenRPCDescriptorIsIndependent\n"}
+{"Time":"2026-09-07T10:23:30.204165+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestOpenRPCDescriptorIsIndependent","Output":"--- PASS: TestOpenRPCDescriptorIsIndependent (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.20417+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestOpenRPCDescriptorIsIndependent","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.204177+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseRejectsStrictJSONFailures"}
+{"Time":"2026-09-07T10:23:30.204182+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseRejectsStrictJSONFailures","Output":"=== CONT  TestParseRejectsStrictJSONFailures\n"}
+{"Time":"2026-09-07T10:23:30.204213+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseRejectsStrictJSONFailures","Output":"--- PASS: TestParseRejectsStrictJSONFailures (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.204254+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseRejectsStrictJSONFailures","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.20426+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseAndRequestPreserveCompleteParams","Output":"--- PASS: TestParseAndRequestPreserveCompleteParams (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.204265+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"TestParseAndRequestPreserveCompleteParams","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.204274+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse"}
+{"Time":"2026-09-07T10:23:30.204277+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse","Output":"=== RUN   FuzzParse\n"}
+{"Time":"2026-09-07T10:23:30.204283+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#0"}
+{"Time":"2026-09-07T10:23:30.204286+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#0","Output":"=== RUN   FuzzParse/seed#0\n"}
+{"Time":"2026-09-07T10:23:30.204293+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#0","Output":"--- PASS: FuzzParse/seed#0 (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.204299+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#0","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.204307+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#1"}
+{"Time":"2026-09-07T10:23:30.20431+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#1","Output":"=== RUN   FuzzParse/seed#1\n"}
+{"Time":"2026-09-07T10:23:30.204313+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#1","Output":"--- PASS: FuzzParse/seed#1 (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.204315+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#1","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.204318+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#2"}
+{"Time":"2026-09-07T10:23:30.204323+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#2","Output":"=== RUN   FuzzParse/seed#2\n"}
+{"Time":"2026-09-07T10:23:30.204327+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#2","Output":"--- PASS: FuzzParse/seed#2 (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.20433+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse/seed#2","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.204333+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse","Output":"--- PASS: FuzzParse (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.204335+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Test":"FuzzParse","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.204338+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Output":"PASS\n"}
+{"Time":"2026-09-07T10:23:30.204753+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Output":"ok  \tgithub.com/faustbrian/go-api-query/apiqueryrpc\t0.201s\n"}
+{"Time":"2026-09-07T10:23:30.204768+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiqueryrpc","Elapsed":0.201}

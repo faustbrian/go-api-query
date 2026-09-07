@@ -1,0 +1,144 @@
+{"Time":"2026-09-07T10:23:31.406572+03:00","Action":"start","Package":"github.com/faustbrian/go-api-query/cursor"}
+{"Time":"2026-09-07T10:23:31.613797+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecAllocationBudgets"}
+{"Time":"2026-09-07T10:23:31.613853+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecAllocationBudgets","Output":"=== RUN   TestCodecAllocationBudgets\n"}
+{"Time":"2026-09-07T10:23:31.614959+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecAllocationBudgets","Output":"--- PASS: TestCodecAllocationBudgets (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.614987+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecAllocationBudgets","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.615+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyAndCodecConfigurationFailureMatrix"}
+{"Time":"2026-09-07T10:23:31.61501+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyAndCodecConfigurationFailureMatrix","Output":"=== RUN   TestKeyAndCodecConfigurationFailureMatrix\n"}
+{"Time":"2026-09-07T10:23:31.615027+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyAndCodecConfigurationFailureMatrix","Output":"=== PAUSE TestKeyAndCodecConfigurationFailureMatrix\n"}
+{"Time":"2026-09-07T10:23:31.615032+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyAndCodecConfigurationFailureMatrix"}
+{"Time":"2026-09-07T10:23:31.615038+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestEncodePayloadBoundMatrix"}
+{"Time":"2026-09-07T10:23:31.615044+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestEncodePayloadBoundMatrix","Output":"=== RUN   TestEncodePayloadBoundMatrix\n"}
+{"Time":"2026-09-07T10:23:31.615049+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestEncodePayloadBoundMatrix","Output":"=== PAUSE TestEncodePayloadBoundMatrix\n"}
+{"Time":"2026-09-07T10:23:31.615057+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestEncodePayloadBoundMatrix"}
+{"Time":"2026-09-07T10:23:31.615063+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestExactCursorAndKeyBoundariesAreAccepted"}
+{"Time":"2026-09-07T10:23:31.615067+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestExactCursorAndKeyBoundariesAreAccepted","Output":"=== RUN   TestExactCursorAndKeyBoundariesAreAccepted\n"}
+{"Time":"2026-09-07T10:23:31.61507+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestExactCursorAndKeyBoundariesAreAccepted","Output":"=== PAUSE TestExactCursorAndKeyBoundariesAreAccepted\n"}
+{"Time":"2026-09-07T10:23:31.615074+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestExactCursorAndKeyBoundariesAreAccepted"}
+{"Time":"2026-09-07T10:23:31.615078+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestDecodeEnvelopeFailureMatrix"}
+{"Time":"2026-09-07T10:23:31.615081+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestDecodeEnvelopeFailureMatrix","Output":"=== RUN   TestDecodeEnvelopeFailureMatrix\n"}
+{"Time":"2026-09-07T10:23:31.615085+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestDecodeEnvelopeFailureMatrix","Output":"=== PAUSE TestDecodeEnvelopeFailureMatrix\n"}
+{"Time":"2026-09-07T10:23:31.615089+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestDecodeEnvelopeFailureMatrix"}
+{"Time":"2026-09-07T10:23:31.615093+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestInternalHelpersAndPageFailures"}
+{"Time":"2026-09-07T10:23:31.615099+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestInternalHelpersAndPageFailures","Output":"=== RUN   TestInternalHelpersAndPageFailures\n"}
+{"Time":"2026-09-07T10:23:31.61512+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestInternalHelpersAndPageFailures","Output":"=== PAUSE TestInternalHelpersAndPageFailures\n"}
+{"Time":"2026-09-07T10:23:31.615123+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestInternalHelpersAndPageFailures"}
+{"Time":"2026-09-07T10:23:31.615127+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEncryptsAndBindsCursorState"}
+{"Time":"2026-09-07T10:23:31.615165+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEncryptsAndBindsCursorState","Output":"=== RUN   TestCodecEncryptsAndBindsCursorState\n"}
+{"Time":"2026-09-07T10:23:31.615169+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEncryptsAndBindsCursorState","Output":"=== PAUSE TestCodecEncryptsAndBindsCursorState\n"}
+{"Time":"2026-09-07T10:23:31.61522+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEncryptsAndBindsCursorState"}
+{"Time":"2026-09-07T10:23:31.615232+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRejectsReplayWhenConfigured"}
+{"Time":"2026-09-07T10:23:31.615236+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRejectsReplayWhenConfigured","Output":"=== RUN   TestCodecRejectsReplayWhenConfigured\n"}
+{"Time":"2026-09-07T10:23:31.615247+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRejectsReplayWhenConfigured","Output":"=== PAUSE TestCodecRejectsReplayWhenConfigured\n"}
+{"Time":"2026-09-07T10:23:31.615256+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRejectsReplayWhenConfigured"}
+{"Time":"2026-09-07T10:23:31.615264+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationIsRaceSafe"}
+{"Time":"2026-09-07T10:23:31.615273+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationIsRaceSafe","Output":"=== RUN   TestKeyRotationIsRaceSafe\n"}
+{"Time":"2026-09-07T10:23:31.615276+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationIsRaceSafe","Output":"=== PAUSE TestKeyRotationIsRaceSafe\n"}
+{"Time":"2026-09-07T10:23:31.615279+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationIsRaceSafe"}
+{"Time":"2026-09-07T10:23:31.615283+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEnforcesExpiryVersionAndBounds"}
+{"Time":"2026-09-07T10:23:31.615286+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEnforcesExpiryVersionAndBounds","Output":"=== RUN   TestCodecEnforcesExpiryVersionAndBounds\n"}
+{"Time":"2026-09-07T10:23:31.61529+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEnforcesExpiryVersionAndBounds","Output":"=== PAUSE TestCodecEnforcesExpiryVersionAndBounds\n"}
+{"Time":"2026-09-07T10:23:31.615293+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEnforcesExpiryVersionAndBounds"}
+{"Time":"2026-09-07T10:23:31.615296+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRoundTripsNullSortPosition"}
+{"Time":"2026-09-07T10:23:31.615302+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRoundTripsNullSortPosition","Output":"=== RUN   TestCodecRoundTripsNullSortPosition\n"}
+{"Time":"2026-09-07T10:23:31.615306+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRoundTripsNullSortPosition","Output":"=== PAUSE TestCodecRoundTripsNullSortPosition\n"}
+{"Time":"2026-09-07T10:23:31.615313+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRoundTripsNullSortPosition"}
+{"Time":"2026-09-07T10:23:31.61532+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationRetainsThenRetiresOldCursor"}
+{"Time":"2026-09-07T10:23:31.615323+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationRetainsThenRetiresOldCursor","Output":"=== RUN   TestKeyRotationRetainsThenRetiresOldCursor\n"}
+{"Time":"2026-09-07T10:23:31.615327+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationRetainsThenRetiresOldCursor","Output":"=== PAUSE TestKeyRotationRetainsThenRetiresOldCursor\n"}
+{"Time":"2026-09-07T10:23:31.61533+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationRetainsThenRetiresOldCursor"}
+{"Time":"2026-09-07T10:23:31.615334+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageMakesBoundarySemanticsExplicit"}
+{"Time":"2026-09-07T10:23:31.615337+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageMakesBoundarySemanticsExplicit","Output":"=== RUN   TestBuildPageMakesBoundarySemanticsExplicit\n"}
+{"Time":"2026-09-07T10:23:31.61534+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageMakesBoundarySemanticsExplicit","Output":"=== PAUSE TestBuildPageMakesBoundarySemanticsExplicit\n"}
+{"Time":"2026-09-07T10:23:31.615342+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageMakesBoundarySemanticsExplicit"}
+{"Time":"2026-09-07T10:23:31.615345+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageHandlesEmptyBoundary"}
+{"Time":"2026-09-07T10:23:31.615348+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageHandlesEmptyBoundary","Output":"=== RUN   TestBuildPageHandlesEmptyBoundary\n"}
+{"Time":"2026-09-07T10:23:31.61535+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageHandlesEmptyBoundary","Output":"=== PAUSE TestBuildPageHandlesEmptyBoundary\n"}
+{"Time":"2026-09-07T10:23:31.615353+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageHandlesEmptyBoundary"}
+{"Time":"2026-09-07T10:23:31.615357+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestForwardAndBackwardTraversalProperties"}
+{"Time":"2026-09-07T10:23:31.61536+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestForwardAndBackwardTraversalProperties","Output":"=== RUN   TestForwardAndBackwardTraversalProperties\n"}
+{"Time":"2026-09-07T10:23:31.615363+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestForwardAndBackwardTraversalProperties","Output":"=== PAUSE TestForwardAndBackwardTraversalProperties\n"}
+{"Time":"2026-09-07T10:23:31.615366+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestForwardAndBackwardTraversalProperties"}
+{"Time":"2026-09-07T10:23:31.615368+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries"}
+{"Time":"2026-09-07T10:23:31.615377+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries","Output":"=== RUN   TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries\n"}
+{"Time":"2026-09-07T10:23:31.615389+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries","Output":"=== PAUSE TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries\n"}
+{"Time":"2026-09-07T10:23:31.615391+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries"}
+{"Time":"2026-09-07T10:23:31.615397+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyAndCodecConfigurationFailureMatrix"}
+{"Time":"2026-09-07T10:23:31.6154+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyAndCodecConfigurationFailureMatrix","Output":"=== CONT  TestKeyAndCodecConfigurationFailureMatrix\n"}
+{"Time":"2026-09-07T10:23:31.615403+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyAndCodecConfigurationFailureMatrix","Output":"--- PASS: TestKeyAndCodecConfigurationFailureMatrix (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615406+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyAndCodecConfigurationFailureMatrix","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.615414+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries"}
+{"Time":"2026-09-07T10:23:31.615416+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries","Output":"=== CONT  TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries\n"}
+{"Time":"2026-09-07T10:23:31.615422+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries","Output":"--- PASS: TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615425+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestSeekTraversalWithInsertsDeletesTiesNullsAndBoundaries","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.61543+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRejectsReplayWhenConfigured"}
+{"Time":"2026-09-07T10:23:31.615433+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRejectsReplayWhenConfigured","Output":"=== CONT  TestCodecRejectsReplayWhenConfigured\n"}
+{"Time":"2026-09-07T10:23:31.615436+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationIsRaceSafe"}
+{"Time":"2026-09-07T10:23:31.615439+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationIsRaceSafe","Output":"=== CONT  TestKeyRotationIsRaceSafe\n"}
+{"Time":"2026-09-07T10:23:31.615441+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRejectsReplayWhenConfigured","Output":"--- PASS: TestCodecRejectsReplayWhenConfigured (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615444+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRejectsReplayWhenConfigured","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.615446+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEncryptsAndBindsCursorState"}
+{"Time":"2026-09-07T10:23:31.615449+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEncryptsAndBindsCursorState","Output":"=== CONT  TestCodecEncryptsAndBindsCursorState\n"}
+{"Time":"2026-09-07T10:23:31.615451+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestForwardAndBackwardTraversalProperties"}
+{"Time":"2026-09-07T10:23:31.615454+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestForwardAndBackwardTraversalProperties","Output":"=== CONT  TestForwardAndBackwardTraversalProperties\n"}
+{"Time":"2026-09-07T10:23:31.615457+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEncryptsAndBindsCursorState","Output":"--- PASS: TestCodecEncryptsAndBindsCursorState (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615459+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEncryptsAndBindsCursorState","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.615466+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestExactCursorAndKeyBoundariesAreAccepted"}
+{"Time":"2026-09-07T10:23:31.615469+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestExactCursorAndKeyBoundariesAreAccepted","Output":"=== CONT  TestExactCursorAndKeyBoundariesAreAccepted\n"}
+{"Time":"2026-09-07T10:23:31.615472+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestExactCursorAndKeyBoundariesAreAccepted","Output":"--- PASS: TestExactCursorAndKeyBoundariesAreAccepted (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615477+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestExactCursorAndKeyBoundariesAreAccepted","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.615479+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestEncodePayloadBoundMatrix"}
+{"Time":"2026-09-07T10:23:31.615482+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestEncodePayloadBoundMatrix","Output":"=== CONT  TestEncodePayloadBoundMatrix\n"}
+{"Time":"2026-09-07T10:23:31.615485+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestEncodePayloadBoundMatrix","Output":"--- PASS: TestEncodePayloadBoundMatrix (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615488+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestEncodePayloadBoundMatrix","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.61549+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestInternalHelpersAndPageFailures"}
+{"Time":"2026-09-07T10:23:31.615493+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestInternalHelpersAndPageFailures","Output":"=== CONT  TestInternalHelpersAndPageFailures\n"}
+{"Time":"2026-09-07T10:23:31.615495+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestInternalHelpersAndPageFailures","Output":"--- PASS: TestInternalHelpersAndPageFailures (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615498+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestInternalHelpersAndPageFailures","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.6155+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEnforcesExpiryVersionAndBounds"}
+{"Time":"2026-09-07T10:23:31.615503+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEnforcesExpiryVersionAndBounds","Output":"=== CONT  TestCodecEnforcesExpiryVersionAndBounds\n"}
+{"Time":"2026-09-07T10:23:31.615505+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEnforcesExpiryVersionAndBounds","Output":"--- PASS: TestCodecEnforcesExpiryVersionAndBounds (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615508+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecEnforcesExpiryVersionAndBounds","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.61551+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageHandlesEmptyBoundary"}
+{"Time":"2026-09-07T10:23:31.615513+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageHandlesEmptyBoundary","Output":"=== CONT  TestBuildPageHandlesEmptyBoundary\n"}
+{"Time":"2026-09-07T10:23:31.615515+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageHandlesEmptyBoundary","Output":"--- PASS: TestBuildPageHandlesEmptyBoundary (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615518+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageHandlesEmptyBoundary","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.61552+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageMakesBoundarySemanticsExplicit"}
+{"Time":"2026-09-07T10:23:31.615525+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageMakesBoundarySemanticsExplicit","Output":"=== CONT  TestBuildPageMakesBoundarySemanticsExplicit\n"}
+{"Time":"2026-09-07T10:23:31.615528+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageMakesBoundarySemanticsExplicit","Output":"--- PASS: TestBuildPageMakesBoundarySemanticsExplicit (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.61553+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestBuildPageMakesBoundarySemanticsExplicit","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.615533+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationRetainsThenRetiresOldCursor"}
+{"Time":"2026-09-07T10:23:31.615535+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationRetainsThenRetiresOldCursor","Output":"=== CONT  TestKeyRotationRetainsThenRetiresOldCursor\n"}
+{"Time":"2026-09-07T10:23:31.615538+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationRetainsThenRetiresOldCursor","Output":"--- PASS: TestKeyRotationRetainsThenRetiresOldCursor (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615541+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationRetainsThenRetiresOldCursor","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.615543+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRoundTripsNullSortPosition"}
+{"Time":"2026-09-07T10:23:31.615556+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRoundTripsNullSortPosition","Output":"=== CONT  TestCodecRoundTripsNullSortPosition\n"}
+{"Time":"2026-09-07T10:23:31.615559+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRoundTripsNullSortPosition","Output":"--- PASS: TestCodecRoundTripsNullSortPosition (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.615574+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestCodecRoundTripsNullSortPosition","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.615577+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestDecodeEnvelopeFailureMatrix"}
+{"Time":"2026-09-07T10:23:31.61558+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestDecodeEnvelopeFailureMatrix","Output":"=== CONT  TestDecodeEnvelopeFailureMatrix\n"}
+{"Time":"2026-09-07T10:23:31.615583+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestDecodeEnvelopeFailureMatrix","Output":"--- PASS: TestDecodeEnvelopeFailureMatrix (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.616314+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestDecodeEnvelopeFailureMatrix","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.61634+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationIsRaceSafe","Output":"--- PASS: TestKeyRotationIsRaceSafe (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.616353+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestKeyRotationIsRaceSafe","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.616363+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestForwardAndBackwardTraversalProperties","Output":"--- PASS: TestForwardAndBackwardTraversalProperties (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.616376+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"TestForwardAndBackwardTraversalProperties","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.616384+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode"}
+{"Time":"2026-09-07T10:23:31.616392+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode","Output":"=== RUN   FuzzDecode\n"}
+{"Time":"2026-09-07T10:23:31.616762+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#0"}
+{"Time":"2026-09-07T10:23:31.616816+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#0","Output":"=== RUN   FuzzDecode/seed#0\n"}
+{"Time":"2026-09-07T10:23:31.61789+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#0","Output":"--- PASS: FuzzDecode/seed#0 (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.617905+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#0","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.617912+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#1"}
+{"Time":"2026-09-07T10:23:31.617917+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#1","Output":"=== RUN   FuzzDecode/seed#1\n"}
+{"Time":"2026-09-07T10:23:31.617922+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#1","Output":"--- PASS: FuzzDecode/seed#1 (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.617926+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#1","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.617929+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#2"}
+{"Time":"2026-09-07T10:23:31.617933+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#2","Output":"=== RUN   FuzzDecode/seed#2\n"}
+{"Time":"2026-09-07T10:23:31.617936+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#2","Output":"--- PASS: FuzzDecode/seed#2 (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.617939+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode/seed#2","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.617942+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode","Output":"--- PASS: FuzzDecode (0.00s)\n"}
+{"Time":"2026-09-07T10:23:31.617945+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Test":"FuzzDecode","Elapsed":0}
+{"Time":"2026-09-07T10:23:31.617948+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Output":"PASS\n"}
+{"Time":"2026-09-07T10:23:31.618652+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/cursor","Output":"ok  \tgithub.com/faustbrian/go-api-query/cursor\t0.212s\n"}
+{"Time":"2026-09-07T10:23:31.618683+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/cursor","Elapsed":0.212}
