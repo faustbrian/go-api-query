@@ -137,6 +137,11 @@ type dockerMount struct {
 	Propagation string `json:"Propagation"`
 }
 
+type dockerStorage struct {
+	Mounts []dockerMount     `json:"Mounts"`
+	Tmpfs  map[string]string `json:"Tmpfs"`
+}
+
 func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 	defer cancel()
@@ -182,13 +187,14 @@ func replay(ctx context.Context, root string, packet receipt) {
 	replayRoot, err := os.MkdirTemp("", "go-api-query-final-replay-")
 	check(err)
 	containerID := ""
+	containerCleanupTarget := ""
 	defer func() {
-		if containerID != "" {
-			if err := exec.Command("docker", "rm", "-fv", containerID).Run(); err != nil {
+		if containerCleanupTarget != "" {
+			if err := exec.Command("docker", "rm", "-fv", containerCleanupTarget).Run(); err != nil {
 				fmt.Fprintf(os.Stderr, "final replay container cleanup failed: %v\n", err)
 			}
 		}
-		if err := os.RemoveAll(replayRoot); err != nil {
+		if err := removeTree(replayRoot); err != nil {
 			fmt.Fprintf(os.Stderr, "final replay task-root cleanup failed: %v\n", err)
 		}
 	}()
@@ -265,11 +271,13 @@ func replay(ctx context.Context, root string, packet receipt) {
 	envFile := filepath.Join(replayRoot, "postgres.env")
 	writeSecretFile(envFile, []byte("POSTGRES_USER=oracle\nPOSTGRES_PASSWORD=oracle_password\nPOSTGRES_DB=oracle\n"))
 	containerName := "api-query-final-replay-" + filepath.Base(replayRoot)
-	containerID = strings.TrimSpace(run(ctx, root, nil, "docker", "run", "-d", "--name", containerName, "--env-file", envFile, "--tmpfs", "/var/lib/postgresql:rw,nosuid", "-p", "127.0.0.1::5432", postgresImage))
+	containerID = startOwnedContainer(containerName, &containerCleanupTarget, func() string {
+		return strings.TrimSpace(run(ctx, root, nil, "docker", "run", "-d", "--name", containerName, "--env-file", envFile, "--tmpfs", "/var/lib/postgresql:rw,nosuid", "-p", "127.0.0.1::5432", postgresImage))
+	})
 	must(containerID != "", "PostgreSQL container identity")
-	var mounts []dockerMount
-	decodeClosed(runBytes(ctx, root, nil, "docker", "inspect", "--format", "{{json .Mounts}}", containerID), &mounts)
-	must(len(mounts) == 1 && mounts[0].Type == "tmpfs" && mounts[0].Destination == "/var/lib/postgresql", "task-owned PostgreSQL tmpfs")
+	var storage dockerStorage
+	decodeClosed(runBytes(ctx, root, nil, "docker", "inspect", "--format", "{\"Mounts\":{{json .Mounts}},\"Tmpfs\":{{json .HostConfig.Tmpfs}}}", containerID), &storage)
+	must(isolatedPostgresStorage(storage), "task-owned PostgreSQL tmpfs")
 	ready := false
 	for attempt := 0; attempt < 60; attempt++ {
 		if exec.CommandContext(ctx, "docker", "exec", containerID, "pg_isready", "-U", "oracle", "-d", "oracle").Run() == nil {
@@ -302,8 +310,9 @@ func replay(ctx context.Context, root string, packet receipt) {
 	run(ctx, root, nil, "docker", "rm", "-fv", containerID)
 	removedID := containerID
 	containerID = ""
+	containerCleanupTarget = ""
 	must(exec.CommandContext(ctx, "docker", "inspect", removedID).Run() != nil, "container cleanup")
-	check(os.RemoveAll(replayRoot))
+	check(removeTree(replayRoot))
 	must(!exists(replayRoot), "task root cleanup")
 }
 
@@ -513,6 +522,51 @@ func withEnv(base []string, overrides ...string) []string {
 func exists(filePath string) bool {
 	_, err := os.Lstat(filePath)
 	return err == nil
+}
+
+func isolatedPostgresStorage(storage dockerStorage) bool {
+	options, ok := storage.Tmpfs["/var/lib/postgresql"]
+	if !ok || len(storage.Tmpfs) != 1 || len(storage.Mounts) > 1 || !hasOption(options, "rw") || !hasOption(options, "nosuid") {
+		return false
+	}
+	for _, mount := range storage.Mounts {
+		if mount.Type != "tmpfs" || mount.Destination != "/var/lib/postgresql" {
+			return false
+		}
+	}
+	return true
+}
+
+func startOwnedContainer(name string, cleanupTarget *string, start func() string) string {
+	*cleanupTarget = name
+	containerID := start()
+	*cleanupTarget = containerID
+	return containerID
+}
+
+func hasOption(options, expected string) bool {
+	for _, option := range strings.Split(options, ",") {
+		if option == expected {
+			return true
+		}
+	}
+	return false
+}
+
+func removeTree(root string) error {
+	err := filepath.WalkDir(root, func(path string, entry os.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if entry.IsDir() {
+			return os.Chmod(path, 0o700)
+		}
+		return nil
+	})
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
+		return err
+	}
+	return os.RemoveAll(root)
 }
 
 func isHex(value string, length int) bool {

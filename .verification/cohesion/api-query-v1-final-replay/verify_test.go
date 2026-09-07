@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -9,15 +11,62 @@ import (
 func TestDecodeClosedRejectsDuplicateMembers(t *testing.T) {
 	t.Parallel()
 
+	err := rejectDuplicateJSONMembers([]byte(`{"schema":"one","schema":"two"}`))
+	if err == nil || !strings.Contains(err.Error(), "duplicate JSON member") {
+		t.Fatalf("duplicate member error = %v", err)
+	}
+}
+
+func TestIsolatedPostgresStorageRejectsVolumes(t *testing.T) {
+	t.Parallel()
+
+	storage := dockerStorage{Tmpfs: map[string]string{"/var/lib/postgresql": "rw,nosuid"}}
+	if !isolatedPostgresStorage(storage) {
+		t.Fatal("declared PostgreSQL tmpfs was rejected")
+	}
+	storage.Mounts = []dockerMount{{Type: "volume", Destination: "/var/lib/postgresql"}}
+	if isolatedPostgresStorage(storage) {
+		t.Fatal("PostgreSQL volume was accepted")
+	}
+}
+
+func TestRemoveTreeHandlesReadOnlyModuleCacheDirectories(t *testing.T) {
+	t.Parallel()
+
+	root := filepath.Join(t.TempDir(), "module-cache")
+	nested := filepath.Join(root, "module@v1.0.0")
+	if err := os.MkdirAll(nested, 0o700); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(nested, "source.go"), []byte("package source\n"), 0o400); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Chmod(nested, 0o500); err != nil {
+		t.Fatal(err)
+	}
+	if err := removeTree(root); err != nil {
+		t.Fatal(err)
+	}
+	if exists(root) {
+		t.Fatal("module cache root remains")
+	}
+}
+
+func TestContainerCleanupTargetExistsBeforeStart(t *testing.T) {
+	t.Parallel()
+
+	cleanupTarget := ""
 	defer func() {
 		if recover() == nil {
-			t.Fatal("duplicate member was accepted")
+			t.Fatal("container start did not fail")
+		}
+		if cleanupTarget != "owned-container" {
+			t.Fatalf("cleanup target = %q", cleanupTarget)
 		}
 	}()
-	var value struct {
-		Schema string `json:"schema"`
-	}
-	decodeClosed([]byte(`{"schema":"one","schema":"two"}`), &value)
+	startOwnedContainer("owned-container", &cleanupTarget, func() string {
+		panic("start failed after create")
+	})
 }
 
 func TestRejectDuplicateJSONMembersBoundsDepth(t *testing.T) {
