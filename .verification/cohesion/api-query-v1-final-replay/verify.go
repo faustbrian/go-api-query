@@ -3,6 +3,8 @@
 package main
 
 import (
+	"archive/tar"
+	"archive/zip"
 	"bytes"
 	"context"
 	"crypto/sha256"
@@ -14,6 +16,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 )
@@ -208,11 +211,13 @@ func replay(ctx context.Context, root string, packet receipt) {
 	}
 
 	zipPath := filepath.Join(proxyVersionRoot, candidateVersion+".zip")
-	run(ctx, root, nil, "git", "archive", "--format=zip", "--prefix="+modulePath+"@"+candidateVersion+"/", "--output="+zipPath, packet.Source.Commit)
+	commitTime, err := time.Parse(time.RFC3339, strings.TrimSpace(run(ctx, root, nil, "git", "show", "-s", "--format=%cI", packet.Source.Commit)))
+	check(err)
+	archiveBytes := runBytes(ctx, root, nil, "git", "-c", "tar.umask=0000", "archive", "--format=tar", packet.Source.Commit)
+	check(writeDeterministicModuleZip(zipPath, modulePath+"@"+candidateVersion+"/", commitTime, archiveBytes))
 	moduleBytes := gitFile(ctx, root, packet.Source.Commit, "go.mod")
 	writeFile(filepath.Join(proxyVersionRoot, candidateVersion+".mod"), moduleBytes)
-	commitTime := strings.TrimSpace(run(ctx, root, nil, "git", "show", "-s", "--format=%cI", packet.Source.Commit))
-	writeFile(filepath.Join(proxyVersionRoot, candidateVersion+".info"), []byte(fmt.Sprintf("{\"Version\":%q,\"Time\":%q}\n", candidateVersion, commitTime)))
+	writeFile(filepath.Join(proxyVersionRoot, candidateVersion+".info"), []byte(fmt.Sprintf("{\"Version\":%q,\"Time\":%q}\n", candidateVersion, commitTime.Format(time.RFC3339))))
 	writeFile(filepath.Join(proxyVersionRoot, "list"), []byte(candidateVersion+"\n"))
 	must(digestFile(zipPath) == packet.Candidate.ProxyZipSHA256, "proxy zip digest")
 	must(digestBytes(moduleBytes) == packet.Candidate.ProxyModSHA256, "proxy module digest")
@@ -396,6 +401,93 @@ func rejectDuplicateJSONMembers(data []byte) error {
 
 func gitFile(ctx context.Context, root, revision, name string) []byte {
 	return runBytes(ctx, root, nil, "git", "show", revision+":"+name)
+}
+
+type archiveEntry struct {
+	name string
+	mode os.FileMode
+	data []byte
+}
+
+func writeDeterministicModuleZip(filePath, prefix string, modified time.Time, tarBytes []byte) error {
+	reader := tar.NewReader(bytes.NewReader(tarBytes))
+	entries := make([]archiveEntry, 0, 256)
+	totalBytes := 0
+	for {
+		header, err := reader.Next()
+		if errors.Is(err, io.EOF) {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		if len(entries) >= 4096 || header.Size < 0 || header.Size > maximumBytes || totalBytes > maximumBytes-int(header.Size) {
+			return errors.New("source archive exceeds bound")
+		}
+		if header.Name == "" || filepath.IsAbs(header.Name) || strings.Contains(header.Name, "\\") || strings.Contains("/"+header.Name+"/", "/../") {
+			return errors.New("invalid source archive path")
+		}
+		if header.Typeflag != tar.TypeReg && header.Typeflag != tar.TypeRegA && header.Typeflag != tar.TypeDir {
+			return errors.New("unsupported source archive entry")
+		}
+		data := make([]byte, header.Size)
+		if _, err := io.ReadFull(reader, data); err != nil {
+			return err
+		}
+		totalBytes += len(data)
+		entries = append(entries, archiveEntry{name: header.Name, mode: normalizedArchiveMode(header.FileInfo().Mode()), data: data})
+	}
+	sort.Slice(entries, func(left, right int) bool { return entries[left].name < entries[right].name })
+	for index := 1; index < len(entries); index++ {
+		if entries[index-1].name == entries[index].name {
+			return errors.New("duplicate source archive path")
+		}
+	}
+
+	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0o600)
+	if err != nil {
+		return err
+	}
+	zipWriter := zip.NewWriter(file)
+	for _, entry := range entries {
+		name := prefix + entry.name
+		method := uint16(zip.Deflate)
+		if entry.mode.IsDir() {
+			method = zip.Store
+			if !strings.HasSuffix(name, "/") {
+				name += "/"
+			}
+		}
+		header := &zip.FileHeader{Name: name, Method: method}
+		header.SetMode(entry.mode)
+		header.SetModTime(modified.UTC())
+		writer, err := zipWriter.CreateHeader(header)
+		if err != nil {
+			zipWriter.Close()
+			file.Close()
+			return err
+		}
+		if _, err := writer.Write(entry.data); err != nil {
+			zipWriter.Close()
+			file.Close()
+			return err
+		}
+	}
+	if err := zipWriter.Close(); err != nil {
+		file.Close()
+		return err
+	}
+	return file.Close()
+}
+
+func normalizedArchiveMode(mode os.FileMode) os.FileMode {
+	if mode.IsDir() {
+		return os.ModeDir | 0o755
+	}
+	if mode.Perm()&0o111 != 0 {
+		return 0o755
+	}
+	return 0o644
 }
 
 func run(ctx context.Context, directory string, environment []string, name string, arguments ...string) string {

@@ -1,11 +1,15 @@
 package main
 
 import (
+	"archive/tar"
+	"archive/zip"
+	"bytes"
 	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestDecodeClosedRejectsDuplicateMembers(t *testing.T) {
@@ -15,6 +19,71 @@ func TestDecodeClosedRejectsDuplicateMembers(t *testing.T) {
 	if err == nil || !strings.Contains(err.Error(), "duplicate JSON member") {
 		t.Fatalf("duplicate member error = %v", err)
 	}
+}
+
+func TestDeterministicModuleZipIgnoresTarEntryOrderAndMetadata(t *testing.T) {
+	t.Parallel()
+
+	firstTar := testTar(t, []string{"b.txt", "a.txt"}, time.Unix(1, 0), 0o664)
+	secondTar := testTar(t, []string{"a.txt", "b.txt"}, time.Unix(2, 0), 0o600)
+	modified := time.Date(2026, time.September, 7, 12, 0, 0, 0, time.UTC)
+	firstPath := filepath.Join(t.TempDir(), "first.zip")
+	secondPath := filepath.Join(t.TempDir(), "second.zip")
+	if err := writeDeterministicModuleZip(firstPath, "example.invalid/module@v1.0.0/", modified, firstTar); err != nil {
+		t.Fatal(err)
+	}
+	if err := writeDeterministicModuleZip(secondPath, "example.invalid/module@v1.0.0/", modified, secondTar); err != nil {
+		t.Fatal(err)
+	}
+	first, err := os.ReadFile(firstPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	second, err := os.ReadFile(secondPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(first, second) {
+		t.Fatal("module zip changed with tar ordering or metadata")
+	}
+}
+
+func TestDeterministicModuleZipPreservesExecutableSemantics(t *testing.T) {
+	t.Parallel()
+
+	zipPath := filepath.Join(t.TempDir(), "module.zip")
+	archive := testTar(t, []string{"script.sh"}, time.Unix(1, 0), 0o775)
+	if err := writeDeterministicModuleZip(zipPath, "example.invalid/module@v1.0.0/", time.Unix(2, 0), archive); err != nil {
+		t.Fatal(err)
+	}
+	reader, err := zip.OpenReader(zipPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer reader.Close()
+	if len(reader.File) != 1 || reader.File[0].Mode().Perm() != 0o755 {
+		t.Fatalf("module zip mode = %v", reader.File[0].Mode())
+	}
+}
+
+func testTar(t *testing.T, names []string, modified time.Time, mode int64) []byte {
+	t.Helper()
+
+	var buffer bytes.Buffer
+	writer := tar.NewWriter(&buffer)
+	for _, name := range names {
+		data := []byte(name + "\n")
+		if err := writer.WriteHeader(&tar.Header{Name: name, Mode: mode, Size: int64(len(data)), ModTime: modified}); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := writer.Write(data); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := writer.Close(); err != nil {
+		t.Fatal(err)
+	}
+	return buffer.Bytes()
 }
 
 func TestIsolatedPostgresStorageRejectsVolumes(t *testing.T) {
