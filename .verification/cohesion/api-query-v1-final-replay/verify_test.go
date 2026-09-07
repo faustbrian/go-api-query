@@ -113,3 +113,17 @@ func TestWithEnvReplacesHostOverrides(t *testing.T) {
 		t.Fatalf("environment = %s", text)
 	}
 }
+
+func TestReceiptOnlyDiffRejectsSourceDrift(t *testing.T) {
+	t.Parallel()
+
+	if !receiptOnlyDiff([]byte(receiptPath + "\x00")) {
+		t.Fatal("receipt-only diff was rejected")
+	}
+	if receiptOnlyDiff([]byte(receiptPath + "\x00go.mod\x00")) {
+		t.Fatal("source drift was accepted")
+	}
+	if receiptOnlyDiff(nil) {
+		t.Fatal("missing receipt change was accepted")
+	}
+}

@@ -161,6 +161,8 @@ func validateReceipt(ctx context.Context, root string, packet receipt) {
 	must(isHex(packet.Source.Commit, 40) && isHex(packet.Source.Tree, 40), "source object identity")
 	must(strings.TrimSpace(run(ctx, root, nil, "git", "rev-parse", packet.Source.Commit+"^{tree}")) == packet.Source.Tree, "source tree")
 	run(ctx, root, nil, "git", "merge-base", "--is-ancestor", packet.Source.Commit, "HEAD")
+	postSourceDiff := runBytes(ctx, root, nil, "git", "diff", "--name-only", "-z", "--no-renames", packet.Source.Commit+"..HEAD", "--")
+	must(receiptOnlyDiff(postSourceDiff), "post-source changes are not receipt-only")
 	must(packet.Candidate.Module == modulePath && packet.Candidate.Version == candidateVersion, "candidate identity")
 	must(isHex(packet.Candidate.ProxyZipSHA256, 64) && isHex(packet.Candidate.ProxyModSHA256, 64), "candidate digests")
 	must(strings.HasPrefix(packet.Candidate.ModuleSum, "h1:") && strings.HasPrefix(packet.Candidate.GoModSum, "h1:"), "candidate sums")
@@ -575,6 +577,10 @@ func isHex(value string, length int) bool {
 	}
 	_, err := hex.DecodeString(value)
 	return err == nil
+}
+
+func receiptOnlyDiff(diff []byte) bool {
+	return bytes.Equal(diff, []byte(receiptPath+"\x00"))
 }
 
 func must(condition bool, message string) {
