@@ -5,6 +5,7 @@ import (
 	"archive/zip"
 	"bytes"
 	"encoding/json"
+	"io"
 	"os"
 	"path/filepath"
 	"strings"
@@ -63,6 +64,75 @@ func TestDeterministicModuleZipPreservesExecutableSemantics(t *testing.T) {
 	defer reader.Close()
 	if len(reader.File) != 1 || reader.File[0].Mode().Perm() != 0o755 {
 		t.Fatalf("module zip mode = %v", reader.File[0].Mode())
+	}
+}
+
+func TestDeterministicModuleZipAcceptsGitGlobalPAXMetadata(t *testing.T) {
+	t.Parallel()
+
+	var buffer bytes.Buffer
+	writer := tar.NewWriter(&buffer)
+	if err := writer.WriteHeader(&tar.Header{
+		Name:       "pax_global_header",
+		Typeflag:   tar.TypeXGlobalHeader,
+		PAXRecords: map[string]string{"comment": "source commit identity"},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	data := []byte("content\n")
+	if err := writer.WriteHeader(&tar.Header{Name: "file.txt", Mode: 0o644, Size: int64(len(data))}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := writer.Write(data); err != nil {
+		t.Fatal(err)
+	}
+	if err := writer.Close(); err != nil {
+		t.Fatal(err)
+	}
+	zipPath := filepath.Join(t.TempDir(), "module.zip")
+	if err := writeDeterministicModuleZip(
+		zipPath,
+		"example.invalid/module@v1.0.0/",
+		time.Unix(2, 0),
+		buffer.Bytes(),
+	); err != nil {
+		t.Fatal(err)
+	}
+	reader, err := zip.OpenReader(zipPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer reader.Close()
+	if len(reader.File) != 1 || reader.File[0].Name != "example.invalid/module@v1.0.0/file.txt" || reader.File[0].Mode().Perm() != 0o644 {
+		t.Fatalf("module zip entries = %+v", reader.File)
+	}
+	file, err := reader.File[0].Open()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer file.Close()
+	got, err := io.ReadAll(file)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(got, data) {
+		t.Fatalf("module zip content = %q", got)
+	}
+}
+
+func TestDeterministicModuleZipRejectsOversizedRawArchive(t *testing.T) {
+	t.Parallel()
+
+	archive := testTar(t, []string{"file.txt"}, time.Unix(1, 0), 0o644)
+	archive = append(archive, make([]byte, maximumBytes+1-len(archive))...)
+	err := writeDeterministicModuleZip(
+		filepath.Join(t.TempDir(), "module.zip"),
+		"example.invalid/module@v1.0.0/",
+		time.Unix(2, 0),
+		archive,
+	)
+	if err == nil || err.Error() != "source archive exceeds bound" {
+		t.Fatalf("oversized archive error = %v", err)
 	}
 }
 

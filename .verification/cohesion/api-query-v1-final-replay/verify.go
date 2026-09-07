@@ -410,9 +410,13 @@ type archiveEntry struct {
 }
 
 func writeDeterministicModuleZip(filePath, prefix string, modified time.Time, tarBytes []byte) error {
+	if len(tarBytes) > maximumBytes {
+		return errors.New("source archive exceeds bound")
+	}
 	reader := tar.NewReader(bytes.NewReader(tarBytes))
 	entries := make([]archiveEntry, 0, 256)
 	totalBytes := 0
+	entryCount := 0
 	for {
 		header, err := reader.Next()
 		if errors.Is(err, io.EOF) {
@@ -421,8 +425,16 @@ func writeDeterministicModuleZip(filePath, prefix string, modified time.Time, ta
 		if err != nil {
 			return err
 		}
-		if len(entries) >= 4096 || header.Size < 0 || header.Size > maximumBytes || totalBytes > maximumBytes-int(header.Size) {
+		entryCount++
+		if entryCount > 4096 || header.Size < 0 || header.Size > maximumBytes || totalBytes > maximumBytes-int(header.Size) {
 			return errors.New("source archive exceeds bound")
+		}
+		if header.Typeflag == tar.TypeXGlobalHeader {
+			if _, err := io.CopyN(io.Discard, reader, header.Size); err != nil {
+				return err
+			}
+			totalBytes += int(header.Size)
+			continue
 		}
 		if header.Name == "" || filepath.IsAbs(header.Name) || strings.Contains(header.Name, "\\") || strings.Contains("/"+header.Name+"/", "/../") {
 			return errors.New("invalid source archive path")
