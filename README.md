@@ -29,7 +29,7 @@ legacy paths and explicit named-type conversions.
 ## Five-minute JSON-RPC quickstart
 
 The example uses `github.com/faustbrian/go-api-query/adapters/jsonrpc` as
-`apiqueryrpc` and `github.com/faustbrian/go-api-query/adapters/validation` as
+`apiqueryjsonrpc` and `github.com/faustbrian/go-api-query/adapters/validation` as
 `apiqueryvalidation`.
 
 ```go
@@ -60,7 +60,7 @@ if err != nil {
     return err // invalid server declaration
 }
 
-params, err := apiqueryrpc.Parse(rawParams, schema.Bounds().MaxRequestBytes)
+params, err := apiqueryjsonrpc.Parse(rawParams, schema.Bounds().MaxRequestBytes)
 if err != nil {
     return err // sanitized transport error
 }
