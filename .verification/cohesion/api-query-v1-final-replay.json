@@ -1,16 +1,16 @@
 {
   "schema": "api-query-v1-final-replay-v2",
-  "captured_at": "2026-09-07T16:22:36+03:00",
+  "captured_at": "2026-09-07T16:38:01+03:00",
   "source": {
-    "commit": "402b896becd3d16fe106705802c92a7b35bd3a7f",
-    "tree": "8deb09f4a7aa4738c0f4aaa68bc7316f99dd63d9"
+    "commit": "6a4cade8ff6fc9ff500c5f7579223392a1db618c",
+    "tree": "9e1d80ad202fda23e5a70ff2ec60b5080f53df98"
   },
   "candidate": {
     "module": "github.com/faustbrian/go-api-query",
     "version": "v1.1.0-replay.0",
-    "proxy_zip_sha256": "f32c31f2a328b02a793a3bf73188024d796e35f6f503fe3b08ec2e84b8310778",
+    "proxy_zip_sha256": "cef83ec5ca1abf7c26279cb8204006d016d1e1154477378df6217d554ccdee84",
     "proxy_mod_sha256": "2e65e2ca7deaab3f1a000aaccf515b4a29ca48fabdda2a1ad2d0de2e8862543c",
-    "module_sum": "h1:xYnOhNyTvfKfMYxQNJURaF23QyAeFYKpkErI5I42c0s=",
+    "module_sum": "h1:L0v+Sho0I7jescPfnwHec+LqJ91Qalgyc11OXlfDQjU=",
     "go_mod_sum": "h1:Tb9fPaZOvKu3vJ+Ewv2IHVHss5IGJ6bvQy1wnaBpchc="
   },
   "external_consumer": {
