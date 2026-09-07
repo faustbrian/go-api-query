@@ -1,0 +1,53 @@
+{
+  "schema": "api-query-v1-final-replay-v1",
+  "captured_at": "2026-09-07T12:52:21Z",
+  "source": {
+    "commit": "ae89ed7fbff1a17cec321fe69230934fe5fcb497",
+    "tree": "f4684e7a6331509a05fb384affd4ae280d198ff9"
+  },
+  "candidate": {
+    "module": "github.com/faustbrian/go-api-query",
+    "version": "v1.1.0-replay.0",
+    "proxy_zip_sha256": "1f0dac84b31f8826d28f65836e15d613faa253b70564965029f4c31761cd5389",
+    "proxy_mod_sha256": "2e65e2ca7deaab3f1a000aaccf515b4a29ca48fabdda2a1ad2d0de2e8862543c",
+    "module_sum": "h1:N8Ldd0KtgymNd1I7s3Yg30hiL64ZSwfiBB7oNia1UaM=",
+    "go_mod_sum": "h1:Tb9fPaZOvKu3vJ+Ewv2IHVHss5IGJ6bvQy1wnaBpchc="
+  },
+  "external_consumer": {
+    "replace_directives": 0,
+    "workspace_file": false,
+    "selected_version": "v1.1.0-replay.0",
+    "selected_from_task_owned_module_cache": true,
+    "goproxy": "task-owned-file-proxy,https://proxy.golang.org",
+    "gosumdb": "sum.golang.org",
+    "gonosumdb": "github.com/faustbrian/go-api-query",
+    "goprivate": "",
+    "gowork": "off"
+  },
+  "toolchain": {
+    "identity": "go version go1.26.6 darwin/arm64",
+    "executable_sha256": "a1c83801d1756c3eca78366c6b585f2c21c20694fb1c7eb92c446a0580420412"
+  },
+  "oracle": {
+    "harness_path": ".verification/cohesion/api-query-v1-oracle/harness.go",
+    "harness_sha256": "08ef180f1531be0b038b40d9adf6a69489890ed45b11d4987b4f976001d8153e",
+    "input_path": ".verification/cohesion/api-query-v1-oracle/input.json",
+    "input_sha256": "7287d53d7afffbe8f158081f20cc6dffe4a2d06da771285036d6b467e6bc67d8",
+    "released_output_path": ".verification/cohesion/api-query-v1-oracle/output.json",
+    "released_output_sha256": "9da16adc97f2074c3e890a290a8b7028938803fdc702d4f2689cfd8c9cd3816b",
+    "replay_output_sha256": "9da16adc97f2074c3e890a290a8b7028938803fdc702d4f2689cfd8c9cd3816b",
+    "byte_comparison": "identical",
+    "outcome": "passed"
+  },
+  "postgres": {
+    "repository_digest": "postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15",
+    "database": "oracle",
+    "user": "oracle",
+    "dsn": "task-owned-loopback-redacted"
+  },
+  "cleanup": {
+    "task_root_removed": true,
+    "container_removed": true,
+    "volume_created": false
+  }
+}
