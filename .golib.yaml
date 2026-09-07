@@ -25,6 +25,10 @@ operations:
         makefile: verification/package.mk
         target: postgres
         timeout: 20m
+      - type: make
+        makefile: verification/package.mk
+        target: final-replay
+        timeout: 20m
   - module: .
     gate: docs
     steps:

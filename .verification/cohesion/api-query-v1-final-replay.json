@@ -1,5 +1,5 @@
 {
-  "schema": "api-query-v1-final-replay-v1",
+  "schema": "api-query-v1-final-replay-v2",
   "captured_at": "2026-09-07T12:52:21Z",
   "source": {
     "commit": "ae89ed7fbff1a17cec321fe69230934fe5fcb497",
@@ -25,8 +25,17 @@
     "gowork": "off"
   },
   "toolchain": {
-    "identity": "go version go1.26.6 darwin/arm64",
-    "executable_sha256": "a1c83801d1756c3eca78366c6b585f2c21c20694fb1c7eb92c446a0580420412"
+    "execution_identity": "go version go1.26.6 darwin/arm64",
+    "accepted_executables": [
+      {
+        "identity": "go version go1.26.6 darwin/arm64",
+        "executable_sha256": "a1c83801d1756c3eca78366c6b585f2c21c20694fb1c7eb92c446a0580420412"
+      },
+      {
+        "identity": "go version go1.26.6 linux/amd64",
+        "executable_sha256": "29e6e0b8be61beb1489ceae62b304343566de8a1dc700af74bde7aeb9c80ad45"
+      }
+    ]
   },
   "oracle": {
     "harness_path": ".verification/cohesion/api-query-v1-oracle/harness.go",
