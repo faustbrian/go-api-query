@@ -1,16 +1,16 @@
 {
   "schema": "api-query-v1-final-replay-v2",
-  "captured_at": "2026-09-08T01:23:35Z",
+  "captured_at": "2026-09-08T01:44:06Z",
   "source": {
-    "commit": "d59d2b2f259f013cfbc7e7091eec0246ca6a71f5",
-    "tree": "47a974fed1713853db7beed9ed87c9b565feedf8"
+    "commit": "052707e6fd856f63aca9f719fba3a0c19bc0100e",
+    "tree": "a06c0a2363bc25b6349faf2b15d744d6d6275e35"
   },
   "candidate": {
     "module": "github.com/faustbrian/go-api-query",
     "version": "v1.1.0-replay.0",
-    "proxy_zip_sha256": "5b5c95e3f07d1a7b6484579d000afe049b65d02acc83a3ada7aeebfda4f1e85d",
+    "proxy_zip_sha256": "83713958ff73c772b3db8839ccd9683408d521a19fc7f84ddc7f22fee423101f",
     "proxy_mod_sha256": "2e65e2ca7deaab3f1a000aaccf515b4a29ca48fabdda2a1ad2d0de2e8862543c",
-    "module_sum": "h1:S7p1cUGgObxbW26GOfphgja8QuwdAprATSK2QEoi+PA=",
+    "module_sum": "h1:r2vis4vABvr4tq89i8ks13mC+rc0+3qUIAUaK6zjwio=",
     "go_mod_sum": "h1:Tb9fPaZOvKu3vJ+Ewv2IHVHss5IGJ6bvQy1wnaBpchc="
   },
   "external_consumer": {
@@ -39,7 +39,7 @@
   },
   "oracle": {
     "harness_path": ".verification/cohesion/api-query-v1-oracle/harness.go",
-    "harness_sha256": "df70663105f6e48eceb15c0b8c8328912a86bfb15f61e32dfb8eaefa4d512d97",
+    "harness_sha256": "08ef180f1531be0b038b40d9adf6a69489890ed45b11d4987b4f976001d8153e",
     "input_path": ".verification/cohesion/api-query-v1-oracle/input.json",
     "input_sha256": "7287d53d7afffbe8f158081f20cc6dffe4a2d06da771285036d6b467e6bc67d8",
     "released_output_path": ".verification/cohesion/api-query-v1-oracle/output.json",
