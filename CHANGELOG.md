@@ -37,8 +37,8 @@ semantic versioning.
 - Preserve released PostgreSQL compiler behavior for a zero-value successor
   when compiling a valid plan with no execution fields, constraints, filters,
   or sorts.
-- Resolve the replay harness descriptor utility from `PATH` so the same
-  resource assertion runs on supported macOS and Linux environments.
+- Adapt the frozen replay harness at execution time so its descriptor utility
+  resolves portably without changing the historical oracle artifact.
 
 ### Documentation
 

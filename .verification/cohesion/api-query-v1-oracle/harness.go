@@ -596,7 +596,7 @@ func countReturnedResourceOwners(values []any) int {
 }
 
 func descriptorCount(ctx context.Context) int {
-	output, err := exec.CommandContext(ctx, "lsof", "-p", fmt.Sprint(os.Getpid()), "-Fn").Output()
+	output, err := exec.CommandContext(ctx, "/usr/sbin/lsof", "-p", fmt.Sprint(os.Getpid()), "-Fn").Output()
 	must(err)
 	return strings.Count(string(output), "\nn")
 }

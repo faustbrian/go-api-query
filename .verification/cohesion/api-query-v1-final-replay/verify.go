@@ -16,6 +16,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strings"
 	"time"
@@ -29,6 +30,7 @@ const (
 	expectedOutput   = "9da16adc97f2074c3e890a290a8b7028938803fdc702d4f2689cfd8c9cd3816b"
 	postgresImage    = "postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15"
 	maximumBytes     = 8 << 20
+	cleanupTimeout   = 30 * time.Second
 )
 
 type receipt struct {
@@ -195,7 +197,7 @@ func replay(ctx context.Context, root string, packet receipt) {
 	containerCleanupTarget := ""
 	defer func() {
 		if containerCleanupTarget != "" {
-			if err := exec.Command("docker", "rm", "-fv", containerCleanupTarget).Run(); err != nil {
+			if err := removeContainer(containerCleanupTarget, cleanupTimeout); err != nil {
 				fmt.Fprintf(os.Stderr, "final replay container cleanup failed: %v\n", err)
 			}
 		}
@@ -226,7 +228,9 @@ func replay(ctx context.Context, root string, packet receipt) {
 	input := gitFile(ctx, root, packet.Source.Commit, packet.Oracle.InputPath)
 	releasedOutput := gitFile(ctx, root, packet.Source.Commit, packet.Oracle.ReleasedOutputPath)
 	must(digestBytes(harness) == packet.Oracle.HarnessSHA256 && digestBytes(input) == packet.Oracle.InputSHA256 && digestBytes(releasedOutput) == expectedOutput, "oracle source bytes")
-	writeFile(filepath.Join(externalRoot, "harness.go"), harness)
+	replayHarness, err := portableReplayHarness(harness, runtime.GOOS)
+	check(err)
+	writeFile(filepath.Join(externalRoot, "harness.go"), replayHarness)
 	writeFile(filepath.Join(externalRoot, "input.json"), input)
 
 	externalMod := gitFile(ctx, root, packet.Source.Commit, oracleRoot+"/external-go.mod")
@@ -321,6 +325,26 @@ func replay(ctx context.Context, root string, packet receipt) {
 	must(exec.CommandContext(ctx, "docker", "inspect", removedID).Run() != nil, "container cleanup")
 	check(removeTree(replayRoot))
 	must(!exists(replayRoot), "task root cleanup")
+}
+
+func portableReplayHarness(source []byte, goos string) ([]byte, error) {
+	if goos == "darwin" {
+		return source, nil
+	}
+	if goos != "linux" {
+		return nil, fmt.Errorf("unsupported replay platform %q", goos)
+	}
+	legacyPath := []byte(`"/usr/sbin/lsof"`)
+	if bytes.Count(source, legacyPath) != 1 {
+		return nil, errors.New("frozen replay descriptor command is missing or ambiguous")
+	}
+	return bytes.Replace(source, legacyPath, []byte(`"lsof"`), 1), nil
+}
+
+func removeContainer(target string, timeout time.Duration) error {
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
+	return exec.CommandContext(ctx, "docker", "rm", "-fv", target).Run()
 }
 
 func readReceipt(filePath string) receipt {

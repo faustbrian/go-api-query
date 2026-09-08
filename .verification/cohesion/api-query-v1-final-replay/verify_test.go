@@ -22,6 +22,43 @@ func TestDecodeClosedRejectsDuplicateMembers(t *testing.T) {
 	}
 }
 
+func TestPortableReplayHarnessPreservesOracleAndAdaptsLinuxExecution(t *testing.T) {
+	t.Parallel()
+
+	oracle := []byte(`exec.CommandContext(ctx, "/usr/sbin/lsof", "-p")`)
+	darwin, err := portableReplayHarness(oracle, "darwin")
+	if err != nil || !bytes.Equal(darwin, oracle) {
+		t.Fatalf("darwin harness = (%q, %v)", darwin, err)
+	}
+	linux, err := portableReplayHarness(oracle, "linux")
+	if err != nil || !bytes.Equal(linux, []byte(`exec.CommandContext(ctx, "lsof", "-p")`)) {
+		t.Fatalf("linux harness = (%q, %v)", linux, err)
+	}
+	if _, err := portableReplayHarness([]byte("no descriptor command"), "linux"); err == nil {
+		t.Fatal("tampered harness was accepted")
+	}
+	if _, err := portableReplayHarness(oracle, "windows"); err == nil {
+		t.Fatal("unsupported platform was accepted")
+	}
+}
+
+func TestRemoveContainerIsBounded(t *testing.T) {
+	directory := t.TempDir()
+	executable := filepath.Join(directory, "docker")
+	if err := os.WriteFile(executable, []byte("#!/bin/sh\n/bin/sleep 10\n"), 0o700); err != nil {
+		t.Fatal(err)
+	}
+	t.Setenv("PATH", directory)
+
+	started := time.Now()
+	if err := removeContainer("owned-container", 20*time.Millisecond); err == nil {
+		t.Fatal("blocking container cleanup succeeded")
+	}
+	if elapsed := time.Since(started); elapsed > time.Second {
+		t.Fatalf("container cleanup took %s", elapsed)
+	}
+}
+
 func TestDeterministicModuleZipIgnoresTarEntryOrderAndMetadata(t *testing.T) {
 	t.Parallel()
 
