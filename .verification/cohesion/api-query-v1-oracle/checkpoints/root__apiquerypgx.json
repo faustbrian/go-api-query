@@ -1,0 +1,21 @@
+{
+  "command": "go test -count=1 -json github.com/faustbrian/go-api-query/apiquerypgx",
+  "execution_revision": "b69acc7edf26bafbca4496132715b2b71cc753b2",
+  "input_fingerprint": {
+    "algorithm": "sha256(lines:schema,package,command,execution_revision,shared_input_sha256)",
+    "sha256": "f4ff477e10c37bcdc35f5f8d2908d265320349783d7312e8fd69d866350d84c3"
+  },
+  "package": "github.com/faustbrian/go-api-query/apiquerypgx",
+  "result": {
+    "log": {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__apiquerypgx.jsonl",
+      "sha256": "ab8b674d1b3746ab4b5f832c8f4fff89c2b5bb142ea8ad0bae0f7ae4d8a831f6"
+    },
+    "outcome": "pass"
+  },
+  "schema": "api-query-v1-package-test-checkpoint-v1",
+  "shared_input": {
+    "path": ".verification/cohesion/api-query-v1-oracle/shared-test-input.json",
+    "sha256": "fc12d137b71bab149ed04081e5f6f2700bcd48c890fe0ca9ee63106292abf054"
+  }
+}

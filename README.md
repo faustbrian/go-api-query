@@ -17,7 +17,20 @@ costs, and strict transport adapters without becoming an ORM or SQL language.
 
 The minimum supported toolchain is Go 1.26.6.
 
+```sh
+go get github.com/faustbrian/go-api-query@v1.1.0
+```
+
+New integrations should use the target-oriented packages under `adapters/`.
+The complete [package map](docs/api.md#adapter-packages) and
+[adapter migration guide](docs/migration-adapters.md) describe the supported
+legacy paths and explicit named-type conversions.
+
 ## Five-minute JSON-RPC quickstart
+
+The example uses `github.com/faustbrian/go-api-query/adapters/jsonrpc` as
+`apiqueryjsonrpc` and `github.com/faustbrian/go-api-query/adapters/validation` as
+`apiqueryvalidation`.
 
 ```go
 schema, err := apiquery.NewSchema(apiquery.SchemaConfig{
@@ -47,7 +60,7 @@ if err != nil {
     return err // invalid server declaration
 }
 
-params, err := apiqueryrpc.Parse(rawParams, schema.Bounds().MaxRequestBytes)
+params, err := apiqueryjsonrpc.Parse(rawParams, schema.Bounds().MaxRequestBytes)
 if err != nil {
     return err // sanitized transport error
 }
@@ -104,7 +117,8 @@ executes queries or contacts a service at runtime.
 
 ## Stability
 
-The repository is preparing v1. Public compatibility rules are in
+The repository is on the stable v1 line and supports Go 1.26.6. Public
+compatibility rules are in
 [docs/compatibility.md](docs/compatibility.md), current changes are in
 [CHANGELOG.md](CHANGELOG.md), and the stable exported API is recorded in
 `api/v1.txt`.

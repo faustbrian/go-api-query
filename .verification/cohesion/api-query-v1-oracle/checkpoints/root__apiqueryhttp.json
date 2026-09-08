@@ -1,0 +1,21 @@
+{
+  "command": "go test -count=1 -json github.com/faustbrian/go-api-query/apiqueryhttp",
+  "execution_revision": "b69acc7edf26bafbca4496132715b2b71cc753b2",
+  "input_fingerprint": {
+    "algorithm": "sha256(lines:schema,package,command,execution_revision,shared_input_sha256)",
+    "sha256": "e01518a3d055fe2e876aa9e3d65ae14c7bef35f1b6419e8a0c59f958adfa02d8"
+  },
+  "package": "github.com/faustbrian/go-api-query/apiqueryhttp",
+  "result": {
+    "log": {
+      "path": ".verification/cohesion/api-query-v1-oracle/test-logs/root__apiqueryhttp.jsonl",
+      "sha256": "1534477edcb08f9b1175b0bc479d167b7c7109e984cd7c9aa9f1713f74907c6f"
+    },
+    "outcome": "pass"
+  },
+  "schema": "api-query-v1-package-test-checkpoint-v1",
+  "shared_input": {
+    "path": ".verification/cohesion/api-query-v1-oracle/shared-test-input.json",
+    "sha256": "fc12d137b71bab149ed04081e5f6f2700bcd48c890fe0ca9ee63106292abf054"
+  }
+}

@@ -2,8 +2,11 @@
 
 This project does not define JSON:API query syntax. Parse and validate JSON:API
 parameters with `github.com/faustbrian/go-jsonapi`; its names, extensions,
-profiles, and recommendations remain authoritative. Then pass the parsed
-`jsonapi.Query` to `apiqueryjsonapi.FromQuery`.
+profiles, and recommendations remain authoritative. Import
+`github.com/faustbrian/go-api-query/adapters/jsonapi` with its default package
+identifier `apiqueryjsonapi`, then pass the parsed `jsonapi.Query` to
+`apiqueryjsonapi.FromQuery`. The released `apiqueryjsonapi` path remains
+supported only as the documented compatibility path.
 
 Sparse fieldsets and includes map only through the configured resource. Filter
 and page parameter families require explicit `FilterDecoder` and `PageDecoder`

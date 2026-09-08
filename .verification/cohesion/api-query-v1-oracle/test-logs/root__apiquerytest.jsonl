@@ -1,0 +1,28 @@
+{"Time":"2026-09-07T10:23:30.479477+03:00","Action":"start","Package":"github.com/faustbrian/go-api-query/apiquerytest"}
+{"Time":"2026-09-07T10:23:30.676966+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestBuildersAndAssertions"}
+{"Time":"2026-09-07T10:23:30.677037+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestBuildersAndAssertions","Output":"=== RUN   TestBuildersAndAssertions\n"}
+{"Time":"2026-09-07T10:23:30.677053+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestBuildersAndAssertions","Output":"=== PAUSE TestBuildersAndAssertions\n"}
+{"Time":"2026-09-07T10:23:30.677058+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestBuildersAndAssertions"}
+{"Time":"2026-09-07T10:23:30.677063+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestRequestBuilderReturnsDefensiveFilterSnapshot"}
+{"Time":"2026-09-07T10:23:30.677069+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestRequestBuilderReturnsDefensiveFilterSnapshot","Output":"=== RUN   TestRequestBuilderReturnsDefensiveFilterSnapshot\n"}
+{"Time":"2026-09-07T10:23:30.677077+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestRequestBuilderReturnsDefensiveFilterSnapshot","Output":"=== PAUSE TestRequestBuilderReturnsDefensiveFilterSnapshot\n"}
+{"Time":"2026-09-07T10:23:30.677081+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestRequestBuilderReturnsDefensiveFilterSnapshot"}
+{"Time":"2026-09-07T10:23:30.677086+03:00","Action":"run","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestCanonicalConformanceSuite"}
+{"Time":"2026-09-07T10:23:30.67709+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestCanonicalConformanceSuite","Output":"=== RUN   TestCanonicalConformanceSuite\n"}
+{"Time":"2026-09-07T10:23:30.677098+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestCanonicalConformanceSuite","Output":"=== PAUSE TestCanonicalConformanceSuite\n"}
+{"Time":"2026-09-07T10:23:30.677101+03:00","Action":"pause","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestCanonicalConformanceSuite"}
+{"Time":"2026-09-07T10:23:30.677105+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestBuildersAndAssertions"}
+{"Time":"2026-09-07T10:23:30.677109+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestBuildersAndAssertions","Output":"=== CONT  TestBuildersAndAssertions\n"}
+{"Time":"2026-09-07T10:23:30.677113+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestCanonicalConformanceSuite"}
+{"Time":"2026-09-07T10:23:30.677116+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestCanonicalConformanceSuite","Output":"=== CONT  TestCanonicalConformanceSuite\n"}
+{"Time":"2026-09-07T10:23:30.677119+03:00","Action":"cont","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestRequestBuilderReturnsDefensiveFilterSnapshot"}
+{"Time":"2026-09-07T10:23:30.677122+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestRequestBuilderReturnsDefensiveFilterSnapshot","Output":"=== CONT  TestRequestBuilderReturnsDefensiveFilterSnapshot\n"}
+{"Time":"2026-09-07T10:23:30.677127+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestRequestBuilderReturnsDefensiveFilterSnapshot","Output":"--- PASS: TestRequestBuilderReturnsDefensiveFilterSnapshot (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.677153+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestRequestBuilderReturnsDefensiveFilterSnapshot","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.677159+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestCanonicalConformanceSuite","Output":"--- PASS: TestCanonicalConformanceSuite (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.677179+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestCanonicalConformanceSuite","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.677183+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestBuildersAndAssertions","Output":"--- PASS: TestBuildersAndAssertions (0.00s)\n"}
+{"Time":"2026-09-07T10:23:30.677197+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiquerytest","Test":"TestBuildersAndAssertions","Elapsed":0}
+{"Time":"2026-09-07T10:23:30.677204+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Output":"PASS\n"}
+{"Time":"2026-09-07T10:23:30.677657+03:00","Action":"output","Package":"github.com/faustbrian/go-api-query/apiquerytest","Output":"ok  \tgithub.com/faustbrian/go-api-query/apiquerytest\t0.198s\n"}
+{"Time":"2026-09-07T10:23:30.677674+03:00","Action":"pass","Package":"github.com/faustbrian/go-api-query/apiquerytest","Elapsed":0.198}

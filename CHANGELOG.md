@@ -1,11 +1,26 @@
 # Changelog
 
-All notable changes follow Keep a Changelog. Versions follow semantic
-versioning once v1 is released.
+All notable changes follow Keep a Changelog. Stable v1 releases follow
+semantic versioning.
 
 ## Unreleased
 
+### Added
+
+- Add preferred HTTP, JSON:API, PostgreSQL, JSON-RPC, and Validation packages
+  under `adapters/` with behavior matching the released compatibility paths.
+
+### Deprecated
+
+- Deprecate the five released adapter paths in favor of their target-oriented
+  successors while retaining both through the documented compatibility interval.
+
 ### Changed
+
+- Share initialized adapter sentinel identities across released and successor
+  paths, and select `go-validation` v1.1.0 for the Validation contract.
+- Describe stable-v1 installation, adapter selection, named-type conversion,
+  independent migration, and post-publication rollback.
 
 - Replace copied repository verification tooling with the pinned
   `go-library-tools` v1.0.13 contract while preserving the package API baseline,
@@ -16,6 +31,14 @@ versioning once v1 is released.
   the complete required repository contract.
 - Reconcile owned v1.0.0 dependency checksums with their transparency-log
   authenticated public module archives without changing dependency versions.
+
+### Fixed
+
+- Preserve released PostgreSQL compiler behavior for a zero-value successor
+  when compiling a valid plan with no execution fields, constraints, filters,
+  or sorts.
+- Adapt the frozen replay harness at execution time so its descriptor utility
+  resolves portably without changing the historical oracle artifact.
 
 ### Documentation
 

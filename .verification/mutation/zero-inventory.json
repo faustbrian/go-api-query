@@ -1,4 +1,29 @@
 {
   "schema_version": 1,
-  "packages": []
+  "packages": [
+    {
+      "module_directory": ".",
+      "package_directory": "adapters/http",
+      "source_digest": "6c6c508284ce747aa9d4453806e9e7250670d70e0af303d88902cd25f7ebce09",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "reason": "The package contains one sentinel assignment and one direct function delegation; the complete enabled Gremlins operator set has no viable transformation."
+    },
+    {
+      "module_directory": ".",
+      "package_directory": "adapters/jsonapi",
+      "source_digest": "c47c6065ed545eac3b35dafe6021c796f9bb537cd8d1607b1cddbb8588e0df03",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "reason": "The package contains declarations, sentinel assignments, named conversions, and one direct delegation; none matches an enabled Gremlins operator."
+    },
+    {
+      "module_directory": ".",
+      "package_directory": "adapters/validation",
+      "source_digest": "54d1d549fcbb24b592d9889c4b1b0c06c5284fab183632cc69534055d97c9a0a",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "reason": "The package contains imports, documentation, and one direct function delegation; the complete enabled Gremlins operator set has no viable transformation."
+    }
+  ]
 }

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-api-query",
+  "module": ".",
+  "package": "apiqueryrpc",
+  "gate": "mutation",
+  "input_digest": "sha256:d82a3ebea7314c14445cf99b68943dd20a55b90b9c9f2430f0a2e63ebf01eed1",
+  "verifier_digest": "sha256:9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+  "result": "passed",
+  "report_digest": "sha256:a14c18b5b3f1bb163ef4f970c51428c9ed42cd4b80b814e081bf24e18f391f81",
+  "environment": {
+    "CGO_ENABLED": "1",
+    "GOARCH": "arm64",
+    "GOOS": "darwin",
+    "GOVERSION": "go1.27.0",
+    "gremlins_binary_sha256": "sha256:6a2beddc477eb410f8a670b6c9049558563d3c4327498fe31604d31c773a959e"
+  },
+  "completed_at": "2026-09-07T08:12:42.996992Z"
+}

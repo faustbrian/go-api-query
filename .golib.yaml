@@ -25,6 +25,10 @@ operations:
         makefile: verification/package.mk
         target: postgres
         timeout: 20m
+      - type: make
+        makefile: verification/package.mk
+        target: final-replay
+        timeout: 20m
   - module: .
     gate: docs
     steps:
@@ -46,7 +50,17 @@ operations:
         budget: 5s
         timeout: 2m
       - type: go-test
+        packages: [./adapters/http]
+        fuzz: '^FuzzParse$'
+        budget: 5s
+        timeout: 2m
+      - type: go-test
         packages: [./apiqueryrpc]
+        fuzz: '^FuzzParse$'
+        budget: 5s
+        timeout: 2m
+      - type: go-test
+        packages: [./adapters/jsonrpc]
         fuzz: '^FuzzParse$'
         budget: 5s
         timeout: 2m

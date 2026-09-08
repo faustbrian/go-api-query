@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "864e0c981a40051c63da3382bb500de52edaefd5d674f08c24233e599f4a0ff9",
+    "Image": "sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15",
+    "Config": {
+      "Image": "postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15",
+      "Env": [
+        "POSTGRES_PASSWORD=<redacted>",
+        "POSTGRES_DB=oracle",
+        "POSTGRES_USER=oracle"
+      ]
+    },
+    "State": {
+      "Status": "running"
+    },
+    "NetworkSettings": {
+      "Ports": {
+        "5432/tcp": [
+          {
+            "HostPort": "58965"
+          }
+        ]
+      }
+    }
+  }
+]

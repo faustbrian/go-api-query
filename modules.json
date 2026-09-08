@@ -1,181 +1,15 @@
 {
-  "schema_version": 2,
-  "repository": "github.com/faustbrian/go-api-query",
   "go_version": "1.26.6",
   "modules": [
     {
-      "directory": ".",
-      "module_path": "github.com/faustbrian/go-api-query",
-      "go_version": "1.26.6",
-      "packages": [
-        {
-          "module_directory": ".",
-          "directory": ".",
-          "name": "apiquery",
-          "import_path": "github.com/faustbrian/go-api-query",
-          "kind": "public",
-          "production": true,
-          "executable": true,
-          "coverage_required": true,
-          "build_required": true,
-          "build_tags": []
-        },
-        {
-          "module_directory": ".",
-          "directory": "apiqueryhttp",
-          "name": "apiqueryhttp",
-          "import_path": "github.com/faustbrian/go-api-query/apiqueryhttp",
-          "kind": "public",
-          "production": true,
-          "executable": true,
-          "coverage_required": true,
-          "build_required": true,
-          "build_tags": []
-        },
-        {
-          "module_directory": ".",
-          "directory": "apiqueryjsonapi",
-          "name": "apiqueryjsonapi",
-          "import_path": "github.com/faustbrian/go-api-query/apiqueryjsonapi",
-          "kind": "public",
-          "production": true,
-          "executable": true,
-          "coverage_required": true,
-          "build_required": true,
-          "build_tags": []
-        },
-        {
-          "module_directory": ".",
-          "directory": "apiquerypgx",
-          "name": "apiquerypgx",
-          "import_path": "github.com/faustbrian/go-api-query/apiquerypgx",
-          "kind": "public",
-          "production": true,
-          "executable": true,
-          "coverage_required": true,
-          "build_required": true,
-          "build_tags": []
-        },
-        {
-          "module_directory": ".",
-          "directory": "apiqueryrpc",
-          "name": "apiqueryrpc",
-          "import_path": "github.com/faustbrian/go-api-query/apiqueryrpc",
-          "kind": "public",
-          "production": true,
-          "executable": true,
-          "coverage_required": true,
-          "build_required": true,
-          "build_tags": []
-        },
-        {
-          "module_directory": ".",
-          "directory": "apiquerytest",
-          "name": "apiquerytest",
-          "import_path": "github.com/faustbrian/go-api-query/apiquerytest",
-          "kind": "test support",
-          "production": false,
-          "executable": true,
-          "coverage_required": false,
-          "build_required": true,
-          "build_tags": []
-        },
-        {
-          "module_directory": ".",
-          "directory": "apiqueryvalidation",
-          "name": "apiqueryvalidation",
-          "import_path": "github.com/faustbrian/go-api-query/apiqueryvalidation",
-          "kind": "public",
-          "production": true,
-          "executable": true,
-          "coverage_required": true,
-          "build_required": true,
-          "build_tags": []
-        },
-        {
-          "module_directory": ".",
-          "directory": "cursor",
-          "name": "cursor",
-          "import_path": "github.com/faustbrian/go-api-query/cursor",
-          "kind": "public",
-          "production": true,
-          "executable": true,
-          "coverage_required": true,
-          "build_required": true,
-          "build_tags": []
-        },
-        {
-          "module_directory": ".",
-          "directory": "internal/strictjson",
-          "name": "strictjson",
-          "import_path": "github.com/faustbrian/go-api-query/internal/strictjson",
-          "kind": "internal",
-          "production": true,
-          "executable": true,
-          "coverage_required": true,
-          "build_required": true,
-          "build_tags": []
-        }
-      ],
-      "purpose": "`api-query` compiles explicitly declared API query capabilities into an immutable, storage-neutral plan. It covers field projection, relationships, typed filters, deterministic sorting, cursor or offset pagination, conservative costs, and strict transport adapters without becoming an ORM or SQL language.",
-      "lifecycle": "stable",
-      "kind": "public library",
-      "releasable": true,
-      "family": "service-edge",
-      "family_label": "Service Edge",
-      "family_description": "Request-edge policy, identity, access decisions, routing, middleware, and process lifecycle.",
-      "family_order": 2,
+      "build_tags": [],
       "cohesion": {
-        "family": "service-edge",
-        "secondary_capabilities": [
-          "database-and-storage",
-          "http-and-service-edge",
-          "protocols-and-schemas",
-          "testing-and-conformance"
-        ],
-        "responsibility": "Compile declared API query capabilities into immutable, bounded, storage-neutral plans and adapt reviewed plans to explicit transport, validation, and persistence boundaries.",
-        "non_goals": [
-          "Act as an ORM, query executor, SQL language, repository, or database abstraction.",
-          "Own application authorization, mandatory tenant constraints, transport policy, or persistence lifecycle.",
-          "Accept client-supplied identifiers, joins, functions, regular expressions, or execution behavior."
-        ],
-        "public_package_identifier": "apiquery",
-        "primary_entry_packages": [
-          "github.com/faustbrian/go-api-query"
-        ],
-        "package_selection": {
-          "github.com/faustbrian/go-api-query": "Use for declaring bounded query capabilities and compiling authorized transport-neutral requests into immutable plans.",
-          "github.com/faustbrian/go-api-query/apiqueryhttp": "Use to parse the repository's strict conventional HTTP query representation before core compilation.",
-          "github.com/faustbrian/go-api-query/apiqueryjsonapi": "Use to map validated JSON:API query members into the transport-neutral request model.",
-          "github.com/faustbrian/go-api-query/apiquerypgx": "Use to compile reviewed plans into allowlisted PostgreSQL query fragments without executing them.",
-          "github.com/faustbrian/go-api-query/apiqueryrpc": "Use to parse bounded JSON-RPC parameters and describe the optional OpenRPC query content.",
-          "github.com/faustbrian/go-api-query/apiquerytest": "Use in tests for deterministic builders, fixtures, assertions, and cross-transport conformance.",
-          "github.com/faustbrian/go-api-query/apiqueryvalidation": "Use to translate query violations into immutable go-validation reports.",
-          "github.com/faustbrian/go-api-query/cursor": "Use for bounded authenticated cursor encoding, rotation, expiry, and replay policy."
-        },
-        "lifecycle_status": "active",
-        "maturity": "stable",
-        "construction_styles": [
-          "builder-build",
-          "must-helper",
-          "new-config",
-          "plain-function",
-          "validated-value"
-        ],
-        "lifecycle_styles": [
-          "stateless"
-        ],
-        "ownership": {
-          "configuration": "caller",
-          "mutable_inputs": [
-            "borrow",
-            "copy"
-          ],
-          "runtime_resources": "none",
-          "background_work": "none"
-        },
-        "optional_owned_dependencies": [],
         "adapters": [
+          "github.com/faustbrian/go-api-query/adapters/http",
+          "github.com/faustbrian/go-api-query/adapters/jsonapi",
+          "github.com/faustbrian/go-api-query/adapters/jsonrpc",
+          "github.com/faustbrian/go-api-query/adapters/postgres",
+          "github.com/faustbrian/go-api-query/adapters/validation",
           "github.com/faustbrian/go-api-query/apiqueryhttp",
           "github.com/faustbrian/go-api-query/apiqueryjsonapi",
           "github.com/faustbrian/go-api-query/apiquerypgx",
@@ -186,6 +20,82 @@
           "github.com/faustbrian/go-api-query/apiquerytest",
           "github.com/faustbrian/go-api-query/cursor"
         ],
+        "construction_styles": [
+          "builder-build",
+          "must-helper",
+          "new-config",
+          "plain-function",
+          "validated-value"
+        ],
+        "delivery": {
+          "hardening": "in-progress",
+          "implementation": "in-progress",
+          "release": "not-started"
+        },
+        "documentation": {
+          "adoption": "README.md",
+          "api": "docs/api.md",
+          "changelog": "CHANGELOG.md",
+          "compatibility": "docs/compatibility.md",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md",
+          "examples": "README.md",
+          "faq": "docs/faq.md",
+          "performance": "docs/performance.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-api-query",
+          "readme": "README.md",
+          "security": "SECURITY.md"
+        },
+        "family": "service-edge",
+        "known_good_compatibility_sets": [],
+        "lifecycle_status": "active",
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "maturity": "stable",
+        "non_goals": [
+          "Act as an ORM, query executor, SQL language, repository, or database abstraction.",
+          "Own application authorization, mandatory tenant constraints, transport policy, or persistence lifecycle.",
+          "Accept client-supplied identifiers, joins, functions, regular expressions, or execution behavior."
+        ],
+        "optional_owned_dependencies": [],
+        "ownership": {
+          "background_work": "none",
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "none"
+        },
+        "package_selection": {
+          "github.com/faustbrian/go-api-query": "Use for declaring bounded query capabilities and compiling authorized transport-neutral requests into immutable plans.",
+          "github.com/faustbrian/go-api-query/adapters/http": "Preferred path for the strict conventional HTTP query representation before core compilation.",
+          "github.com/faustbrian/go-api-query/adapters/jsonapi": "Preferred path for mapping validated JSON:API query members into the transport-neutral request model.",
+          "github.com/faustbrian/go-api-query/adapters/jsonrpc": "Preferred path for bounded JSON-RPC parameters and optional OpenRPC query content.",
+          "github.com/faustbrian/go-api-query/adapters/postgres": "Preferred path for compiling reviewed plans into allowlisted PostgreSQL statement fragments without execution.",
+          "github.com/faustbrian/go-api-query/adapters/validation": "Preferred path for translating query violations into immutable go-validation reports.",
+          "github.com/faustbrian/go-api-query/apiqueryhttp": "Supported compatibility path for the HTTP adapter during the documented interval.",
+          "github.com/faustbrian/go-api-query/apiqueryjsonapi": "Supported compatibility path for the JSON:API adapter during the documented interval.",
+          "github.com/faustbrian/go-api-query/apiquerypgx": "Supported compatibility path for the PostgreSQL adapter during the documented interval.",
+          "github.com/faustbrian/go-api-query/apiqueryrpc": "Supported compatibility path for the JSON-RPC and OpenRPC adapter during the documented interval.",
+          "github.com/faustbrian/go-api-query/apiquerytest": "Use in tests for deterministic builders, fixtures, assertions, and cross-transport conformance.",
+          "github.com/faustbrian/go-api-query/apiqueryvalidation": "Supported compatibility path for the Validation adapter during the documented interval.",
+          "github.com/faustbrian/go-api-query/cursor": "Use for bounded authenticated cursor encoding, rotation, expiry, and replay policy."
+        },
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-api-query"
+        ],
+        "public_package_identifier": "apiquery",
+        "responsibility": "Compile declared API query capabilities into immutable, bounded, storage-neutral plans and adapt reviewed plans to explicit transport, validation, and persistence boundaries.",
+        "secondary_capabilities": [
+          "database-and-storage",
+          "http-and-service-edge",
+          "protocols-and-schemas",
+          "testing-and-conformance"
+        ],
+        "supported_backends": [
+          "postgresql"
+        ],
         "supported_go": {
           "minimum": "1.26.6",
           "tested": [
@@ -195,59 +105,22 @@
         "supported_platforms": [
           "portable-go"
         ],
-        "supported_backends": [
-          "postgresql"
-        ],
         "supported_protocols": [
           "http",
           "json-api",
           "json-rpc",
           "openrpc"
-        ],
-        "documentation": {
-          "readme": "README.md",
-          "api": "docs/api.md",
-          "adoption": "README.md",
-          "security": "SECURITY.md",
-          "compatibility": "docs/compatibility.md",
-          "performance": "docs/performance.md",
-          "examples": "README.md",
-          "faq": "docs/faq.md",
-          "changelog": "CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-api-query",
-          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
-        },
-        "known_good_compatibility_sets": [],
-        "delivery": {
-          "implementation": "not-started",
-          "hardening": "not-started",
-          "release": "not-started"
-        }
+        ]
       },
-      "version": "1.0.0",
-      "tag_prefix": "v",
-      "owned_dependencies": [
-        "github.com/faustbrian/go-jsonapi",
-        "github.com/faustbrian/go-validation"
-      ],
-      "reverse_owned_dependencies": [
-        "github.com/faustbrian/go-localized"
-      ],
+      "conformance_corpora": [],
+      "directory": ".",
       "external_runtime_dependencies": [
         "github.com/jackc/pgx/v5"
       ],
-      "required_services": [
-        "postgresql"
-      ],
-      "build_tags": [],
-      "test_tags": [],
-      "interoperability_tools": [],
-      "specifications": [],
-      "conformance_corpora": [],
-      "provenance": [],
-      "goal_files": [],
-      "goal_status": "not-applicable",
-      "goal_evidence": [],
+      "family": "service-edge",
+      "family_description": "Request-edge policy, identity, access decisions, routing, middleware, and process lifecycle.",
+      "family_label": "Service Edge",
+      "family_order": 2,
       "gates": {
         "api_compatibility": true,
         "benchmarks": true,
@@ -260,7 +133,204 @@
         "race": true,
         "security": true,
         "tests": true
-      }
+      },
+      "go_version": "1.26.6",
+      "goal_evidence": [],
+      "goal_files": [],
+      "goal_status": "not-applicable",
+      "interoperability_tools": [],
+      "kind": "public library",
+      "lifecycle": "stable",
+      "module_path": "github.com/faustbrian/go-api-query",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-jsonapi",
+        "github.com/faustbrian/go-validation"
+      ],
+      "packages": [
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": ".",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query",
+          "kind": "public",
+          "module_directory": ".",
+          "name": "apiquery",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "adapters/http",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/adapters/http",
+          "kind": "adapter",
+          "module_directory": ".",
+          "name": "apiqueryhttp",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "adapters/jsonapi",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/adapters/jsonapi",
+          "kind": "adapter",
+          "module_directory": ".",
+          "name": "apiqueryjsonapi",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "adapters/jsonrpc",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/adapters/jsonrpc",
+          "kind": "adapter",
+          "module_directory": ".",
+          "name": "apiqueryjsonrpc",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "adapters/postgres",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/adapters/postgres",
+          "kind": "adapter",
+          "module_directory": ".",
+          "name": "apiquerypostgres",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "adapters/validation",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/adapters/validation",
+          "kind": "adapter",
+          "module_directory": ".",
+          "name": "apiqueryvalidation",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "apiqueryhttp",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/apiqueryhttp",
+          "kind": "public",
+          "module_directory": ".",
+          "name": "apiqueryhttp",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "apiqueryjsonapi",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/apiqueryjsonapi",
+          "kind": "public",
+          "module_directory": ".",
+          "name": "apiqueryjsonapi",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "apiquerypgx",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/apiquerypgx",
+          "kind": "public",
+          "module_directory": ".",
+          "name": "apiquerypgx",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "apiqueryrpc",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/apiqueryrpc",
+          "kind": "public",
+          "module_directory": ".",
+          "name": "apiqueryrpc",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": false,
+          "directory": "apiquerytest",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/apiquerytest",
+          "kind": "test support",
+          "module_directory": ".",
+          "name": "apiquerytest",
+          "production": false
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "apiqueryvalidation",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/apiqueryvalidation",
+          "kind": "public",
+          "module_directory": ".",
+          "name": "apiqueryvalidation",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "cursor",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/cursor",
+          "kind": "public",
+          "module_directory": ".",
+          "name": "cursor",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "internal/strictjson",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/internal/strictjson",
+          "kind": "internal",
+          "module_directory": ".",
+          "name": "strictjson",
+          "production": true
+        }
+      ],
+      "provenance": [],
+      "purpose": "`api-query` compiles explicitly declared API query capabilities into an immutable, storage-neutral plan. It covers field projection, relationships, typed filters, deterministic sorting, cursor or offset pagination, conservative costs, and strict transport adapters without becoming an ORM or SQL language.",
+      "releasable": true,
+      "required_services": [
+        "postgresql"
+      ],
+      "reverse_owned_dependencies": [
+        "github.com/faustbrian/go-localized"
+      ],
+      "specifications": [],
+      "tag_prefix": "v",
+      "test_tags": [],
+      "version": "1.0.0"
     }
-  ]
+  ],
+  "repository": "github.com/faustbrian/go-api-query",
+  "schema_version": 2
 }
