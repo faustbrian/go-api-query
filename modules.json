@@ -328,7 +328,7 @@
       "specifications": [],
       "tag_prefix": "v",
       "test_tags": [],
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ],
   "repository": "github.com/faustbrian/go-api-query",
