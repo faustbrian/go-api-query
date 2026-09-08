@@ -50,6 +50,26 @@ func TestCompilerMatchesCompatibilityPath(t *testing.T) {
 	}
 }
 
+func TestZeroCompilerMatchesCompatibilityPathForEmptyPlan(t *testing.T) {
+	t.Parallel()
+
+	schema, err := apiquery.NewSchema(apiquery.SchemaConfig{Resource: "records", Revision: "v1"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, err := apiquery.Compile(context.Background(), schema, apiquery.Request{}, apiquery.CompileOptions{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	legacyParts, legacyErr := new(legacy.Compiler).Compile(plan)
+	var successor apiquerypostgres.Compiler
+	parts, err := successor.Compile(plan)
+	if !errors.Is(err, legacyErr) || parts.Projection != legacyParts.Projection || parts.Where != legacyParts.Where || parts.OrderBy != legacyParts.OrderBy || len(parts.Arguments) != len(legacyParts.Arguments) {
+		t.Fatalf("successor Compile() = (%#v, %v), legacy = (%#v, %v)", parts, err, legacyParts, legacyErr)
+	}
+}
+
 func fieldPlan(t *testing.T) *apiquery.Plan {
 	t.Helper()
 	schema, err := apiquery.NewSchema(apiquery.SchemaConfig{Resource: "orders", Revision: "v1", Fields: []apiquery.FieldDefinition{{Name: "id", Type: apiquery.TypeString, Required: true}}})

@@ -32,6 +32,14 @@ semantic versioning.
 - Reconcile owned v1.0.0 dependency checksums with their transparency-log
   authenticated public module archives without changing dependency versions.
 
+### Fixed
+
+- Preserve released PostgreSQL compiler behavior for a zero-value successor
+  when compiling a valid plan with no execution fields, constraints, filters,
+  or sorts.
+- Resolve the replay harness descriptor utility from `PATH` so the same
+  resource assertion runs on supported macOS and Linux environments.
+
 ### Documentation
 
 - Replace stale pre-release tooling references with the shared repository

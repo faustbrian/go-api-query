@@ -57,7 +57,11 @@ func (compiler *Compiler) Compile(plan *apiquery.Plan) (QueryParts, error) {
 	if compiler == nil {
 		return QueryParts{}, ErrInvalid
 	}
-	parts, err := compiler.legacy.Compile(plan)
+	compatibilityCompiler := compiler.legacy
+	if compatibilityCompiler == nil {
+		compatibilityCompiler = new(legacy.Compiler)
+	}
+	parts, err := compatibilityCompiler.Compile(plan)
 	if err != nil {
 		return QueryParts{}, err
 	}
