@@ -82,7 +82,9 @@ without payload content. PostgreSQL and JSON:API bridges fail with sanitized
 adapter errors. The preferred Validation import path is
 `github.com/faustbrian/go-api-query/adapters/validation`;
 `apiqueryvalidation.Report` converts query violations into an
-immutable `validation` report and sanitizes unrelated errors.
+immutable `validation` report and sanitizes unrelated errors. Applications must
+branch on `ctx.Err()` and apply their cancellation or deadline policy before
+projecting a compile error as validation.
 
 ## Adapter packages
 

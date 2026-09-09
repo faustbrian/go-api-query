@@ -5,6 +5,13 @@ semantic versioning.
 
 ## Unreleased
 
+### Fixed
+
+- Route context cancellation and deadline outcomes before Validation
+  projection in the canonical quickstart and API guidance.
+- Retire the terminal v1.1.0 legacy replay from active repository gates so
+  unrelated documentation delivery does not regenerate historical evidence.
+
 ## 1.1.0 - 2026-09-08
 
 ### Added

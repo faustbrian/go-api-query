@@ -75,6 +75,9 @@ plan, err := apiquery.Compile(ctx, schema, params.Request(), apiquery.CompileOpt
     CursorDecoder: cursorCodec,
 })
 if err != nil {
+    if terminalErr := ctx.Err(); terminalErr != nil {
+        return terminalErr // apply the application's cancellation/deadline policy
+    }
     return apiqueryvalidation.Report(err, validation.DefaultLimits())
 }
 
