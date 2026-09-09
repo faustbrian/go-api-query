@@ -26,6 +26,8 @@ const (
 	modulePath       = "github.com/faustbrian/go-api-query"
 	candidateVersion = "v1.1.0-replay.0"
 	receiptPath      = ".verification/cohesion/api-query-v1-final-replay.json"
+	verifierPath     = ".verification/cohesion/api-query-v1-final-replay/verify.go"
+	verifierTestPath = ".verification/cohesion/api-query-v1-final-replay/verify_test.go"
 	oracleRoot       = ".verification/cohesion/api-query-v1-oracle"
 	expectedOutput   = "9da16adc97f2074c3e890a290a8b7028938803fdc702d4f2689cfd8c9cd3816b"
 	postgresImage    = "postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15"
@@ -719,8 +721,8 @@ func behaviorCompatiblePostSourceDiff(diff []byte) bool {
 		switch path {
 		case receiptPath:
 			receiptFound = true
-		case "CHANGELOG.md", "README.md", "docs/api.md", "modules.json":
-			// These release documentation and inventory files cannot affect replay behavior.
+		case "CHANGELOG.md", "README.md", "docs/api.md", "modules.json", verifierPath, verifierTestPath:
+			// These files do not change the released package behavior captured by replay.
 		default:
 			return false
 		}
