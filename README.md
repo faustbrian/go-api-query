@@ -18,7 +18,7 @@ costs, and strict transport adapters without becoming an ORM or SQL language.
 The minimum supported toolchain is Go 1.26.6.
 
 ```sh
-go get github.com/faustbrian/go-api-query@v1.1.0
+go get github.com/faustbrian/go-api-query@v1.1.1
 ```
 
 New integrations should use the target-oriented packages under `adapters/`.
