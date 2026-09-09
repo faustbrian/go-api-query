@@ -5,8 +5,6 @@ semantic versioning.
 
 ## Unreleased
 
-## 1.1.1 - 2026-09-09
-
 ### Fixed
 
 - Route context cancellation and deadline outcomes before Validation

@@ -45,8 +45,9 @@ shown here.
 ## Safety And Concurrency
 
 - Shared mutable state MUST have one documented synchronization owner.
-- Goroutines MUST have explicit lifetime, cancellation, shutdown, and leak
-  tests. Fire-and-forget goroutines are forbidden.
+- Goroutines MUST have explicit lifetime, cancellation, and shutdown behavior.
+  Changes with material lifetime risk MUST include targeted leak tests.
+  Fire-and-forget goroutines are forbidden.
 - Channels MUST have documented ownership and closure rules.
 - Locks MUST NOT be held across caller callbacks, network IO, blocking channel
   operations, or unbounded work.
@@ -146,7 +147,9 @@ as routine requirements.
 - `.github/workflows/ci.yml` is the only owned GitHub Actions workflow.
 - Package-local workflows MUST NOT be added.
 - Actions and external tools MUST be pinned to immutable versions.
-- Every selected module MUST have an attributable result and evidence artifact.
+- Tier D aggregate runs and expensive reused evidence MUST retain an
+  attributable result for every selected module. Routine pull requests MUST
+  NOT emit per-module artifacts without a named assurance need.
 - The stable required job MUST fail for failed, cancelled, skipped, or missing
   module results.
 - Required checks MUST NOT use `continue-on-error`, `|| true`, permissive
@@ -160,8 +163,9 @@ as routine requirements.
   abstraction; wrappers require a stable policy or portability boundary.
 - Generated code and vendored corpora MUST record source, version, checksum,
   license, generation command, and update procedure.
-- Vulnerability, secret, license, SBOM, provenance, and clean-consumer checks
-  are release gates.
+- Vulnerability, secret, and license checks MUST run when the change affects
+  their material risk. SBOM, provenance, and clean-consumer checks belong at a
+  public release or another explicitly selected Tier D boundary.
 
 ## Documentation
 
@@ -169,19 +173,20 @@ as routine requirements.
   invariants, ownership, errors, concurrency, and caveats where relevant.
 - Comments MUST explain why a constraint or non-obvious implementation exists;
   they MUST NOT narrate obvious syntax.
-- Every public module MUST provide a quick start, API reference, examples,
-  adoption guidance, tradeoffs, security notes, FAQ, and release notes.
-- Documentation and examples MUST compile and be checked in CI.
+- Public modules SHOULD provide the documentation needed to adopt and operate
+  their exposed contract. A change MUST update and validate only the public
+  documentation and examples it materially affects.
 
 ## Changelogs
 
-- Every user-visible change MUST update the affected module `CHANGELOG.md` in
-  the same commit.
+- A user-visible change MUST update `CHANGELOG.md` when it materially affects a
+  published contract or release note.
 - Entries MUST describe behavior and migration impact, not internal activity.
-- Changes to multiple modules MUST update every affected changelog.
+- Changes to multiple public release units MUST update each materially affected
+  changelog.
 - Unreleased entries MUST NOT be silently rewritten or removed.
-- Generated, dependency, security, compatibility, and deprecation changes are
-  user-visible and require entries.
+- Generated, dependency, security, compatibility, and deprecation changes
+  require entries only when they materially affect a published contract.
 
 ## Completion
 
