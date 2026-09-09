@@ -63,90 +63,83 @@ shown here.
 - Behavioral changes MUST include meaningful tests before completion.
 - Tests MUST assert outcomes, invariants, errors, cleanup, and state transitions;
   line execution without behavioral assertions is not acceptable coverage.
-- Every production package MUST have exact 100% statement coverage without
-  rounding or aggregate masking.
-- Every viable mutant MUST be killed. Mutation efficacy and mutant coverage
-  MUST both be exactly 100%.
-- Invalid or equivalent mutants require a narrow reviewed record containing a
-  stable identifier, rationale, evidence, reviewer, date, and expiry.
-- Parsers and hostile boundaries MUST have fuzz tests, corpus seeds, resource
-  limits, and deterministic regression cases for every discovered failure.
-- Concurrent code MUST pass `go test -race` and targeted stress/leak tests.
-- Specification claims MUST be proven against pinned official fixtures and
-  independent implementations where applicable.
-- Benchmarks MUST compare equivalent behavior and publish latency, throughput,
-  allocations, environment, corpus, and statistical method.
+- Coverage and mutation results are diagnostic evidence, not universal merge
+  thresholds. They MUST be selected when they exercise a material risk or a
+  release boundary and MUST NOT block unrelated documentation or metadata.
+- Parsers and hostile boundaries SHOULD use fuzz tests, corpus seeds, resource
+  limits, and deterministic regressions when input risk warrants them.
+- Concurrent code MUST pass the race detector and targeted stress or leak tests
+  when concurrency behavior changes.
+- Specification claims MUST be proven against official fixtures or independent
+  implementations when that external conformance is part of the affected
+  contract.
+- Performance-sensitive changes MUST use representative benchmarks with stated
+  workloads and allocation budgets.
+
+## Proportional Assurance
+
+Every change MUST be classified before verification:
+
+- **Tier A** covers documentation, metadata, registration, and generated
+  documentation without runtime behavior. Validate only the affected
+  structure, links, examples, or generation; inspect the final diff; and use
+  ordinary review when meaningful.
+- **Tier B** covers internal behavior without a public contract change. Run a
+  focused behavior test, affected package or module tests, applicable format
+  and static checks, and one complete review. A bounded repository gate SHOULD
+  run; unrelated expensive checks MAY remain scheduled.
+- **Tier C** covers public APIs, lifecycle, security, persistence, and
+  concurrency. Require an observable regression or characterization test,
+  focused behavior, API compatibility where applicable, directly affected
+  package and integration tests, direct owned reverse consumers, and one
+  independent complete-diff review.
+- **Tier D** covers public releases and ecosystem milestones. Bind immutable
+  release or milestone inputs once and run only the relevant compatibility,
+  composition, consumer, and aggregate checks.
+
+Race, fuzz, mutation, leak, performance, conformance, external-service,
+clean-consumer, release-rehearsal, and aggregate fleet checks MUST run only when
+they exercise a material risk or the applicable Tier D boundary. They MUST NOT
+block an unrelated change merely because the check exists.
+
+One complete independent review is the default for a meaningful Tier C or Tier
+D batch. Additional reviews MUST each cover a distinct named high-risk domain.
+A fixed review count and cryptographically bound review records are prohibited
+as routine requirements.
 
 ## Required Commands
 
 - `make inventory` validates repository and package manifests.
 - `make check` runs the exact contract for every repository module.
 - `make ci` runs the complete repository contract.
-- Local commands and CI MUST use the same scripts and thresholds.
-- Missing tools, services, packages, profiles, mutants, or reports MUST fail.
+- Pull requests MUST run fast checks selected for the affected assurance tier.
+  Aggregate, scheduled, and release workflows MUST own broad or expensive
+  checks that are not required for the pull request's material risks.
+- Local commands and CI SHOULD share scripts and thresholds for the same gate.
+- A missing dependency required by a selected gate MUST fail that gate; an
+  unselected gate MUST NOT fail unrelated work merely because its tool,
+  service, profile, mutant, or report is absent.
 - NilAway is advisory; its findings MUST remain visible and tracked against a
   no-regression baseline.
 
 ## Evidence Validity And Reuse
 
-- Evidence validity MUST be determined by the complete set of inputs that can
-  affect the gate result, not by a commit hash, branch name, timestamp, or
-  repository-history shape alone.
-- A gate fingerprint MUST include all applicable production code, tests,
-  fixtures, generated files, module manifests and checksums, owned
-  dependencies, shared gate scripts, gate configuration, pinned tool versions,
-  required service images and configuration, and behavior-affecting
-  environment inputs.
-- Commit hashes MAY be recorded for traceability, but MUST NOT be the sole
-  evidence cache key or invalidation condition.
-- Go toolchain revision metadata MAY be retained when a build, test, profile,
-  or diagnostic artifact requires it. That metadata is descriptive only and
-  MUST NOT make an otherwise identical gate-input fingerprint stale.
-- A history rewrite, rebase, squash, reset, repository reinitialization,
-  metadata-only commit, or unrelated-file change MUST NOT invalidate evidence
-  when the complete gate-input fingerprint is unchanged.
-- Agents MUST NOT rerun an expensive gate solely to attach an already proven
-  result to a new `HEAD`.
-- Agents MUST NOT restart the complete package matrix after a force-push,
-  rebase, squash, reset, or other history-only change. Previously verified
-  package checkpoints MUST be reused, and only packages with changed complete
-  gate-input fingerprints MAY be rerun.
-- After a change, agents MUST rerun only the gates, modules, packages, and
-  reverse dependants whose complete input fingerprints changed.
-- Reused evidence MUST retain the original execution revision and result,
-  record the revision at which it was revalidated, and include a
-  machine-verifiable input fingerprint. Reuse MUST NOT rewrite history to
-  pretend the gate executed again.
-- Gate evidence MUST be written atomically as soon as the result is available
-  and before another package, module, or gate begins. Agents and tooling MUST
-  NOT defer completed evidence until the end of a long batch or lane.
-- Long-running multi-package or multi-module gates MUST checkpoint each
-  independently valid result. An interruption MUST preserve completed
-  checkpoints and discard only the incomplete unit.
-- Execution revision, input fingerprint, tool versions, and environment
-  identity MUST be captured before the gate starts. Tooling MUST NOT attach
-  whichever `HEAD` happens to exist when a later aggregate report is written.
-- Aggregate reports MUST be derived incrementally from persisted checkpoints.
-  They MUST NOT be the only durable record of results that were already
-  received.
-- Evidence MUST NOT be reused when input identity cannot be proven. Missing,
-  incomplete, manually asserted, or ambiguous fingerprints make the evidence
-  stale and require execution.
-- Mutation evidence reuse MUST match the exact behavior-affecting verifier
-  identity, including the upstream source checksum, semantic patches, enabled
-  operators, coverage contract, and invocation policy. A tool version string
-  alone MUST NOT authorize reuse. Executable hashes MUST remain recorded for
-  traceability, but platform-specific binary bytes MUST NOT replace the
-  portable semantic identity used for content-equivalent reuse.
-- If repository tooling invalidates evidence solely because `HEAD` changed,
-  agents MUST correct the evidence model instead of launching a repository-wide
-  rerun with no changed gate inputs.
-- A one-time history-reset migration MUST be pinned to the exact original
-  module, package, execution revision, gate-input digest, tool version, and
-  canonical report hash. It MUST also pin the exact replacement gate-input
-  fingerprint for that module and package. It MUST preserve the original
-  execution revision and MUST NOT depend on unrelated repository paths,
-  worktree state, or repository-history availability.
+- Evidence validity MUST follow the inputs that materially affect the selected
+  gate, not a branch name or repository-history shape alone.
+- Commit hashes and tool versions MAY be recorded for traceability, but MUST
+  NOT create recursive provenance requirements for mutable plans, prose,
+  progress ledgers, or evidence already bound to an immutable commit and CI
+  run.
+- Unchanged immutable inputs SHOULD reuse existing evidence. An unrelated edit,
+  squash, rebase, or metadata-only commit MUST NOT trigger an expensive rerun
+  when the relevant inputs and risk boundary are unchanged.
+- After a change, rerun only the gates, modules, packages, and direct reverse
+  consumers affected by that change and its assurance tier.
+- Evidence MUST NOT be reused when the relevant input identity cannot be
+  established. The affected gate then requires fresh execution.
+- Tooling and evidence schemas MUST remain backward-compatible with supported
+  repository versions. Optional fields or new tooling MUST NOT force a fleet
+  migration, block unrelated source work, or trigger a module release.
 
 ## CI And Workflows
 
@@ -192,9 +185,10 @@ shown here.
 
 ## Completion
 
-- Run the narrowest affected gates during development and all affected release
-  gates before declaring completion.
+- Run the narrowest affected gates during development and only the risk-selected
+  release gates before declaring completion.
 - Re-run affected gates after the final source, test, dependency, documentation,
   workflow, or generated-file change.
 - Report exact commands and results. A skipped, blocked, stale, or warning-only
-  gate is not a pass.
+  selected gate is not a pass; an unselected unrelated gate is outside the
+  claim rather than a failure.
