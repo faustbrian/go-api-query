@@ -11,8 +11,8 @@ semantic versioning.
 
 - Route context cancellation and deadline outcomes before Validation
   projection in the canonical quickstart and API guidance.
-- Keep the frozen legacy replay available for risk-selected verification
-  without rerunning it during unrelated routine repository gates.
+- Retire the terminal v1.1.0 legacy replay from active repository gates so
+  unrelated documentation delivery does not regenerate historical evidence.
 
 ## 1.1.0 - 2026-09-08
 
