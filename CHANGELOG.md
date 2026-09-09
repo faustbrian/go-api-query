@@ -11,6 +11,8 @@ semantic versioning.
 
 - Route context cancellation and deadline outcomes before Validation
   projection in the canonical quickstart and API guidance.
+- Reuse the frozen legacy replay across documentation and release-inventory
+  updates while continuing to reject behavior-affecting source drift.
 
 ## 1.1.0 - 2026-09-08
 

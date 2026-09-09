@@ -290,16 +290,20 @@ func TestWithEnvReplacesHostOverrides(t *testing.T) {
 	}
 }
 
-func TestReceiptOnlyDiffRejectsSourceDrift(t *testing.T) {
+func TestBehaviorCompatiblePostSourceDiffRejectsSourceDrift(t *testing.T) {
 	t.Parallel()
 
-	if !receiptOnlyDiff([]byte(receiptPath + "\x00")) {
+	if !behaviorCompatiblePostSourceDiff([]byte(receiptPath + "\x00")) {
 		t.Fatal("receipt-only diff was rejected")
 	}
-	if receiptOnlyDiff([]byte(receiptPath + "\x00go.mod\x00")) {
+	compatibleReleaseDiff := []byte(receiptPath + "\x00CHANGELOG.md\x00README.md\x00docs/api.md\x00modules.json\x00")
+	if !behaviorCompatiblePostSourceDiff(compatibleReleaseDiff) {
+		t.Fatal("nonbehavioral release diff was rejected")
+	}
+	if behaviorCompatiblePostSourceDiff([]byte(receiptPath + "\x00go.mod\x00")) {
 		t.Fatal("source drift was accepted")
 	}
-	if receiptOnlyDiff(nil) {
+	if behaviorCompatiblePostSourceDiff(nil) {
 		t.Fatal("missing receipt change was accepted")
 	}
 }
