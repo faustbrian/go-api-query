@@ -4,7 +4,6 @@ import (
 	"archive/tar"
 	"archive/zip"
 	"bytes"
-	"context"
 	"encoding/json"
 	"io"
 	"os"
@@ -291,33 +290,16 @@ func TestWithEnvReplacesHostOverrides(t *testing.T) {
 	}
 }
 
-func TestBehaviorCompatiblePostSourceDiffRejectsSourceDrift(t *testing.T) {
+func TestReceiptOnlyDiffRejectsSourceDrift(t *testing.T) {
 	t.Parallel()
 
-	if !behaviorCompatiblePostSourceDiff([]byte(receiptPath + "\x00")) {
+	if !receiptOnlyDiff([]byte(receiptPath + "\x00")) {
 		t.Fatal("receipt-only diff was rejected")
 	}
-	compatibleReleaseDiff := []byte(receiptPath + "\x00CHANGELOG.md\x00README.md\x00docs/api.md\x00modules.json\x00")
-	if !behaviorCompatiblePostSourceDiff(compatibleReleaseDiff) {
-		t.Fatal("nonbehavioral release diff was rejected")
-	}
-	if behaviorCompatiblePostSourceDiff([]byte(receiptPath + "\x00go.mod\x00")) {
+	if receiptOnlyDiff([]byte(receiptPath + "\x00go.mod\x00")) {
 		t.Fatal("source drift was accepted")
 	}
-	if behaviorCompatiblePostSourceDiff(nil) {
+	if receiptOnlyDiff(nil) {
 		t.Fatal("missing receipt change was accepted")
-	}
-}
-
-func TestCurrentPostSourceDiffPreservesReplayBehavior(t *testing.T) {
-	t.Parallel()
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	repositoryRoot := strings.TrimSpace(run(ctx, "", nil, "git", "rev-parse", "--show-toplevel"))
-	packet := readReceipt(filepath.Join(repositoryRoot, receiptPath))
-	diff := runBytes(ctx, repositoryRoot, nil, "git", "diff", "--name-only", "-z", "--no-renames", packet.Source.Commit+"..HEAD", "--")
-	if !behaviorCompatiblePostSourceDiff(diff) {
-		t.Fatalf("current post-source diff changes replay behavior: %q", bytes.Split(diff, []byte{'\x00'}))
 	}
 }

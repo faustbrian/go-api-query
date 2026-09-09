@@ -26,8 +26,6 @@ const (
 	modulePath       = "github.com/faustbrian/go-api-query"
 	candidateVersion = "v1.1.0-replay.0"
 	receiptPath      = ".verification/cohesion/api-query-v1-final-replay.json"
-	verifierPath     = ".verification/cohesion/api-query-v1-final-replay/verify.go"
-	verifierTestPath = ".verification/cohesion/api-query-v1-final-replay/verify_test.go"
 	oracleRoot       = ".verification/cohesion/api-query-v1-oracle"
 	expectedOutput   = "9da16adc97f2074c3e890a290a8b7028938803fdc702d4f2689cfd8c9cd3816b"
 	postgresImage    = "postgres@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15"
@@ -169,7 +167,7 @@ func validateReceipt(ctx context.Context, root string, packet receipt) {
 	must(strings.TrimSpace(run(ctx, root, nil, "git", "rev-parse", packet.Source.Commit+"^{tree}")) == packet.Source.Tree, "source tree")
 	run(ctx, root, nil, "git", "merge-base", "--is-ancestor", packet.Source.Commit, "HEAD")
 	postSourceDiff := runBytes(ctx, root, nil, "git", "diff", "--name-only", "-z", "--no-renames", packet.Source.Commit+"..HEAD", "--")
-	must(behaviorCompatiblePostSourceDiff(postSourceDiff), "post-source changes affect replay behavior")
+	must(receiptOnlyDiff(postSourceDiff), "post-source changes are not receipt-only")
 	must(packet.Candidate.Module == modulePath && packet.Candidate.Version == candidateVersion, "candidate identity")
 	must(isHex(packet.Candidate.ProxyZipSHA256, 64) && isHex(packet.Candidate.ProxyModSHA256, 64), "candidate digests")
 	must(strings.HasPrefix(packet.Candidate.ModuleSum, "h1:") && strings.HasPrefix(packet.Candidate.GoModSum, "h1:"), "candidate sums")
@@ -709,26 +707,8 @@ func isHex(value string, length int) bool {
 	return err == nil
 }
 
-func behaviorCompatiblePostSourceDiff(diff []byte) bool {
-	paths := bytes.Split(diff, []byte{'\x00'})
-	if len(paths) < 2 || len(paths[len(paths)-1]) != 0 {
-		return false
-	}
-
-	receiptFound := false
-	for _, rawPath := range paths[:len(paths)-1] {
-		path := string(rawPath)
-		switch path {
-		case receiptPath:
-			receiptFound = true
-		case "CHANGELOG.md", "README.md", "docs/api.md", "modules.json", verifierPath, verifierTestPath:
-			// These files do not change the released package behavior captured by replay.
-		default:
-			return false
-		}
-	}
-
-	return receiptFound
+func receiptOnlyDiff(diff []byte) bool {
+	return bytes.Equal(diff, []byte(receiptPath+"\x00"))
 }
 
 func must(condition bool, message string) {
