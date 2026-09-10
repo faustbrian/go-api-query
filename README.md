@@ -7,7 +7,7 @@
 [![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
 [![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-api-query.svg)](https://pkg.go.dev/github.com/faustbrian/go-api-query)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-api-query?sort=semver)](https://github.com/faustbrian/go-api-query/releases)
-[![Go](https://img.shields.io/badge/go-1.26.6-00ADD8?logo=go)](https://go.dev/)
+[![Go](https://img.shields.io/badge/go-1.27.0-00ADD8?logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 `api-query` compiles explicitly declared API query capabilities into an
@@ -15,7 +15,7 @@ immutable, storage-neutral plan. It covers field projection, relationships,
 typed filters, deterministic sorting, cursor or offset pagination, conservative
 costs, and strict transport adapters without becoming an ORM or SQL language.
 
-The minimum supported toolchain is Go 1.26.6.
+The minimum supported toolchain is Go 1.27.0.
 
 ```sh
 go get github.com/faustbrian/go-api-query@v1.1.0
@@ -120,7 +120,7 @@ executes queries or contacts a service at runtime.
 
 ## Stability
 
-The repository is on the stable v1 line and supports Go 1.26.6. Public
+The repository is on the stable v1 line and supports Go 1.27.0. Public
 compatibility rules are in
 [docs/compatibility.md](docs/compatibility.md), current changes are in
 [CHANGELOG.md](CHANGELOG.md), and the stable exported API is recorded in

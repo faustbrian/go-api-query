@@ -1,5 +1,5 @@
 {
-  "go_version": "1.26.6",
+  "go_version": "1.27.0",
   "modules": [
     {
       "build_tags": [],
@@ -97,9 +97,9 @@
           "postgresql"
         ],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
-            "1.26.6"
+            "1.27.0"
           ]
         },
         "supported_platforms": [
@@ -134,7 +134,7 @@
         "security": true,
         "tests": true
       },
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "goal_evidence": [],
       "goal_files": [],
       "goal_status": "not-applicable",
