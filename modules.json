@@ -1,5 +1,5 @@
 {
-  "go_version": "1.26.6",
+  "go_version": "1.27.0",
   "modules": [
     {
       "build_tags": [],
@@ -99,7 +99,8 @@
         "supported_go": {
           "minimum": "1.26.6",
           "tested": [
-            "1.26.6"
+            "1.26.6",
+            "1.27.0"
           ]
         },
         "supported_platforms": [
