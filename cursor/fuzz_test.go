@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v2"
+	apiquery "github.com/faustbrian/go-api-query/v3"
 )
 
 func FuzzDecode(f *testing.F) {

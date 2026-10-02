@@ -1,6 +1,6 @@
 # OpenRPC and JSON-RPC
 
-Import `github.com/faustbrian/go-api-query/v2/adapters/jsonrpc` with its default
+Import `github.com/faustbrian/go-api-query/v3/adapters/jsonrpc` with its default
 package identifier `apiqueryjsonrpc`. `apiqueryjsonrpc.Parse` accepts one
 strict bounded JSON object, normally using
 `schema.Bounds().MaxRequestBytes`. Unknown or duplicate

@@ -9,7 +9,7 @@ import (
 	"sort"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v2"
+	apiquery "github.com/faustbrian/go-api-query/v3"
 )
 
 // SchemaBuilder incrementally assembles explicit schema declarations for tests.

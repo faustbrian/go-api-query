@@ -1,7 +1,6 @@
 package cursor
 
 import (
-	"bytes"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -9,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v2"
+	apiquery "github.com/faustbrian/go-api-query/v3"
 )
 
 func TestKeyAndCodecConfigurationFailureMatrix(t *testing.T) {
@@ -50,7 +49,7 @@ func TestKeyAndCodecConfigurationFailureMatrix(t *testing.T) {
 	}
 	defaults, err := NewCodec(Config{Version: "v1", Keys: keys, MaxEncodedBytes: 512,
 		MaxPositions: 1, MaxTTL: time.Second})
-	if err != nil || defaults.clock == nil || defaults.random == nil || defaults.maxStringBytes != 256 {
+	if err != nil || defaults.clock == nil || defaults.maxStringBytes != 256 {
 		t.Fatalf("NewCodec(defaults) = %#v, %v", defaults, err)
 	}
 	defaults.SetClock(nil)
@@ -86,16 +85,10 @@ func TestEncodePayloadBoundMatrix(t *testing.T) {
 			t.Fatalf("Encode(case %d) error = %v", index, err)
 		}
 	}
-	codec.random = errorReader{}
-	if _, err := codec.Encode(valid); !errors.Is(err, ErrInvalid) {
-		t.Fatalf("Encode(random failure) error = %v", err)
-	}
-	codec.random = bytes.NewReader(make([]byte, 12))
 	codec.maxEncodedBytes = 1
 	if _, err := codec.Encode(valid); !errors.Is(err, ErrInvalid) {
 		t.Fatalf("Encode(plain size) error = %v", err)
 	}
-	codec.random = bytes.NewReader(make([]byte, 12))
 	codec.maxEncodedBytes = 220
 	if _, err := codec.Encode(valid); !errors.Is(err, ErrInvalid) {
 		t.Fatalf("Encode(size) error = %v", err)
@@ -120,6 +113,23 @@ func TestEncodePayloadBoundMatrix(t *testing.T) {
 	invalidTime.ExpiresAt = late.Add(time.Second)
 	if _, err := lateCodec.Encode(invalidTime); !errors.Is(err, ErrInvalid) {
 		t.Fatalf("Encode(time marshal) error = %v", err)
+	}
+}
+
+func TestEncodeFailsClosedWhenCodecEntropyFails(t *testing.T) {
+	t.Parallel()
+
+	now := time.Date(2026, time.July, 16, 12, 0, 0, 0, time.UTC)
+	codec := internalCodec(t, now, Config{})
+	codec.entropy = errorReader{}
+	_, err := codec.Encode(Payload{
+		SchemaRevision: "v1", Direction: Forward,
+		Sorts:     []apiquery.SortTerm{{Name: "id", Direction: apiquery.Ascending}},
+		Positions: []apiquery.Value{apiquery.StringValue("1")},
+		ExpiresAt: now.Add(time.Minute),
+	})
+	if !errors.Is(err, ErrInvalid) {
+		t.Fatalf("Encode(randomness failure) error = %v, want ErrInvalid", err)
 	}
 }
 
@@ -151,7 +161,6 @@ func TestExactCursorAndKeyBoundariesAreAccepted(t *testing.T) {
 		t.Fatalf("Encode(exact payload boundaries) error = %v", err)
 	}
 	codec.maxEncodedBytes = len(token)
-	codec.random = bytes.NewReader(make([]byte, 12))
 	if _, err := codec.Encode(payload); err != nil {
 		t.Fatalf("Encode(exact token boundary) error = %v", err)
 	}
@@ -242,9 +251,9 @@ func internalCodec(t *testing.T, now time.Time, extra Config) *Codec {
 		t.Fatal(err)
 	}
 	config := Config{Version: "v1", Keys: keys, MaxEncodedBytes: 512, MaxPositions: 1,
-		MaxStringBytes: 16, MaxTTL: time.Hour, Clock: func() time.Time { return now }, Random: bytes.NewReader(make([]byte, 1024))}
-	if extra.ReplayGuard != nil {
-		config.ReplayGuard = extra.ReplayGuard
+		MaxStringBytes: 16, MaxTTL: time.Hour, Clock: func() time.Time { return now }}
+	if extra.ReplayStore != nil {
+		config.ReplayStore = extra.ReplayStore
 	}
 	codec, err := NewCodec(config)
 	if err != nil {

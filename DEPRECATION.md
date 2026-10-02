@@ -15,3 +15,11 @@ correctness fixes continue on both paths throughout the interval.
 Silent behavior changes, undocumented aliases, and indefinite deprecated code
 are prohibited. Deprecations are checked during compatibility and release
 review.
+
+In planned v3, `cursor.Config.Random` and context-free `cursor.ReplayGuard`
+remain source-compatible migration markers but `cursor.NewCodec` rejects
+non-nil values. Remove custom randomness so nonces use `crypto/rand.Reader`,
+and migrate replay callbacks to context-aware `cursor.ReplayStore`. Use
+`DecodeContext` or `DecodeCursor` for replay-enabled decoding; `Decode` fails
+closed when replay storage is configured. These behavioral changes require
+explicit v2-to-v3 migration. Earliest removal is v4 after the policy interval.

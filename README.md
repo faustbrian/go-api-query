@@ -5,7 +5,7 @@
 [![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
 [![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
 [![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
-[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-api-query/v2.svg)](https://pkg.go.dev/github.com/faustbrian/go-api-query/v2)
+[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-api-query/v3.svg)](https://pkg.go.dev/github.com/faustbrian/go-api-query/v3)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-api-query?sort=semver)](https://github.com/faustbrian/go-api-query/releases)
 [![Go](https://img.shields.io/badge/go-1.27.0-00ADD8?logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -17,10 +17,11 @@ costs, and strict transport adapters without becoming an ORM or SQL language.
 
 The minimum supported toolchain is Go 1.27.0.
 
-After v2.0.0 is published, install the major-version module:
+This source tree prepares unpublished v3.0.0. Stay on published v2 until
+v3.0.0 is available; then install the new major-version module:
 
 ```sh
-go get github.com/faustbrian/go-api-query/v2@v2.0.0
+go get github.com/faustbrian/go-api-query/v3@v3.0.0
 ```
 
 New integrations should use the target-oriented packages under `adapters/`.
@@ -28,13 +29,14 @@ The complete [package map](docs/api.md#adapter-packages) and
 [adapter migration guide](docs/migration-adapters.md) describe the supported
 legacy paths and explicit named-type conversions.
 
-For existing applications, first read [adopting v2](docs/migration-adapters.md#adopting-v2),
-including the Validation v2 dependency and cross-major type boundary.
+For existing applications, first read [adopting v3](docs/migration-adapters.md#adopting-v3),
+including the cursor callback migration, retained Validation v2 dependency,
+and cross-major type boundary.
 
 ## Five-minute JSON-RPC quickstart
 
-The example uses `github.com/faustbrian/go-api-query/v2/adapters/jsonrpc` as
-`apiqueryjsonrpc` and `github.com/faustbrian/go-api-query/v2/adapters/validation` as
+The example uses `github.com/faustbrian/go-api-query/v3/adapters/jsonrpc` as
+`apiqueryjsonrpc` and `github.com/faustbrian/go-api-query/v3/adapters/validation` as
 `apiqueryvalidation`.
 
 ```go
@@ -125,12 +127,12 @@ executes queries or contacts a service at runtime.
 
 ## Stability
 
-The repository prepares the v2 line and supports Go 1.27.0. Public
+The repository prepares the unpublished v3 line and supports Go 1.27.0. Public
 compatibility rules are in
 [docs/compatibility.md](docs/compatibility.md), current changes are in
-[CHANGELOG.md](CHANGELOG.md), and the stable exported API is recorded in
-`api/v2.txt`. The released v1.1.1 snapshot remains byte-exact in `api/v1.txt`;
-existing Localized v1 consumers have not adopted API Query v2.
+[CHANGELOG.md](CHANGELOG.md), and the planned exported API is recorded in
+`api/v3.txt`. Released snapshots remain byte-exact in `api/v1.txt` and
+`api/v2.txt`; existing Localized v1 consumers have not adopted API Query v3.
 
 ## Documentation
 

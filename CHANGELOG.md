@@ -5,7 +5,34 @@ semantic versioning.
 
 ## Unreleased
 
+### Added
+
+- Prepare v3.0.0 at `github.com/faustbrian/go-api-query/v3` for the cursor
+  lifecycle changes below, retaining Go 1.27.0, all fourteen package locations
+  and the published Validation v2.0.0 dependency. Preserve `api/v2.txt` as the
+  released contract; existing v2 consumers must explicitly migrate.
+- Add context-aware `cursor.DecodeContext` and concurrent `cursor.ReplayStore`
+  APIs for replay-enabled request lifecycles.
+
+### Deprecated
+
+- Deprecate caller-controlled `cursor.Config.Random` and context-free
+  `cursor.ReplayGuard` in v3; both remain migration markers, with removal no
+  earlier than v4 after the deprecation interval.
+
+### Security
+
+- Source cursor nonces from library-selected `crypto/rand.Reader`; reject
+  configured randomness and context-free replay callbacks at construction.
+- Propagate cancellation through replay storage without codec-wide callback
+  serialization. Store acceptance is the consumption commit point, even when
+  cancellation races with callback return. Replay-enabled callers must replace
+  `Decode` with `DecodeContext` or `DecodeCursor`.
+
 ### Changed
+
+The following retained entries describe the published v2 adoption history;
+the planned v3 cursor changes are described above.
 
 - Prepare v2.0.0 at `github.com/faustbrian/go-api-query/v2`, retaining
   Go 1.27.0 and all fourteen package locations, including deprecated adapters.

@@ -1,4 +1,4 @@
-module github.com/faustbrian/go-api-query/v2
+module github.com/faustbrian/go-api-query/v3
 
 go 1.27.0
 

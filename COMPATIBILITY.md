@@ -4,8 +4,10 @@ Each independently releasable module follows semantic versioning. The root
 module uses `v<version>` tags; an independently releasable nested module, when
 present, uses `<module-directory>/v<version>` tags.
 
-The module is on its stable v1 line. Incompatible exported API or documented
-behavior changes require a new major version.
+The published module is on its stable v2 line. This root source prepares the
+unpublished v3 line; incompatible exported API or documented behavior changes
+require a new major version. Published v2 consumers are unaffected until they
+explicitly migrate.
 
 Compatibility includes exported Go APIs, error classification, serialization,
 protocol behavior, persistence schemas, environment variables, command output,

@@ -20,8 +20,10 @@ and all filter values are hostile input. A plan is reviewed only after
 - Cursor payloads are authenticated during plan compilation. They use
   AES-256-GCM and bind protocol version, key ID, schema
   revision, exact ordered sorts, direction, typed positions, expiry, and policy.
-- Cursor key rotation is atomic. Optional replay guards receive only an opaque
-  SHA-256 fingerprint and expiry.
+- Cursor key rotation is atomic. In planned v3, nonces use library-selected
+  `crypto/rand.Reader` and construction rejects caller-controlled randomness.
+- Optional replay stores receive only the request context, opaque SHA-256
+  fingerprint and expiry. Calls are concurrent, not globally serialized.
 - HTTP and JSON-RPC reject malformed UTF-8, unknown members, duplicate members
   or parameters, invalid encoding, trailing data, and oversized input.
 - Bounds cover fields, includes, relationship depth, filter depth and nodes,
@@ -42,7 +44,7 @@ and all filter values are hostile input. A plan is reviewed only after
 | Relationship traversal | Declared edges, depth/count/cycle bounds, authorization per edge |
 | Tenant escape | Separate immutable mandatory constraints, adapter fail-closed mapping |
 | Cursor forgery | Authenticated encryption, exact schema/sort binding, size and TTL bounds |
-| Cursor replay | Optional serialized replay guard with opaque fingerprints |
+| Cursor replay | Optional context-aware concurrent replay store with opaque fingerprints |
 | Expensive queries | Conservative declared costs and structural bounds before adapters |
 | Unicode confusion | ASCII capability grammar and strict UTF-8 transport parsing |
 | Schema probing | Authorization failures are stable and intentionally nonspecific |
@@ -62,9 +64,18 @@ in the cursor.
 
 Keep cursor keys outside source control, use unique nonsecret key IDs, cap TTL,
 retain old decode keys only through the longest issued TTL, and retire them
-afterward. Replay guards must bound retained fingerprints by expiry. Never log
-`Value.String()` for protected values or raw cursor tokens.
+afterward. Replay stores must atomically consume fingerprints, honor context
+cancellation, remain safe under concurrent calls and bound retained state by
+expiry. Acceptance is the consumption commit point even if cancellation races
+with callback return. Replay-enabled codecs require `DecodeContext` or
+`DecodeCursor`; context-free `Decode` fails closed. A synchronous store that
+ignores context can still block the caller; the library does not detach it.
+Never log `Value.String()` for protected values or raw cursor tokens.
 
 Report vulnerabilities privately to the repository owner. Include the affected
 version, minimal reproduction, and impact; do not include production secrets or
 customer data.
+
+The versioned [threat model](docs/threat-model.md) distinguishes released v2
+from planned v3 and records the caller-owned blocking boundary and its review
+conditions. These statements are not whole-package security certification.

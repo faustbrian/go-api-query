@@ -8,8 +8,8 @@ import (
 	"reflect"
 	"testing"
 
-	apiqueryhttp "github.com/faustbrian/go-api-query/v2/adapters/http"
-	legacy "github.com/faustbrian/go-api-query/v2/apiqueryhttp"
+	apiqueryhttp "github.com/faustbrian/go-api-query/v3/adapters/http"
+	legacy "github.com/faustbrian/go-api-query/v3/apiqueryhttp"
 )
 
 func TestParseMatchesCompatibilityPath(t *testing.T) {
