@@ -104,18 +104,39 @@ func TestReplayStoreReceivesContextCancellation(t *testing.T) {
 	t.Parallel()
 
 	entered := make(chan struct{})
+	release := make(chan struct{})
 	codec, token, sorts, _ := replayCodec(t, func(ctx context.Context, _ [32]byte, _ time.Time) bool {
 		close(entered)
-		<-ctx.Done()
+		select {
+		case <-ctx.Done():
+		case <-release:
+		}
 		return false
 	})
 	ctx, cancel := context.WithCancel(t.Context())
 	result := make(chan error, 1)
+	done := make(chan struct{})
+	t.Cleanup(func() {
+		cancel()
+		close(release)
+		select {
+		case <-done:
+		case <-time.After(time.Second):
+			t.Error("DecodeCursor did not finish after replay store cleanup")
+		}
+	})
 	go func() {
+		defer close(done)
 		_, err := codec.DecodeCursor(ctx, token, "v1", sorts)
 		result <- err
 	}()
-	<-entered
+	select {
+	case <-entered:
+	case err := <-result:
+		t.Fatalf("DecodeCursor returned before replay store entry: %v", err)
+	case <-time.After(time.Second):
+		t.Fatal("DecodeCursor did not enter replay store")
+	}
 	cancel()
 
 	select {
@@ -166,8 +187,13 @@ func TestReplayStoreCallsAreNotGloballySerialized(t *testing.T) {
 
 	entered := make(chan struct{}, 2)
 	release := make(chan struct{})
+	unblock := sync.OnceFunc(func() { close(release) })
 	codec, firstToken, sorts, _ := replayCodec(t, func(context.Context, [32]byte, time.Time) bool {
-		entered <- struct{}{}
+		select {
+		case entered <- struct{}{}:
+		case <-release:
+			return false
+		}
 		<-release
 		return true
 	})
@@ -180,28 +206,56 @@ func TestReplayStoreCallsAreNotGloballySerialized(t *testing.T) {
 	}
 
 	results := make(chan error, 2)
+	done := make(chan struct{}, 2)
+	started := 1
+	t.Cleanup(func() {
+		unblock()
+		timer := time.NewTimer(time.Second)
+		defer timer.Stop()
+		for range started {
+			select {
+			case <-done:
+			case <-timer.C:
+				t.Error("DecodeCursor calls did not finish after replay store cleanup")
+				return
+			}
+		}
+	})
 	go func() {
+		defer func() { done <- struct{}{} }()
 		_, decodeErr := codec.DecodeCursor(t.Context(), firstToken, "v1", sorts)
 		results <- decodeErr
 	}()
-	<-entered
+	select {
+	case <-entered:
+	case decodeErr := <-results:
+		t.Fatalf("first DecodeCursor returned before replay store entry: %v", decodeErr)
+	case <-time.After(time.Second):
+		t.Fatal("first DecodeCursor did not enter replay store")
+	}
+	started++
 	go func() {
+		defer func() { done <- struct{}{} }()
 		_, decodeErr := codec.DecodeCursor(t.Context(), secondToken, "v1", sorts)
 		results <- decodeErr
 	}()
 
 	select {
 	case <-entered:
-		close(release)
+		unblock()
+	case decodeErr := <-results:
+		t.Fatalf("DecodeCursor returned before second replay store entry: %v", decodeErr)
 	case <-time.After(time.Second):
-		close(release)
-		<-results
-		<-results
 		t.Fatal("second replay store call was globally serialized")
 	}
 	for range 2 {
-		if decodeErr := <-results; decodeErr != nil {
-			t.Fatalf("DecodeCursor() error = %v", decodeErr)
+		select {
+		case decodeErr := <-results:
+			if decodeErr != nil {
+				t.Fatalf("DecodeCursor() error = %v", decodeErr)
+			}
+		case <-time.After(time.Second):
+			t.Fatal("DecodeCursor did not finish after replay store acceptance")
 		}
 	}
 }
