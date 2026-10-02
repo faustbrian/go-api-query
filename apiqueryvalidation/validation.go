@@ -1,7 +1,7 @@
 // Package apiqueryvalidation projects query failures into validation
 // reports without exposing rejected values or unsafe causes.
 //
-// Deprecated: use github.com/faustbrian/go-api-query/adapters/validation. This package remains supported through the documented compatibility interval.
+// Deprecated: use github.com/faustbrian/go-api-query/v2/adapters/validation. This package remains supported through the documented compatibility interval.
 package apiqueryvalidation
 
 import (
@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"strings"
 
-	apiquery "github.com/faustbrian/go-api-query"
-	validation "github.com/faustbrian/go-validation"
+	apiquery "github.com/faustbrian/go-api-query/v2"
+	validation "github.com/faustbrian/go-validation/v2"
 )
 
 // Report converts structured query violations into an immutable validation

@@ -1,7 +1,7 @@
 // Package apiquerypgx translates reviewed plans into bounded PostgreSQL query
 // primitives. It does not execute queries, own joins, or accept raw SQL.
 //
-// Deprecated: use github.com/faustbrian/go-api-query/adapters/postgres. This package remains supported through the documented compatibility interval.
+// Deprecated: use github.com/faustbrian/go-api-query/v2/adapters/postgres. This package remains supported through the documented compatibility interval.
 package apiquerypgx
 
 import (
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"unicode"
 
-	apiquery "github.com/faustbrian/go-api-query"
+	apiquery "github.com/faustbrian/go-api-query/v2"
 )
 
 // ErrInvalid reports an incomplete or unsafe application-owned mapping.

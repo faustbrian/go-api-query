@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	validation "github.com/faustbrian/go-validation"
+	validation "github.com/faustbrian/go-validation/v2"
 )
 
 func TestReportHandlesEmptyAndGenericErrors(t *testing.T) {

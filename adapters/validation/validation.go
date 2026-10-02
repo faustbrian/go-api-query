@@ -10,8 +10,8 @@ package apiqueryvalidation
 //lint:file-ignore SA1019 This successor facade intentionally delegates to the supported compatibility implementation.
 
 import (
-	legacy "github.com/faustbrian/go-api-query/apiqueryvalidation"
-	validation "github.com/faustbrian/go-validation"
+	legacy "github.com/faustbrian/go-api-query/v2/apiqueryvalidation"
+	validation "github.com/faustbrian/go-validation/v2"
 )
 
 // Report converts query failures into a validation report.

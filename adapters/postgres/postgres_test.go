@@ -8,9 +8,9 @@ import (
 	"errors"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query"
-	apiquerypostgres "github.com/faustbrian/go-api-query/adapters/postgres"
-	legacy "github.com/faustbrian/go-api-query/apiquerypgx"
+	apiquery "github.com/faustbrian/go-api-query/v2"
+	apiquerypostgres "github.com/faustbrian/go-api-query/v2/adapters/postgres"
+	legacy "github.com/faustbrian/go-api-query/v2/apiquerypgx"
 )
 
 func TestCompilerMatchesCompatibilityPath(t *testing.T) {

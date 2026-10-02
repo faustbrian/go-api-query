@@ -8,9 +8,9 @@ import (
 	"reflect"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query"
-	apiqueryjsonrpc "github.com/faustbrian/go-api-query/adapters/jsonrpc"
-	legacy "github.com/faustbrian/go-api-query/apiqueryrpc"
+	apiquery "github.com/faustbrian/go-api-query/v2"
+	apiqueryjsonrpc "github.com/faustbrian/go-api-query/v2/adapters/jsonrpc"
+	legacy "github.com/faustbrian/go-api-query/v2/apiqueryrpc"
 )
 
 func TestParamsAndDescriptorMatchCompatibilityPath(t *testing.T) {

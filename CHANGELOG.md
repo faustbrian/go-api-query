@@ -1,9 +1,22 @@
 # Changelog
 
-All notable changes follow Keep a Changelog. Stable v1 releases follow
+All notable changes follow Keep a Changelog. Public releases follow
 semantic versioning.
 
 ## Unreleased
+
+### Changed
+
+- Prepare v2.0.0 at `github.com/faustbrian/go-api-query/v2`, retaining
+  Go 1.27.0 and all fourteen package locations, including deprecated adapters.
+  Update root and subpackage imports to include `/v2`; query algorithms,
+  schemas, wire formats, cursor protocols and persistence behavior are unchanged.
+- Adopt public `github.com/faustbrian/go-validation/v2` v2.0.0. Both
+  `adapters/validation.Report` and retained `apiqueryvalidation.Report` now
+  accept Validation v2 `Limits` and return its `Report`; v1 and v2 named types
+  are not interchangeable. Existing Localized v1 consumers remain on API Query
+  v1 until an explicit future consumer migration. See the
+  [migration guide](docs/migration-adapters.md#adopting-v2).
 
 ## 1.1.1 - 2026-10-02
 

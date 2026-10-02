@@ -19,7 +19,7 @@ import (
 	"sync"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query"
+	apiquery "github.com/faustbrian/go-api-query/v2"
 )
 
 var (

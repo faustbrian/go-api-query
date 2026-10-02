@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query"
-	"github.com/faustbrian/go-api-query/apiqueryhttp"
-	"github.com/faustbrian/go-api-query/apiqueryjsonapi"
-	"github.com/faustbrian/go-api-query/apiqueryrpc"
-	"github.com/faustbrian/go-api-query/cursor"
+	apiquery "github.com/faustbrian/go-api-query/v2"
+	"github.com/faustbrian/go-api-query/v2/apiqueryhttp"
+	"github.com/faustbrian/go-api-query/v2/apiqueryjsonapi"
+	"github.com/faustbrian/go-api-query/v2/apiqueryrpc"
+	"github.com/faustbrian/go-api-query/v2/cursor"
 	jsonapi "github.com/faustbrian/go-jsonapi"
 )
 
