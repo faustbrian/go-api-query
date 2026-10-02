@@ -72,9 +72,19 @@ with callback return. Replay-enabled codecs require `DecodeContext` or
 ignores context can still block the caller; the library does not detach it.
 Never log `Value.String()` for protected values or raw cursor tokens.
 
-Report vulnerabilities privately to the repository owner. Include the affected
-version, minimal reproduction, and impact; do not include production secrets or
-customer data.
+## Reporting a vulnerability
+
+Use this repository's [private vulnerability report][private-report], not a
+public issue. Include the affected module and version, a minimal reproduction,
+and impact; do not include production secrets or customer data.
+
+The shared [vulnerability-management process][reporting-process] defines
+severity, acknowledgement targets, remediation, embargo, and coordinated
+advisory publication. Reporting an issue does not establish that a version
+is supported or that the issue has been verified.
+
+[private-report]: https://github.com/faustbrian/go-api-query/security/advisories/new
+[reporting-process]: https://github.com/faustbrian/go-library-tools/blob/main/docs/ecosystem/security/vulnerability-management.md
 
 The versioned [threat model](docs/threat-model.md) distinguishes released v2
 from planned v3 and records the caller-owned blocking boundary and its review
