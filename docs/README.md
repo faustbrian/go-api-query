@@ -22,6 +22,7 @@ to compare related independently adoptable libraries.
 ## Operations and security
 
 - [Security](../SECURITY.md)
+- [Versioned cursor threat model](threat-model.md)
 - [Support](../SUPPORT.md)
 - [Performance](performance.md)
 - [Troubleshooting](troubleshooting.md)
