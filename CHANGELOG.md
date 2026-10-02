@@ -5,6 +5,15 @@ semantic versioning.
 
 ## Unreleased
 
+## 1.1.1 - 2026-10-02
+
+### Changed
+
+- Require Go 1.27.0 instead of Go 1.26.6 for module adoption.
+- Update the PostgreSQL integration-test dependency to pgx v5.11.0;
+  query compiler and adapter behavior remain unchanged.
+- Refresh the shared CI workflow while retaining the pinned tooling contract.
+
 ### Fixed
 
 - Route context cancellation and deadline outcomes before Validation
