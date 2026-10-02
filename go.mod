@@ -1,10 +1,10 @@
-module github.com/faustbrian/go-api-query
+module github.com/faustbrian/go-api-query/v2
 
 go 1.27.0
 
 require (
 	github.com/faustbrian/go-jsonapi v1.0.0
-	github.com/faustbrian/go-validation v1.1.0
+	github.com/faustbrian/go-validation/v2 v2.0.0
 	github.com/jackc/pgx/v5 v5.11.0
 )
 

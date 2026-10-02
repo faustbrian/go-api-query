@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"testing"
 
-	apiqueryvalidation "github.com/faustbrian/go-api-query/adapters/validation"
-	legacy "github.com/faustbrian/go-api-query/apiqueryvalidation"
-	validation "github.com/faustbrian/go-validation"
+	apiqueryvalidation "github.com/faustbrian/go-api-query/v2/adapters/validation"
+	legacy "github.com/faustbrian/go-api-query/v2/apiqueryvalidation"
+	validation "github.com/faustbrian/go-validation/v2"
 )
 
 func TestReportMatchesCompatibilityPath(t *testing.T) {

@@ -1,7 +1,11 @@
 # Compatibility policy
 
-On the stable v1 line, semantic versioning applies to exported Go APIs and documented query
-behavior. The `api/v1.txt` export baseline blocks incompatible Go API changes.
+Semantic versioning applies to exported Go APIs and documented query behavior.
+The current v2 export baseline is `api/v2.txt`. `api/v1.txt` preserves the
+byte-exact released v1.1.1 API from commit
+`47773a680c06821214acc7eac92d2d2be7c85ca5`; it is historical evidence rather
+than the current-major check baseline. See [adopting v2](migration-adapters.md#adopting-v2)
+for the new module and Validation identities.
 
 The five released adapter paths remain supported while new adoption uses the
 five target-oriented `adapters/` paths. Their compatibility interval is the

@@ -16,7 +16,7 @@ api:
   baselines:
     - module: .
       mode: apidiff
-      path: api/v1.txt
+      path: api/v2.txt
 operations:
   - module: .
     gate: test

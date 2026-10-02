@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query"
+	apiquery "github.com/faustbrian/go-api-query/v2"
 )
 
 func TestCompileFilterFailsClosedForImpossiblePlanState(t *testing.T) {

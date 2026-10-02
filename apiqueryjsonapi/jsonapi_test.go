@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query"
-	"github.com/faustbrian/go-api-query/apiqueryjsonapi"
+	apiquery "github.com/faustbrian/go-api-query/v2"
+	"github.com/faustbrian/go-api-query/v2/apiqueryjsonapi"
 	jsonapi "github.com/faustbrian/go-jsonapi"
 )
 

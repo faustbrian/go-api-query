@@ -1,7 +1,7 @@
 # PostgreSQL and SQLC
 
 Core plans contain no SQL concepts. Import
-`github.com/faustbrian/go-api-query/adapters/postgres` with its default package
+`github.com/faustbrian/go-api-query/v2/adapters/postgres` with its default package
 identifier `apiquerypostgres`. `apiquerypostgres.Compiler` is optional and only
 maps public capability names to application-reviewed PostgreSQL identifiers.
 Mappings are snapshotted and validated as at most three identifier segments.

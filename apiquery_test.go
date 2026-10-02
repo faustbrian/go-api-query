@@ -6,7 +6,7 @@ import (
 	"slices"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query"
+	apiquery "github.com/faustbrian/go-api-query/v2"
 )
 
 func TestCompileBuildsImmutableBoundedPlan(t *testing.T) {
