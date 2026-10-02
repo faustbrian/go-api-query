@@ -107,7 +107,7 @@ adoption guides cover [HTTP](docs/http.md), [OpenRPC](docs/openrpc.md),
 [JSON:API composition](docs/jsonapi.md), [SQLC](docs/sqlc.md), and
 [Laravel/Cline RPC migration](docs/migration-laravel-cline.md).
 Shared construction, ownership, lifecycle, and composition expectations are in
-the versioned [Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
+the versioned [Golib ecosystem index](https://raw.githubusercontent.com/faustbrian/go-library-tools/531e4db50fd81a7201257a7b488a0cf22d333aca/docs/ecosystem/README.md)
 and its [Service edge family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
 
 ## Local quality gates

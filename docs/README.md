@@ -2,7 +2,7 @@
 
 This package belongs to Golib's versioned
 [Service edge family](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/design-language.md#package-families-and-selection).
-Use the [ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md)
+Use the [ecosystem index](https://raw.githubusercontent.com/faustbrian/go-library-tools/531e4db50fd81a7201257a7b488a0cf22d333aca/docs/ecosystem/README.md)
 to compare related independently adoptable libraries.
 
 ## Getting started

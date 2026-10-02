@@ -37,7 +37,7 @@
           "api": "docs/api.md",
           "changelog": "CHANGELOG.md",
           "compatibility": "docs/compatibility.md",
-          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md",
+          "ecosystem_index": "https://raw.githubusercontent.com/faustbrian/go-library-tools/531e4db50fd81a7201257a7b488a0cf22d333aca/docs/ecosystem/README.md",
           "examples": "README.md",
           "faq": "docs/faq.md",
           "performance": "docs/performance.md",
