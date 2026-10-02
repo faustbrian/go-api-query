@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v2"
-	"github.com/faustbrian/go-api-query/v2/apiqueryvalidation"
+	apiquery "github.com/faustbrian/go-api-query/v3"
+	"github.com/faustbrian/go-api-query/v3/apiqueryvalidation"
 	validation "github.com/faustbrian/go-validation/v2"
 )
 

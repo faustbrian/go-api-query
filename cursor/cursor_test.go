@@ -1,15 +1,289 @@
 package cursor_test
 
 import (
+	"bytes"
+	"context"
 	"errors"
 	"strings"
 	"sync"
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v2"
-	"github.com/faustbrian/go-api-query/v2/cursor"
+	apiquery "github.com/faustbrian/go-api-query/v3"
+	"github.com/faustbrian/go-api-query/v3/cursor"
 )
+
+func TestCodecRejectsCallerControlledRandomness(t *testing.T) {
+	t.Parallel()
+
+	keys, err := cursor.NewKeyring(cursor.Key{ID: "one", Secret: []byte("0123456789abcdef0123456789abcdef")})
+	if err != nil {
+		t.Fatalf("NewKeyring() error = %v", err)
+	}
+	_, err = cursor.NewCodec(cursor.Config{
+		Version: "v1", Keys: keys, MaxEncodedBytes: 512, MaxPositions: 1,
+		MaxTTL: time.Hour, Random: bytes.NewReader(make([]byte, 32)),
+	})
+	if !errors.Is(err, cursor.ErrInvalid) {
+		t.Fatalf("NewCodec(caller randomness) error = %v, want ErrInvalid", err)
+	}
+}
+
+func TestCodecRejectsContextFreeReplayGuard(t *testing.T) {
+	t.Parallel()
+
+	keys, err := cursor.NewKeyring(cursor.Key{ID: "one", Secret: []byte("0123456789abcdef0123456789abcdef")})
+	if err != nil {
+		t.Fatalf("NewKeyring() error = %v", err)
+	}
+	_, err = cursor.NewCodec(cursor.Config{
+		Version: "v1", Keys: keys, MaxEncodedBytes: 512, MaxPositions: 1, MaxTTL: time.Hour,
+		ReplayGuard: func([32]byte, time.Time) bool { return true },
+	})
+	if !errors.Is(err, cursor.ErrInvalid) {
+		t.Fatalf("NewCodec(context-free replay guard) error = %v, want ErrInvalid", err)
+	}
+}
+
+func TestDecodeCursorRejectsCanceledContextBeforeReplayStore(t *testing.T) {
+	t.Parallel()
+
+	called := make(chan struct{}, 1)
+	codec, token, sorts, _ := replayCodec(t, func(context.Context, [32]byte, time.Time) bool {
+		called <- struct{}{}
+		return true
+	})
+	ctx, cancel := context.WithCancel(t.Context())
+	cancel()
+
+	if _, err := codec.DecodeCursor(ctx, token, "v1", sorts); !errors.Is(err, context.Canceled) {
+		t.Fatalf("DecodeCursor(canceled) error = %v, want context.Canceled", err)
+	}
+	select {
+	case <-called:
+		t.Fatal("DecodeCursor invoked replay store after cancellation")
+	default:
+	}
+}
+
+func TestDecodeContextRejectsNilContext(t *testing.T) {
+	t.Parallel()
+
+	codec, token, sorts, _ := replayCodec(t, nil)
+	var nilContext context.Context
+	if _, err := codec.DecodeContext(nilContext, token, "v1", sorts); !errors.Is(err, cursor.ErrInvalid) {
+		t.Fatalf("DecodeContext(nil) error = %v, want ErrInvalid", err)
+	}
+}
+
+func TestDecodeContextStopsBeforeReplayStoreWhenCanceledDuringValidation(t *testing.T) {
+	t.Parallel()
+
+	called := make(chan struct{}, 1)
+	codec, token, sorts, now := replayCodec(t, func(context.Context, [32]byte, time.Time) bool {
+		called <- struct{}{}
+		return true
+	})
+	ctx, cancel := context.WithCancel(t.Context())
+	codec.SetClock(func() time.Time {
+		cancel()
+		return now
+	})
+
+	if _, err := codec.DecodeContext(ctx, token, "v1", sorts); !errors.Is(err, context.Canceled) {
+		t.Fatalf("DecodeContext(canceled during validation) error = %v, want context.Canceled", err)
+	}
+	select {
+	case <-called:
+		t.Fatal("DecodeContext invoked replay store after validation canceled the context")
+	default:
+	}
+}
+
+func TestReplayStoreReceivesContextCancellation(t *testing.T) {
+	t.Parallel()
+
+	entered := make(chan struct{})
+	release := make(chan struct{})
+	codec, token, sorts, _ := replayCodec(t, func(ctx context.Context, _ [32]byte, _ time.Time) bool {
+		close(entered)
+		select {
+		case <-ctx.Done():
+		case <-release:
+		}
+		return false
+	})
+	ctx, cancel := context.WithCancel(t.Context())
+	result := make(chan error, 1)
+	done := make(chan struct{})
+	t.Cleanup(func() {
+		cancel()
+		close(release)
+		select {
+		case <-done:
+		case <-time.After(time.Second):
+			t.Error("DecodeCursor did not finish after replay store cleanup")
+		}
+	})
+	go func() {
+		defer close(done)
+		_, err := codec.DecodeCursor(ctx, token, "v1", sorts)
+		result <- err
+	}()
+	select {
+	case <-entered:
+	case err := <-result:
+		t.Fatalf("DecodeCursor returned before replay store entry: %v", err)
+	case <-time.After(time.Second):
+		t.Fatal("DecodeCursor did not enter replay store")
+	}
+	cancel()
+
+	select {
+	case err := <-result:
+		if !errors.Is(err, context.Canceled) {
+			t.Fatalf("DecodeCursor(canceled storage) error = %v, want context.Canceled", err)
+		}
+	case <-time.After(time.Second):
+		t.Fatal("DecodeCursor did not propagate cancellation through replay store")
+	}
+}
+
+func TestReplayStoreAcceptanceIsTheCancellationCommitPoint(t *testing.T) {
+	t.Parallel()
+
+	ctx, cancel := context.WithCancel(t.Context())
+	codec, token, sorts, _ := replayCodec(t, func(context.Context, [32]byte, time.Time) bool {
+		cancel()
+		return true
+	})
+
+	if _, err := codec.DecodeContext(ctx, token, "v1", sorts); err != nil {
+		t.Fatalf("DecodeContext(accepted during cancellation) error = %v", err)
+	}
+}
+
+func TestDecodeRequiresContextWhenReplayStoreIsConfigured(t *testing.T) {
+	t.Parallel()
+
+	called := make(chan struct{}, 1)
+	codec, token, sorts, _ := replayCodec(t, func(context.Context, [32]byte, time.Time) bool {
+		called <- struct{}{}
+		return true
+	})
+
+	if _, err := codec.Decode(token, "v1", sorts); !errors.Is(err, cursor.ErrInvalid) {
+		t.Fatalf("Decode(replay store) error = %v, want ErrInvalid", err)
+	}
+	select {
+	case <-called:
+		t.Fatal("Decode invoked replay storage without a request context")
+	default:
+	}
+}
+
+func TestReplayStoreCallsAreNotGloballySerialized(t *testing.T) {
+	t.Parallel()
+
+	entered := make(chan struct{}, 2)
+	release := make(chan struct{})
+	unblock := sync.OnceFunc(func() { close(release) })
+	codec, firstToken, sorts, _ := replayCodec(t, func(context.Context, [32]byte, time.Time) bool {
+		select {
+		case entered <- struct{}{}:
+		case <-release:
+			return false
+		}
+		<-release
+		return true
+	})
+	secondToken, err := codec.Encode(cursor.Payload{
+		SchemaRevision: "v1", Direction: cursor.Forward, Sorts: sorts,
+		Positions: []apiquery.Value{apiquery.StringValue("2")}, ExpiresAt: time.Now().Add(time.Minute),
+	})
+	if err != nil {
+		t.Fatalf("Encode(second) error = %v", err)
+	}
+
+	results := make(chan error, 2)
+	done := make(chan struct{}, 2)
+	started := 1
+	t.Cleanup(func() {
+		unblock()
+		timer := time.NewTimer(time.Second)
+		defer timer.Stop()
+		for range started {
+			select {
+			case <-done:
+			case <-timer.C:
+				t.Error("DecodeCursor calls did not finish after replay store cleanup")
+				return
+			}
+		}
+	})
+	go func() {
+		defer func() { done <- struct{}{} }()
+		_, decodeErr := codec.DecodeCursor(t.Context(), firstToken, "v1", sorts)
+		results <- decodeErr
+	}()
+	select {
+	case <-entered:
+	case decodeErr := <-results:
+		t.Fatalf("first DecodeCursor returned before replay store entry: %v", decodeErr)
+	case <-time.After(time.Second):
+		t.Fatal("first DecodeCursor did not enter replay store")
+	}
+	started++
+	go func() {
+		defer func() { done <- struct{}{} }()
+		_, decodeErr := codec.DecodeCursor(t.Context(), secondToken, "v1", sorts)
+		results <- decodeErr
+	}()
+
+	select {
+	case <-entered:
+		unblock()
+	case decodeErr := <-results:
+		t.Fatalf("DecodeCursor returned before second replay store entry: %v", decodeErr)
+	case <-time.After(time.Second):
+		t.Fatal("second replay store call was globally serialized")
+	}
+	for range 2 {
+		select {
+		case decodeErr := <-results:
+			if decodeErr != nil {
+				t.Fatalf("DecodeCursor() error = %v", decodeErr)
+			}
+		case <-time.After(time.Second):
+			t.Fatal("DecodeCursor did not finish after replay store acceptance")
+		}
+	}
+}
+
+func replayCodec(t *testing.T, store cursor.ReplayStore) (*cursor.Codec, string, []apiquery.SortTerm, time.Time) {
+	t.Helper()
+	now := time.Now().UTC()
+	keys, err := cursor.NewKeyring(cursor.Key{ID: "one", Secret: []byte("0123456789abcdef0123456789abcdef")})
+	if err != nil {
+		t.Fatalf("NewKeyring() error = %v", err)
+	}
+	codec, err := cursor.NewCodec(cursor.Config{
+		Version: "v1", Keys: keys, MaxEncodedBytes: 512, MaxPositions: 1,
+		MaxTTL: time.Hour, Clock: func() time.Time { return now }, ReplayStore: store,
+	})
+	if err != nil {
+		t.Fatalf("NewCodec() error = %v", err)
+	}
+	sorts := []apiquery.SortTerm{{Name: "id", Direction: apiquery.Ascending}}
+	token, err := codec.Encode(cursor.Payload{
+		SchemaRevision: "v1", Direction: cursor.Forward, Sorts: sorts,
+		Positions: []apiquery.Value{apiquery.StringValue("1")}, ExpiresAt: now.Add(time.Minute),
+	})
+	if err != nil {
+		t.Fatalf("Encode() error = %v", err)
+	}
+	return codec, token, sorts, now
+}
 
 func TestCodecEncryptsAndBindsCursorState(t *testing.T) {
 	t.Parallel()
@@ -81,7 +355,7 @@ func TestCodecRejectsReplayWhenConfigured(t *testing.T) {
 	codec, err := cursor.NewCodec(cursor.Config{Version: "v1", Keys: keyring,
 		MaxEncodedBytes: 512, MaxPositions: 2, MaxTTL: time.Hour,
 		Clock: func() time.Time { return now },
-		ReplayGuard: func(fingerprint [32]byte, _ time.Time) bool {
+		ReplayStore: func(_ context.Context, fingerprint [32]byte, _ time.Time) bool {
 			if _, exists := seen[fingerprint]; exists {
 				return false
 			}
@@ -98,10 +372,10 @@ func TestCodecRejectsReplayWhenConfigured(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Encode() error = %v", err)
 	}
-	if _, err := codec.Decode(token, "v1", sorts); err != nil {
+	if _, err := codec.DecodeContext(t.Context(), token, "v1", sorts); err != nil {
 		t.Fatalf("first Decode() error = %v", err)
 	}
-	if _, err := codec.Decode(token, "v1", sorts); !errors.Is(err, cursor.ErrReplay) {
+	if _, err := codec.DecodeContext(t.Context(), token, "v1", sorts); !errors.Is(err, cursor.ErrReplay) {
 		t.Fatalf("second Decode() error = %v, want ErrReplay", err)
 	}
 }

@@ -2,13 +2,13 @@
 // JSON:API names, syntax, extensions, and recommendations remain exclusively
 // owned by github.com/faustbrian/go-jsonapi.
 //
-// Deprecated: use github.com/faustbrian/go-api-query/v2/adapters/jsonapi. This package remains supported through the documented compatibility interval.
+// Deprecated: use github.com/faustbrian/go-api-query/v3/adapters/jsonapi. This package remains supported through the documented compatibility interval.
 package apiqueryjsonapi
 
 import (
 	"errors"
 
-	apiquery "github.com/faustbrian/go-api-query/v2"
+	apiquery "github.com/faustbrian/go-api-query/v3"
 	jsonapi "github.com/faustbrian/go-jsonapi"
 )
 

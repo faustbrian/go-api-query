@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v2"
-	"github.com/faustbrian/go-api-query/v2/apiquerypgx"
+	apiquery "github.com/faustbrian/go-api-query/v3"
+	"github.com/faustbrian/go-api-query/v3/apiquerypgx"
 )
 
 func TestFilterOperatorCompilationMatrix(t *testing.T) {

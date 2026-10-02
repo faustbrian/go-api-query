@@ -1,7 +1,8 @@
 # Threat model
 
-Model version: 1.0.0. This model describes the published v2.0.0 cursor boundary
-and its application-owned dependencies. It supplements the repository-wide
+Model version: 2.0.0-pre-release. This model distinguishes the published v2.0.0
+cursor boundary from planned v3 and its application-owned dependencies.
+It supplements the repository-wide
 [security model and threat matrix](../SECURITY.md); it is not a certification
 that every ecosystem security requirement has been satisfied.
 
@@ -19,7 +20,7 @@ ordered sorts, direction, typed positions, expiry, and policy. Configuration
 bounds encoded size, position count, strings, and TTL. These controls do not
 make arbitrary application callbacks bounded or cancellable.
 
-## Published callback contract
+## Published v2 callback contract
 
 `cursor.ReplayGuard` receives an opaque SHA-256 token fingerprint and expiry.
 It is optional, synchronous, and serialized by a mutex on each codec. A guard
@@ -38,7 +39,29 @@ reader must provide cryptographically secure nonce bytes and bounded reads;
 production callers should retain the default. Clock callbacks are also
 application-owned synchronous work.
 
-## Risk disposition and review conditions
+## Planned v3 callback contract
+
+The root `/v3` source rejects non-nil `Config.Random` and `Config.ReplayGuard`.
+It captures `crypto/rand.Reader` privately at construction for nonce generation.
+`ReplayStore` receives the request context, opaque SHA-256 fingerprint and expiry.
+It owns atomic consumption, concurrency safety and expiry-based retention.
+The library authenticates and validates cursors before calling it, checks
+cancellation before the call, holds no library lock and does not serialize calls.
+
+`DecodeCursor` forwards the request context to `DecodeContext`. Context-free
+`Decode` rejects replay-enabled codecs. Successful store acceptance is the
+consumption commit point, including when cancellation races with callback return.
+The call stays synchronous: detaching a callback that ignores cancellation would
+leak work and make consumption ambiguous. Such a callback can still block the
+calling goroutine; passing context does not safely preempt arbitrary caller code.
+
+This caller-owned dependency risk requires the application owner and deployer
+to enforce a deadline, validate backend cancellation and atomicity, bound retained
+state and monitor latency. Review before publishing v3 and before changes to the
+backend, retry policy, timeout, retention, topology or concurrency assumptions.
+Recording the boundary is not ecosystem risk acceptance or a completed audit.
+
+## Published v2 risk disposition and review conditions
 
 The following are open review items, not accepted ecosystem risks or evidence
 of a completed remediation:
@@ -51,9 +74,9 @@ of a completed remediation:
 
 ## Scope limits
 
-Replay protection is disabled when no guard is configured. The library does
-not supply durable shared replay storage, snapshot isolation, or protection
+Replay protection is disabled when no guard (v2) or store (v3) is configured.
+The library does not supply durable shared replay storage, snapshot isolation, or protection
 against compromised keys. This documentation records the released contract;
-it does not silently substitute an unpublished `ReplayStore` API or accept the
-open items above. Review this model whenever the cursor API or its dependency
+it separately identifies the unpublished `ReplayStore` API and does not accept
+the open items above. Review this model whenever the cursor API or its dependency
 ownership changes. Report vulnerabilities through [SECURITY.md](../SECURITY.md).

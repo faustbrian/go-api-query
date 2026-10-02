@@ -1,5 +1,29 @@
 # Adapter package migration
 
+## Adopting v3
+
+This root source prepares unpublished v3.0.0. Stay on released v2 until the
+new major is publicly available, then require
+`github.com/faustbrian/go-api-query/v3@v3.0.0` and replace `/v2` with `/v3`
+in root and subpackage imports. All fourteen package locations remain at the
+repository root on main; Go 1.27.0 and Validation v2.0.0 remain unchanged.
+API Query v2 and v3 named types are distinct; migrate each composition boundary
+explicitly. This does not migrate Localized or other owned consumers.
+
+Remove non-nil `cursor.Config.Random` and migrate `Config.ReplayGuard` to
+`Config.ReplayStore`. The store receives the request context, opaque fingerprint
+and expiry; it owns atomic consumption, concurrency safety and bounded retention.
+Use `DecodeContext` or `DecodeCursor` when replay storage is configured because
+`Decode` now fails closed in that configuration. Observed cancellation before
+the store call prevents invocation; store acceptance remains the commit point even when
+cancellation races with return. A store which ignores context can still block
+the synchronous caller. See [cursor ownership](cursor.md) and
+the [versioned threat model](threat-model.md).
+
+Cursor wire formats, query algorithms and Validation v2 adoption are otherwise
+unchanged. The published snapshots `api/v1.txt` and `api/v2.txt` are preserved;
+`api/v3.txt` tracks the planned major through the owned API generator.
+
 ## Adopting v2
 
 After v2.0.0 is publicly available, require
@@ -25,12 +49,12 @@ Validation v2's private default diagnostics and composition limits remain
 governed by its own published migration contract, not by API Query error prose.
 
 The exact released v1.1.1 export snapshot remains in `api/v1.txt`.
-`api/v2.txt` tracks the current major through the existing owned API generator.
+`api/v2.txt` preserves that released major's export snapshot.
 
-## Selecting adapters within v2
+## Selecting adapters within v3
 
-The table below uses v2 module identities. Published v1 paths remain resolvable
-under their existing public versions; retaining these v2 package locations
+The table below uses planned v3 module identities. Published v1 and v2 paths remain
+resolvable under their existing public versions; retaining these v3 package locations
 does not preserve cross-major named-type identity.
 
 New integrations use the target-oriented adapter packages. The released paths
@@ -38,11 +62,11 @@ remain supported through the compatibility interval.
 
 | Retained path | Preferred path | Default identifier |
 | --- | --- | --- |
-| `github.com/faustbrian/go-api-query/v2/apiqueryhttp` | `github.com/faustbrian/go-api-query/v2/adapters/http` | `apiqueryhttp` |
-| `github.com/faustbrian/go-api-query/v2/apiqueryjsonapi` | `github.com/faustbrian/go-api-query/v2/adapters/jsonapi` | `apiqueryjsonapi` |
-| `github.com/faustbrian/go-api-query/v2/apiquerypgx` | `github.com/faustbrian/go-api-query/v2/adapters/postgres` | `apiquerypostgres` |
-| `github.com/faustbrian/go-api-query/v2/apiqueryrpc` | `github.com/faustbrian/go-api-query/v2/adapters/jsonrpc` | `apiqueryjsonrpc` |
-| `github.com/faustbrian/go-api-query/v2/apiqueryvalidation` | `github.com/faustbrian/go-api-query/v2/adapters/validation` | `apiqueryvalidation` |
+| `github.com/faustbrian/go-api-query/v3/apiqueryhttp` | `github.com/faustbrian/go-api-query/v3/adapters/http` | `apiqueryhttp` |
+| `github.com/faustbrian/go-api-query/v3/apiqueryjsonapi` | `github.com/faustbrian/go-api-query/v3/adapters/jsonapi` | `apiqueryjsonapi` |
+| `github.com/faustbrian/go-api-query/v3/apiquerypgx` | `github.com/faustbrian/go-api-query/v3/adapters/postgres` | `apiquerypostgres` |
+| `github.com/faustbrian/go-api-query/v3/apiqueryrpc` | `github.com/faustbrian/go-api-query/v3/adapters/jsonrpc` | `apiqueryjsonrpc` |
+| `github.com/faustbrian/go-api-query/v3/apiqueryvalidation` | `github.com/faustbrian/go-api-query/v3/adapters/validation` | `apiqueryvalidation` |
 
 The old and new paths have equivalent supported behavior and share their
 initialized sentinel error identities. Successor `Config`, decoder, `Mapping`,

@@ -19,7 +19,7 @@ import (
 	"sync"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v2"
+	apiquery "github.com/faustbrian/go-api-query/v3"
 )
 
 var (
@@ -126,13 +126,31 @@ type Config struct {
 	MaxStringBytes  int
 	MaxTTL          time.Duration
 	Clock           func() time.Time
-	ReplayGuard     ReplayGuard
-	Random          io.Reader
+	// ReplayGuard is the deprecated context-free replay callback.
+	//
+	// Deprecated: Use ReplayStore. NewCodec rejects non-nil ReplayGuard values;
+	// the field may be removed in v4 after the deprecation interval.
+	ReplayGuard ReplayGuard
+	ReplayStore ReplayStore
+	// Random is the deprecated caller-controlled nonce source.
+	//
+	// Deprecated: Leave Random nil. NewCodec rejects non-nil Random values and
+	// cursor nonces always come from crypto/rand.Reader. The field may be removed
+	// in v4 after the deprecation interval.
+	Random io.Reader
 }
 
-// ReplayGuard atomically accepts a new opaque fingerprint or rejects replay.
-// Codec serializes calls, while the guard owns bounded retention until expiry.
+// ReplayGuard is the deprecated context-free replay callback.
+//
+// Deprecated: Use ReplayStore so decoding can propagate cancellation and
+// callers can execute concurrently. This type may be removed in v4 after the
+// deprecation interval.
 type ReplayGuard func(fingerprint [32]byte, expiresAt time.Time) bool
+
+// ReplayStore atomically accepts a new opaque fingerprint or rejects replay.
+// It must honor context cancellation, permit concurrent calls, and own bounded
+// retention until expiry.
+type ReplayStore func(ctx context.Context, fingerprint [32]byte, expiresAt time.Time) bool
 
 // Codec encrypts and validates cursor payloads.
 type Codec struct {
@@ -144,16 +162,16 @@ type Codec struct {
 	maxTTL          time.Duration
 	clockMu         sync.RWMutex
 	clock           func() time.Time
-	replayMu        sync.Mutex
-	replayGuard     ReplayGuard
-	randomMu        sync.Mutex
-	random          io.Reader
+	replayStore     ReplayStore
+	// entropy is fixed to crypto/rand at construction. Package tests replace it
+	// only on an isolated codec to prove fail-closed reads without global state.
+	entropy io.Reader
 }
 
 // NewCodec validates a bounded cursor protocol configuration.
 func NewCodec(config Config) (*Codec, error) {
 	if !validKeyID(config.Version) || config.Keys == nil || config.MaxEncodedBytes <= 0 ||
-		config.MaxPositions <= 0 || config.MaxTTL <= 0 {
+		config.MaxPositions <= 0 || config.MaxTTL <= 0 || config.ReplayGuard != nil || config.Random != nil {
 		return nil, ErrInvalid
 	}
 	if _, _, exists := config.Keys.activeKey(); !exists {
@@ -165,13 +183,10 @@ func NewCodec(config Config) (*Codec, error) {
 	if config.Clock == nil {
 		config.Clock = time.Now
 	}
-	if config.Random == nil {
-		config.Random = rand.Reader
-	}
 	return &Codec{version: config.Version, keys: config.Keys,
 		maxEncodedBytes: config.MaxEncodedBytes, maxPositions: config.MaxPositions,
 		maxStringBytes: config.MaxStringBytes, maxTTL: config.MaxTTL,
-		clock: config.Clock, replayGuard: config.ReplayGuard, random: config.Random}, nil
+		clock: config.Clock, replayStore: config.ReplayStore, entropy: rand.Reader}, nil
 }
 
 // SetClock replaces the time source atomically. It is intended for controlled
@@ -211,9 +226,7 @@ func (c *Codec) Encode(payload Payload) (string, error) {
 		return "", ErrInvalid
 	}
 	nonce := make([]byte, aead.NonceSize())
-	c.randomMu.Lock()
-	_, randomErr := io.ReadFull(c.random, nonce)
-	c.randomMu.Unlock()
+	_, randomErr := io.ReadFull(c.entropy, nonce)
 	if randomErr != nil {
 		return "", ErrInvalid
 	}
@@ -229,6 +242,23 @@ func (c *Codec) Encode(payload Payload) (string, error) {
 // Decode authenticates, decrypts, and binds a cursor to the expected schema
 // revision and exact ordered sort definition.
 func (c *Codec) Decode(token, expectedSchema string, expectedSorts []apiquery.SortTerm) (Payload, error) {
+	if c.replayStore != nil {
+		return Payload{}, ErrInvalid
+	}
+	return c.DecodeContext(context.Background(), token, expectedSchema, expectedSorts)
+}
+
+// DecodeContext authenticates, decrypts, and binds a cursor while propagating
+// cancellation to configured replay storage. ReplayStore implementations must
+// honor cancellation before returning.
+func (c *Codec) DecodeContext(ctx context.Context, token, expectedSchema string,
+	expectedSorts []apiquery.SortTerm) (Payload, error) {
+	if ctx == nil {
+		return Payload{}, ErrInvalid
+	}
+	if err := ctx.Err(); err != nil {
+		return Payload{}, err
+	}
 	if token == "" {
 		return Payload{}, ErrInvalid
 	}
@@ -287,12 +317,16 @@ func (c *Codec) Decode(token, expectedSchema string, expectedSorts []apiquery.So
 	if !equalSorts(wire.Sorts, expectedSorts) {
 		return Payload{}, ErrSort
 	}
-	if c.replayGuard != nil {
+	if c.replayStore != nil {
+		if err := ctx.Err(); err != nil {
+			return Payload{}, err
+		}
 		fingerprint := sha256.Sum256([]byte(token))
-		c.replayMu.Lock()
-		accepted := c.replayGuard(fingerprint, wire.ExpiresAt)
-		c.replayMu.Unlock()
+		accepted := c.replayStore(ctx, fingerprint, wire.ExpiresAt)
 		if !accepted {
+			if err := ctx.Err(); err != nil {
+				return Payload{}, err
+			}
 			return Payload{}, ErrReplay
 		}
 	}
@@ -301,9 +335,9 @@ func (c *Codec) Decode(token, expectedSchema string, expectedSorts []apiquery.So
 
 // DecodeCursor implements apiquery.CursorDecoder using this authenticated
 // cursor protocol.
-func (c *Codec) DecodeCursor(_ context.Context, token, expectedSchema string,
+func (c *Codec) DecodeCursor(ctx context.Context, token, expectedSchema string,
 	expectedSorts []apiquery.SortTerm) (apiquery.CursorState, error) {
-	payload, err := c.Decode(token, expectedSchema, expectedSorts)
+	payload, err := c.DecodeContext(ctx, token, expectedSchema, expectedSorts)
 	if err != nil {
 		return apiquery.CursorState{}, err
 	}

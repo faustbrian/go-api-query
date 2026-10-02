@@ -6,16 +6,16 @@ package apiquery_test
 import (
 	"testing"
 
-	newhttp "github.com/faustbrian/go-api-query/v2/adapters/http"
-	newjsonapi "github.com/faustbrian/go-api-query/v2/adapters/jsonapi"
-	newjsonrpc "github.com/faustbrian/go-api-query/v2/adapters/jsonrpc"
-	newpostgres "github.com/faustbrian/go-api-query/v2/adapters/postgres"
-	newvalidation "github.com/faustbrian/go-api-query/v2/adapters/validation"
-	legacyhttp "github.com/faustbrian/go-api-query/v2/apiqueryhttp"
-	legacyjsonapi "github.com/faustbrian/go-api-query/v2/apiqueryjsonapi"
-	legacypostgres "github.com/faustbrian/go-api-query/v2/apiquerypgx"
-	legacyjsonrpc "github.com/faustbrian/go-api-query/v2/apiqueryrpc"
-	legacyvalidation "github.com/faustbrian/go-api-query/v2/apiqueryvalidation"
+	newhttp "github.com/faustbrian/go-api-query/v3/adapters/http"
+	newjsonapi "github.com/faustbrian/go-api-query/v3/adapters/jsonapi"
+	newjsonrpc "github.com/faustbrian/go-api-query/v3/adapters/jsonrpc"
+	newpostgres "github.com/faustbrian/go-api-query/v3/adapters/postgres"
+	newvalidation "github.com/faustbrian/go-api-query/v3/adapters/validation"
+	legacyhttp "github.com/faustbrian/go-api-query/v3/apiqueryhttp"
+	legacyjsonapi "github.com/faustbrian/go-api-query/v3/apiqueryjsonapi"
+	legacypostgres "github.com/faustbrian/go-api-query/v3/apiquerypgx"
+	legacyjsonrpc "github.com/faustbrian/go-api-query/v3/apiqueryrpc"
+	legacyvalidation "github.com/faustbrian/go-api-query/v3/apiqueryvalidation"
 )
 
 func TestLegacyAndSuccessorAdaptersCompileTogether(t *testing.T) {

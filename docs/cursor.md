@@ -24,15 +24,23 @@ Use a random 32-byte secret per key. Rotate atomically:
 3. Retire the old key after every old cursor has expired.
 
 Key IDs are public routing metadata and must not contain secrets. Changing the
-schema, sort, or cursor version causes a stable rejection. Use `ReplayGuard`
-only when one-time consumption is required; it receives a token fingerprint,
-not plaintext, and must expire retained state.
+schema, sort, or cursor version causes a stable rejection. Use `ReplayStore`
+only when one-time consumption is required. It receives the request context,
+token fingerprint, and expiry, not plaintext. It must atomically consume
+fingerprints, honor cancellation, remain safe for concurrent calls, and expire
+retained state. Returning `true` is the consumption commit point: a concurrent
+cancellation does not turn an accepted token into an ambiguous failed decode.
 
-`NewCodec` borrows its `Keyring`, clock, replay guard, and random reader for the
-codec's lifetime. Callers must keep those collaborators valid and concurrency
-safe. The codec serializes calls to the replay guard and random reader, while a
-shared keyring may be rotated concurrently and each operation observes its
-current key snapshot. `SetClock` atomically replaces the borrowed clock.
+`NewCodec` borrows its `Keyring`, clock, and replay store for the codec's
+lifetime. Callers must keep those collaborators valid and concurrency safe.
+The codec invokes replay storage concurrently and passes through cancellation;
+a shared keyring may be rotated concurrently and each operation observes its
+current key snapshot. Cursor nonces always come directly from
+`crypto/rand.Reader`. Non-nil deprecated `Config.Random` or `Config.ReplayGuard`
+values are rejected; migrate replay callbacks to `Config.ReplayStore`.
+`DecodeContext` is the context-aware direct decode entry point. `Decode` uses a
+background context only when replay storage is absent and otherwise fails
+closed with `ErrInvalid`. `SetClock` atomically replaces the borrowed clock.
 
 For forward reads, compare lexicographically *after* the decoded positions. For
 backward reads, invert comparisons and database directions, fetch one extra,

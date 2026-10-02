@@ -8,9 +8,9 @@ import (
 	"reflect"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v2"
-	apiqueryjsonapi "github.com/faustbrian/go-api-query/v2/adapters/jsonapi"
-	legacy "github.com/faustbrian/go-api-query/v2/apiqueryjsonapi"
+	apiquery "github.com/faustbrian/go-api-query/v3"
+	apiqueryjsonapi "github.com/faustbrian/go-api-query/v3/adapters/jsonapi"
+	legacy "github.com/faustbrian/go-api-query/v3/apiqueryjsonapi"
 	jsonapi "github.com/faustbrian/go-jsonapi"
 )
 
