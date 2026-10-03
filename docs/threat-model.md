@@ -1,7 +1,8 @@
 # Threat model
 
-Model version: 2.0.0-pre-release. This model distinguishes the published v2.0.0
-cursor boundary from planned v3 and its application-owned dependencies.
+Model version: 2.0.0. This model distinguishes the published v2.0.0 and
+[v3.0.0](https://github.com/faustbrian/go-api-query/releases/tag/v3.0.0) cursor
+contracts and their application-owned dependencies.
 It supplements the repository-wide
 [security model and threat matrix](../SECURITY.md); it is not a certification
 that every ecosystem security requirement has been satisfied.
@@ -39,7 +40,7 @@ reader must provide cryptographically secure nonce bytes and bounded reads;
 production callers should retain the default. Clock callbacks are also
 application-owned synchronous work.
 
-## Planned v3 callback contract
+## Published v3 callback contract
 
 The root `/v3` source rejects non-nil `Config.Random` and `Config.ReplayGuard`.
 It captures `crypto/rand.Reader` privately at construction for nonce generation.
@@ -57,7 +58,7 @@ calling goroutine; passing context does not safely preempt arbitrary caller code
 
 This caller-owned dependency risk requires the application owner and deployer
 to enforce a deadline, validate backend cancellation and atomicity, bound retained
-state and monitor latency. Review before publishing v3 and before changes to the
+state and monitor latency. Review before adopting v3 and before changes to the
 backend, retry policy, timeout, retention, topology or concurrency assumptions.
 Recording the boundary is not ecosystem risk acceptance or a completed audit.
 
@@ -77,6 +78,6 @@ of a completed remediation:
 Replay protection is disabled when no guard (v2) or store (v3) is configured.
 The library does not supply durable shared replay storage, snapshot isolation, or protection
 against compromised keys. This documentation records the released contract;
-it separately identifies the unpublished `ReplayStore` API and does not accept
+it identifies the published v3 `ReplayStore` API and does not accept
 the open items above. Review this model whenever the cursor API or its dependency
 ownership changes. Report vulnerabilities through [SECURITY.md](../SECURITY.md).

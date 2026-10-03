@@ -20,7 +20,7 @@ and all filter values are hostile input. A plan is reviewed only after
 - Cursor payloads are authenticated during plan compilation. They use
   AES-256-GCM and bind protocol version, key ID, schema
   revision, exact ordered sorts, direction, typed positions, expiry, and policy.
-- Cursor key rotation is atomic. In planned v3, nonces use library-selected
+- Cursor key rotation is atomic. In published v3.0.0, nonces use library-selected
   `crypto/rand.Reader` and construction rejects caller-controlled randomness.
 - Optional replay stores receive only the request context, opaque SHA-256
   fingerprint and expiry. Calls are concurrent, not globally serialized.
@@ -86,6 +86,6 @@ is supported or that the issue has been verified.
 [private-report]: https://github.com/faustbrian/go-api-query/security/advisories/new
 [reporting-process]: https://github.com/faustbrian/go-library-tools/blob/main/docs/ecosystem/security/vulnerability-management.md
 
-The versioned [threat model](docs/threat-model.md) distinguishes released v2
-from planned v3 and records the caller-owned blocking boundary and its review
+The versioned [threat model](docs/threat-model.md) distinguishes published v2
+and v3 contracts and records the caller-owned blocking boundary and its review
 conditions. These statements are not whole-package security certification.
