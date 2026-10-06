@@ -33,8 +33,8 @@ func TestJSONAPIV2BothAdaptersComposeFiniteCursorQuery(t *testing.T) {
 		}}, nil
 	}
 	decodePage := func(family jsonapi.ParameterFamily) (apiquery.PageRequest, error) {
-		page, err := pagination.Parse(family)
-		return apiquery.PageRequest{Mode: apiquery.PageCursor, Size: page.Size}, err
+		page, parseErr := pagination.Parse(family)
+		return apiquery.PageRequest{Mode: apiquery.PageCursor, Size: page.Size}, parseErr
 	}
 	first, err := legacy.FromQuery(query, legacy.Config{Resource: "orders", DecodeFilter: decodeFilter, DecodePage: decodePage})
 	if err != nil {
@@ -50,13 +50,13 @@ func TestJSONAPIV2BothAdaptersComposeFiniteCursorQuery(t *testing.T) {
 		if request.Page.Mode != apiquery.PageCursor || request.Page.Size != 20 {
 			t.Fatal("finite JSONAPI page request was not preserved")
 		}
-		plan, err := apiquery.Compile(context.Background(), schema, request, apiquery.CompileOptions{})
-		if err != nil {
-			t.Fatal(err)
+		plan, compileErr := apiquery.Compile(context.Background(), schema, request, apiquery.CompileOptions{})
+		if compileErr != nil {
+			t.Fatal(compileErr)
 		}
-		encoded, err := plan.Canonical()
-		if err != nil {
-			t.Fatal(err)
+		encoded, canonicalErr := plan.Canonical()
+		if canonicalErr != nil {
+			t.Fatal(canonicalErr)
 		}
 		if index == 0 {
 			canonical = encoded
