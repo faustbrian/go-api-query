@@ -1,7 +1,7 @@
 // Package apiqueryhttp strictly parses conventional HTTP query strings into
 // transport-neutral API query requests.
 //
-// Deprecated: use github.com/faustbrian/go-api-query/v3/adapters/http. This package remains supported through the documented compatibility interval.
+// Deprecated: use github.com/faustbrian/go-api-query/v4/adapters/http. This package remains supported through the documented compatibility interval.
 package apiqueryhttp
 
 import (
@@ -11,8 +11,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
-	"github.com/faustbrian/go-api-query/v3/internal/strictjson"
+	apiquery "github.com/faustbrian/go-api-query/v4"
+	"github.com/faustbrian/go-api-query/v4/internal/strictjson"
 )
 
 // ErrInvalid is the sanitized HTTP query failure.

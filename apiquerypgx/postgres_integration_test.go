@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
-	apiquerypostgres "github.com/faustbrian/go-api-query/v3/adapters/postgres"
-	"github.com/faustbrian/go-api-query/v3/apiquerypgx"
+	apiquery "github.com/faustbrian/go-api-query/v4"
+	apiquerypostgres "github.com/faustbrian/go-api-query/v4/adapters/postgres"
+	"github.com/faustbrian/go-api-query/v4/apiquerypgx"
 	"github.com/jackc/pgx/v5"
 )
 

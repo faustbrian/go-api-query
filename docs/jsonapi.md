@@ -1,9 +1,9 @@
 # JSON:API composition
 
 This project does not define JSON:API query syntax. Parse and validate JSON:API
-parameters with `github.com/faustbrian/go-jsonapi`; its names, extensions,
+parameters with `github.com/faustbrian/go-jsonapi/v2`; its names, extensions,
 profiles, and recommendations remain authoritative. Import
-`github.com/faustbrian/go-api-query/v3/adapters/jsonapi` with its default package
+`github.com/faustbrian/go-api-query/v4/adapters/jsonapi` with its default package
 identifier `apiqueryjsonapi`, then pass the parsed `jsonapi.Query` to
 `apiqueryjsonapi.FromQuery`. The released `apiqueryjsonapi` path remains
 supported only as the documented compatibility path.

@@ -10,18 +10,18 @@ import (
 	"strings"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
-	newhttp "github.com/faustbrian/go-api-query/v3/adapters/http"
-	newjsonapi "github.com/faustbrian/go-api-query/v3/adapters/jsonapi"
-	newjsonrpc "github.com/faustbrian/go-api-query/v3/adapters/jsonrpc"
-	newpostgres "github.com/faustbrian/go-api-query/v3/adapters/postgres"
-	newvalidation "github.com/faustbrian/go-api-query/v3/adapters/validation"
-	legacyhttp "github.com/faustbrian/go-api-query/v3/apiqueryhttp"
-	legacyjsonapi "github.com/faustbrian/go-api-query/v3/apiqueryjsonapi"
-	legacypostgres "github.com/faustbrian/go-api-query/v3/apiquerypgx"
-	legacyjsonrpc "github.com/faustbrian/go-api-query/v3/apiqueryrpc"
-	legacyvalidation "github.com/faustbrian/go-api-query/v3/apiqueryvalidation"
-	jsonapi "github.com/faustbrian/go-jsonapi"
+	apiquery "github.com/faustbrian/go-api-query/v4"
+	newhttp "github.com/faustbrian/go-api-query/v4/adapters/http"
+	newjsonapi "github.com/faustbrian/go-api-query/v4/adapters/jsonapi"
+	newjsonrpc "github.com/faustbrian/go-api-query/v4/adapters/jsonrpc"
+	newpostgres "github.com/faustbrian/go-api-query/v4/adapters/postgres"
+	newvalidation "github.com/faustbrian/go-api-query/v4/adapters/validation"
+	legacyhttp "github.com/faustbrian/go-api-query/v4/apiqueryhttp"
+	legacyjsonapi "github.com/faustbrian/go-api-query/v4/apiqueryjsonapi"
+	legacypostgres "github.com/faustbrian/go-api-query/v4/apiquerypgx"
+	legacyjsonrpc "github.com/faustbrian/go-api-query/v4/apiqueryrpc"
+	legacyvalidation "github.com/faustbrian/go-api-query/v4/apiqueryvalidation"
+	jsonapi "github.com/faustbrian/go-jsonapi/v2"
 	validation "github.com/faustbrian/go-validation/v2"
 )
 
@@ -55,14 +55,14 @@ func TestSuccessorNamedTypesOwnTheirPackageIdentity(t *testing.T) {
 	tests := []struct {
 		name, legacy, next, legacyPath, nextPath string
 	}{
-		{"jsonapi config", typeIdentity(legacyjsonapi.Config{}), typeIdentity(newjsonapi.Config{}), "github.com/faustbrian/go-api-query/v3/apiqueryjsonapi.Config", "github.com/faustbrian/go-api-query/v3/adapters/jsonapi.Config"},
-		{"jsonapi filter decoder", typeIdentity(legacyjsonapi.FilterDecoder(nil)), typeIdentity(newjsonapi.FilterDecoder(nil)), "github.com/faustbrian/go-api-query/v3/apiqueryjsonapi.FilterDecoder", "github.com/faustbrian/go-api-query/v3/adapters/jsonapi.FilterDecoder"},
-		{"jsonapi page decoder", typeIdentity(legacyjsonapi.PageDecoder(nil)), typeIdentity(newjsonapi.PageDecoder(nil)), "github.com/faustbrian/go-api-query/v3/apiqueryjsonapi.PageDecoder", "github.com/faustbrian/go-api-query/v3/adapters/jsonapi.PageDecoder"},
-		{"postgres mapping", typeIdentity(legacypostgres.Mapping{}), typeIdentity(newpostgres.Mapping{}), "github.com/faustbrian/go-api-query/v3/apiquerypgx.Mapping", "github.com/faustbrian/go-api-query/v3/adapters/postgres.Mapping"},
-		{"postgres compiler", typeIdentity(legacypostgres.Compiler{}), typeIdentity(newpostgres.Compiler{}), "github.com/faustbrian/go-api-query/v3/apiquerypgx.Compiler", "github.com/faustbrian/go-api-query/v3/adapters/postgres.Compiler"},
-		{"postgres parts", typeIdentity(legacypostgres.QueryParts{}), typeIdentity(newpostgres.QueryParts{}), "github.com/faustbrian/go-api-query/v3/apiquerypgx.QueryParts", "github.com/faustbrian/go-api-query/v3/adapters/postgres.QueryParts"},
-		{"jsonrpc params", typeIdentity(legacyjsonrpc.Params{}), typeIdentity(newjsonrpc.Params{}), "github.com/faustbrian/go-api-query/v3/apiqueryrpc.Params", "github.com/faustbrian/go-api-query/v3/adapters/jsonrpc.Params"},
-		{"jsonrpc descriptor", typeIdentity(legacyjsonrpc.ContentDescriptor{}), typeIdentity(newjsonrpc.ContentDescriptor{}), "github.com/faustbrian/go-api-query/v3/apiqueryrpc.ContentDescriptor", "github.com/faustbrian/go-api-query/v3/adapters/jsonrpc.ContentDescriptor"},
+		{"jsonapi config", typeIdentity(legacyjsonapi.Config{}), typeIdentity(newjsonapi.Config{}), "github.com/faustbrian/go-api-query/v4/apiqueryjsonapi.Config", "github.com/faustbrian/go-api-query/v4/adapters/jsonapi.Config"},
+		{"jsonapi filter decoder", typeIdentity(legacyjsonapi.FilterDecoder(nil)), typeIdentity(newjsonapi.FilterDecoder(nil)), "github.com/faustbrian/go-api-query/v4/apiqueryjsonapi.FilterDecoder", "github.com/faustbrian/go-api-query/v4/adapters/jsonapi.FilterDecoder"},
+		{"jsonapi page decoder", typeIdentity(legacyjsonapi.PageDecoder(nil)), typeIdentity(newjsonapi.PageDecoder(nil)), "github.com/faustbrian/go-api-query/v4/apiqueryjsonapi.PageDecoder", "github.com/faustbrian/go-api-query/v4/adapters/jsonapi.PageDecoder"},
+		{"postgres mapping", typeIdentity(legacypostgres.Mapping{}), typeIdentity(newpostgres.Mapping{}), "github.com/faustbrian/go-api-query/v4/apiquerypgx.Mapping", "github.com/faustbrian/go-api-query/v4/adapters/postgres.Mapping"},
+		{"postgres compiler", typeIdentity(legacypostgres.Compiler{}), typeIdentity(newpostgres.Compiler{}), "github.com/faustbrian/go-api-query/v4/apiquerypgx.Compiler", "github.com/faustbrian/go-api-query/v4/adapters/postgres.Compiler"},
+		{"postgres parts", typeIdentity(legacypostgres.QueryParts{}), typeIdentity(newpostgres.QueryParts{}), "github.com/faustbrian/go-api-query/v4/apiquerypgx.QueryParts", "github.com/faustbrian/go-api-query/v4/adapters/postgres.QueryParts"},
+		{"jsonrpc params", typeIdentity(legacyjsonrpc.Params{}), typeIdentity(newjsonrpc.Params{}), "github.com/faustbrian/go-api-query/v4/apiqueryrpc.Params", "github.com/faustbrian/go-api-query/v4/adapters/jsonrpc.Params"},
+		{"jsonrpc descriptor", typeIdentity(legacyjsonrpc.ContentDescriptor{}), typeIdentity(newjsonrpc.ContentDescriptor{}), "github.com/faustbrian/go-api-query/v4/apiqueryrpc.ContentDescriptor", "github.com/faustbrian/go-api-query/v4/adapters/jsonrpc.ContentDescriptor"},
 	}
 	for _, test := range tests {
 		if test.legacy != test.legacyPath || test.next != test.nextPath || test.legacy == test.next {

@@ -5,6 +5,17 @@ semantic versioning.
 
 ## Unreleased
 
+### Changed
+
+- Prepare the unpublished `/v4` root module for JSONAPI `/v2` query types in
+  both `adapters/jsonapi` and the supported `apiqueryjsonapi` compatibility
+  path. Decoder callbacks now use JSONAPI v2 parameter families; query mapping,
+  copy boundaries, sentinel errors and canonical transport semantics remain
+  unchanged. Preserve the released v3 API snapshot and all package locations.
+- Select published JSONAPI v2.0.0 with the same source tree as the reviewed
+  development dependency. APIQuery v4 qualification, publication and public
+  consumer adoption remain pending.
+
 ### Added
 
 - Prepare v3.0.0 at `github.com/faustbrian/go-api-query/v3` for the cursor

@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
-	"github.com/faustbrian/go-api-query/v3/apiquerypgx"
+	apiquery "github.com/faustbrian/go-api-query/v4"
+	"github.com/faustbrian/go-api-query/v4/apiquerypgx"
 )
 
 func TestCompilerKeepsIdentifiersAllowlistedAndValuesParameterized(t *testing.T) {

@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
+	apiquery "github.com/faustbrian/go-api-query/v4"
 )
 
 func TestParseCompleteQuery(t *testing.T) {

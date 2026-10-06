@@ -1,6 +1,6 @@
 # Conventional HTTP integration
 
-Import `github.com/faustbrian/go-api-query/v3/adapters/http` with its default
+Import `github.com/faustbrian/go-api-query/v4/adapters/http` with its default
 package identifier `apiqueryhttp`. Pass the raw query string and
 `schema.Bounds().MaxRequestBytes` (or a stricter positive byte limit) to
 `apiqueryhttp.Parse`. The released `apiqueryhttp` path remains supported only

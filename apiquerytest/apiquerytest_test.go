@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
-	"github.com/faustbrian/go-api-query/v3/apiquerytest"
+	apiquery "github.com/faustbrian/go-api-query/v4"
+	"github.com/faustbrian/go-api-query/v4/apiquerytest"
 )
 
 func TestBuildersAndAssertions(t *testing.T) {

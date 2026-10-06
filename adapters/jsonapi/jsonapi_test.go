@@ -8,10 +8,10 @@ import (
 	"reflect"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
-	apiqueryjsonapi "github.com/faustbrian/go-api-query/v3/adapters/jsonapi"
-	legacy "github.com/faustbrian/go-api-query/v3/apiqueryjsonapi"
-	jsonapi "github.com/faustbrian/go-jsonapi"
+	apiquery "github.com/faustbrian/go-api-query/v4"
+	apiqueryjsonapi "github.com/faustbrian/go-api-query/v4/adapters/jsonapi"
+	legacy "github.com/faustbrian/go-api-query/v4/apiqueryjsonapi"
+	jsonapi "github.com/faustbrian/go-jsonapi/v2"
 )
 
 func TestFromQueryMatchesCompatibilityPath(t *testing.T) {

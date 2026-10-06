@@ -1,9 +1,36 @@
 # Adapter package migration
 
+## Adopting v4
+
+This root source prepares unpublished v4. Stay on public APIQuery v3.0.0 until
+the v4 release and clean-public-consumer boundary have passed. Source stays on
+main at the repository root; all package locations and both JSONAPI adapter
+variants are retained without version-specific source directories.
+
+The dependency selects published `github.com/faustbrian/go-jsonapi/v2@v2.0.0`
+from qualified main source `41700010871799526a9dcfd7e96affe98bdecbba`.
+Its source tree is unchanged from the reviewed development dependency. The
+generated `api/v4.txt` records the development contract. APIQuery v4 independent
+review, hosted CI, public release and clean-public-consumer verification remain
+prerequisites for v4 adoption; selecting stable JSONAPI v2 does not satisfy them.
+
+After those boundaries pass, replace `/v3` with `/v4` in root and subpackage
+imports and select `github.com/faustbrian/go-jsonapi/v2`. Both
+`adapters/jsonapi` and `apiqueryjsonapi` now accept JSONAPI v2 `Query` values.
+Their `FilterDecoder` and `PageDecoder` parameters use the v2
+`ParameterFamily`; v1 and v2 named types are not interchangeable. Preserve
+application-owned filter and page semantics, callback copy boundaries and
+sentinel handling. The adapter does not silently add a cursor profile decoder.
+
+Applications choosing JSONAPI v2 cursor pagination must provide a positive,
+finite `CursorPaginationConfig.MaxSize`; unbounded v1 configuration is no
+longer supported. Published APIQuery v3 snapshots remain unchanged. Direct
+Localized query adapters and maintained Tools composition need explicit
+adoption of the versioned public types rather than implicit source replacement.
+
 ## Adopting v3
 
-This root source prepares unpublished v3.0.0. Stay on released v2 until the
-new major is publicly available, then require
+The retained v3 migration introduced the published v3.0.0 root module. Require
 `github.com/faustbrian/go-api-query/v3@v3.0.0` and replace `/v2` with `/v3`
 in root and subpackage imports. All fourteen package locations remain at the
 repository root on main; Go 1.27.0 and Validation v2.0.0 remain unchanged.
@@ -21,8 +48,8 @@ the synchronous caller. See [cursor ownership](cursor.md) and
 the [versioned threat model](threat-model.md).
 
 Cursor wire formats, query algorithms and Validation v2 adoption are otherwise
-unchanged. The published snapshots `api/v1.txt` and `api/v2.txt` are preserved;
-`api/v3.txt` tracks the planned major through the owned API generator.
+unchanged. The published snapshots `api/v1.txt`, `api/v2.txt` and `api/v3.txt`
+are preserved.
 
 ## Adopting v2
 
@@ -53,7 +80,7 @@ The exact released v1.1.1 export snapshot remains in `api/v1.txt`.
 
 ## Selecting adapters within v3
 
-The table below uses planned v3 module identities. Published v1 and v2 paths remain
+The table below uses published v3 module identities. Published v1 and v2 paths remain
 resolvable under their existing public versions; retaining these v3 package locations
 does not preserve cross-major named-type identity.
 
