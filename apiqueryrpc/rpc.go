@@ -1,14 +1,14 @@
 // Package apiqueryrpc parses bounded JSON-RPC query parameters and describes
 // their OpenRPC content without compiling or executing a query.
 //
-// Deprecated: use github.com/faustbrian/go-api-query/v3/adapters/jsonrpc. This package remains supported through the documented compatibility interval.
+// Deprecated: use github.com/faustbrian/go-api-query/v4/adapters/jsonrpc. This package remains supported through the documented compatibility interval.
 package apiqueryrpc
 
 import (
 	"errors"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
-	"github.com/faustbrian/go-api-query/v3/internal/strictjson"
+	apiquery "github.com/faustbrian/go-api-query/v4"
+	"github.com/faustbrian/go-api-query/v4/internal/strictjson"
 )
 
 // ErrInvalid is the sanitized JSON-RPC parameter failure.

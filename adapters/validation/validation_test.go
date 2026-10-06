@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"testing"
 
-	apiqueryvalidation "github.com/faustbrian/go-api-query/v3/adapters/validation"
-	legacy "github.com/faustbrian/go-api-query/v3/apiqueryvalidation"
+	apiqueryvalidation "github.com/faustbrian/go-api-query/v4/adapters/validation"
+	legacy "github.com/faustbrian/go-api-query/v4/apiqueryvalidation"
 	validation "github.com/faustbrian/go-validation/v2"
 )
 

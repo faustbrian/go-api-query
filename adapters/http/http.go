@@ -9,8 +9,8 @@ package apiqueryhttp
 //lint:file-ignore SA1019 This successor facade intentionally delegates to the supported compatibility implementation.
 
 import (
-	apiquery "github.com/faustbrian/go-api-query/v3"
-	legacy "github.com/faustbrian/go-api-query/v3/apiqueryhttp"
+	apiquery "github.com/faustbrian/go-api-query/v4"
+	legacy "github.com/faustbrian/go-api-query/v4/apiqueryhttp"
 )
 
 // ErrInvalid is the sanitized HTTP query failure.

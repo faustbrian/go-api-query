@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
+	apiquery "github.com/faustbrian/go-api-query/v4"
 )
 
 func TestCapabilitySemanticMatrix(t *testing.T) {

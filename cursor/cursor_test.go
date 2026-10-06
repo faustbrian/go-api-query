@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
-	"github.com/faustbrian/go-api-query/v3/cursor"
+	apiquery "github.com/faustbrian/go-api-query/v4"
+	"github.com/faustbrian/go-api-query/v4/cursor"
 )
 
 func TestCodecRejectsCallerControlledRandomness(t *testing.T) {

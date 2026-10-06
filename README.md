@@ -5,7 +5,7 @@
 [![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
 [![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
 [![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
-[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-api-query/v3.svg)](https://pkg.go.dev/github.com/faustbrian/go-api-query/v3)
+[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-api-query/v4.svg)](https://pkg.go.dev/github.com/faustbrian/go-api-query/v4)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-api-query?sort=semver)](https://github.com/faustbrian/go-api-query/releases)
 [![Go](https://img.shields.io/badge/go-1.27.0-00ADD8?logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -17,11 +17,14 @@ costs, and strict transport adapters without becoming an ORM or SQL language.
 
 The minimum supported toolchain is Go 1.27.0.
 
-This source tree prepares unpublished v3.0.0. Stay on published v2 until
-v3.0.0 is available; then install the new major-version module:
+This source tree prepares unpublished v4.0.0 with JSONAPI v2 named query types.
+The dependency selects published JSONAPI v2.0.0. Stay on published APIQuery
+v3.0.0 until APIQuery v4 qualification, public publication and clean-consumer
+verification have passed. Afterward,
+install the new major-version module:
 
 ```sh
-go get github.com/faustbrian/go-api-query/v3@v3.0.0
+go get github.com/faustbrian/go-api-query/v4@v4.0.0
 ```
 
 New integrations should use the target-oriented packages under `adapters/`.
@@ -35,8 +38,8 @@ and cross-major type boundary.
 
 ## Five-minute JSON-RPC quickstart
 
-The example uses `github.com/faustbrian/go-api-query/v3/adapters/jsonrpc` as
-`apiqueryjsonrpc` and `github.com/faustbrian/go-api-query/v3/adapters/validation` as
+The example uses `github.com/faustbrian/go-api-query/v4/adapters/jsonrpc` as
+`apiqueryjsonrpc` and `github.com/faustbrian/go-api-query/v4/adapters/validation` as
 `apiqueryvalidation`.
 
 ```go
@@ -127,12 +130,13 @@ executes queries or contacts a service at runtime.
 
 ## Stability
 
-The repository prepares the unpublished v3 line and supports Go 1.27.0. Public
+The repository prepares the unpublished v4 line and supports Go 1.27.0. Public
 compatibility rules are in
 [docs/compatibility.md](docs/compatibility.md), current changes are in
-[CHANGELOG.md](CHANGELOG.md), and the planned exported API is recorded in
-`api/v3.txt`. Released snapshots remain byte-exact in `api/v1.txt` and
-`api/v2.txt`; existing Localized v1 consumers have not adopted API Query v3.
+[CHANGELOG.md](CHANGELOG.md). The generated `api/v4.txt` snapshot tracks the
+development contract, not a public release. Released snapshots remain byte-exact
+in `api/v1.txt`, `api/v2.txt` and `api/v3.txt`; Localized v3 and maintained Tools
+consumers need explicit future adoption of APIQuery v4.
 
 ## Documentation
 

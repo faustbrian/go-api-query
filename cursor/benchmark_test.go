@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v3"
+	apiquery "github.com/faustbrian/go-api-query/v4"
 )
 
 func BenchmarkCodec(b *testing.B) {
