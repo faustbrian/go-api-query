@@ -56,6 +56,13 @@ the planned v3 cursor changes are described above.
   v1 until an explicit future consumer migration. See the
   [migration guide](docs/migration-adapters.md#adopting-v2).
 
+## 4.0.1 - 2026-10-07
+
+### Changed
+
+- Refresh the shared CI workflow while retaining the existing v4 API,
+  Go 1.27.0 requirement, runtime dependencies and tooling bootstrap.
+
 ## 1.1.1 - 2026-10-02
 
 ### Changed
