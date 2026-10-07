@@ -2,19 +2,18 @@
 
 ## Adopting v4
 
-This root source prepares unpublished v4. Stay on public APIQuery v3.0.0 until
-the v4 release and clean-public-consumer boundary have passed. Source stays on
-main at the repository root; all package locations and both JSONAPI adapter
+Published APIQuery v4.0.1 is available with the v4 JSONAPI type contract.
+Source stays on main at the repository root; all package locations and both JSONAPI adapter
 variants are retained without version-specific source directories.
 
 The dependency selects published `github.com/faustbrian/go-jsonapi/v2@v2.0.0`
 from qualified main source `41700010871799526a9dcfd7e96affe98bdecbba`.
 Its source tree is unchanged from the reviewed development dependency. The
-generated `api/v4.txt` records the development contract. APIQuery v4 independent
-review, hosted CI, public release and clean-public-consumer verification remain
-prerequisites for v4 adoption; selecting stable JSONAPI v2 does not satisfy them.
+generated `api/v4.txt` records the published v4 contract. An application's own
+composition and deployment checks remain necessary; publication does not
+certify its application-owned cursor storage or authorization policy.
 
-After those boundaries pass, replace `/v3` with `/v4` in root and subpackage
+Replace `/v3` with `/v4` in root and subpackage
 imports and select `github.com/faustbrian/go-jsonapi/v2`. Both
 `adapters/jsonapi` and `apiqueryjsonapi` now accept JSONAPI v2 `Query` values.
 Their `FilterDecoder` and `PageDecoder` parameters use the v2
@@ -53,7 +52,7 @@ are preserved.
 
 ## Adopting v2
 
-After v2.0.0 is publicly available, require
+For the historical published v2 line, require
 `github.com/faustbrian/go-api-query/v2@v2.0.0` and insert `/v2` immediately
 after `go-api-query` in every root and subpackage import. All fourteen package
 locations remain, including the five retained deprecated adapters. Source

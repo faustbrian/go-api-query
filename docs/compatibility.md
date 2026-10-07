@@ -1,8 +1,8 @@
 # Compatibility policy
 
 Semantic versioning applies to exported Go APIs and documented query behavior.
-The development v4 export baseline is `api/v4.txt`. It is not evidence of a
-public release. `api/v3.txt` preserves the released v3 API byte-for-byte.
+The published v4 export baseline is `api/v4.txt`.
+`api/v3.txt` preserves the released v3 API byte-for-byte.
 `api/v2.txt` preserves the
 released v2 API byte-for-byte; `api/v1.txt` preserves the
 byte-exact released v1.1.1 API from commit

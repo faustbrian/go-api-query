@@ -7,18 +7,24 @@ semantic versioning.
 
 ### Changed
 
-- Prepare the unpublished `/v4` root module for JSONAPI `/v2` query types in
+- Reconcile installation and migration guidance with published v4.0.1 and
+  distinguish historical cursor hardening from unconfirmed vulnerabilities.
+  Record current replay-store and clock residual owners and review conditions.
+
+The following retained major-migration entries describe published history,
+not changes awaiting publication.
+
+- Introduce the `/v4` root module for JSONAPI `/v2` query types in
   both `adapters/jsonapi` and the supported `apiqueryjsonapi` compatibility
   path. Decoder callbacks now use JSONAPI v2 parameter families; query mapping,
   copy boundaries, sentinel errors and canonical transport semantics remain
   unchanged. Preserve the released v3 API snapshot and all package locations.
 - Select published JSONAPI v2.0.0 with the same source tree as the reviewed
-  development dependency. APIQuery v4 qualification, publication and public
-  consumer adoption remain pending.
+  development dependency. Existing consumers require explicit major adoption.
 
 ### Added
 
-- Prepare v3.0.0 at `github.com/faustbrian/go-api-query/v3` for the cursor
+- Publish v3.0.0 at `github.com/faustbrian/go-api-query/v3` for the cursor
   lifecycle changes below, retaining Go 1.27.0, all fourteen package locations
   and the published Validation v2.0.0 dependency. Preserve `api/v2.txt` as the
   released contract; existing v2 consumers must explicitly migrate.
@@ -43,9 +49,9 @@ semantic versioning.
 ### Changed
 
 The following retained entries describe the published v2 adoption history;
-the planned v3 cursor changes are described above.
+the published v3 cursor changes are described above.
 
-- Prepare v2.0.0 at `github.com/faustbrian/go-api-query/v2`, retaining
+- Publish v2.0.0 at `github.com/faustbrian/go-api-query/v2`, retaining
   Go 1.27.0 and all fourteen package locations, including deprecated adapters.
   Update root and subpackage imports to include `/v2`; query algorithms,
   schemas, wire formats, cursor protocols and persistence behavior are unchanged.

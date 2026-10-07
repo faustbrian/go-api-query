@@ -17,14 +17,11 @@ costs, and strict transport adapters without becoming an ORM or SQL language.
 
 The minimum supported toolchain is Go 1.27.0.
 
-This source tree prepares unpublished v4.0.0 with JSONAPI v2 named query types.
-The dependency selects published JSONAPI v2.0.0. Stay on published APIQuery
-v3.0.0 until APIQuery v4 qualification, public publication and clean-consumer
-verification have passed. Afterward,
-install the new major-version module:
+The published v4 line uses JSONAPI v2 named query types and the published
+JSONAPI v2.0.0 dependency. Install the current release:
 
 ```sh
-go get github.com/faustbrian/go-api-query/v4@v4.0.0
+go get github.com/faustbrian/go-api-query/v4@v4.0.1
 ```
 
 New integrations should use the target-oriented packages under `adapters/`.
@@ -130,13 +127,13 @@ executes queries or contacts a service at runtime.
 
 ## Stability
 
-The repository prepares the unpublished v4 line and supports Go 1.27.0. Public
+The repository maintains the published v4 line and supports Go 1.27.0. Public
 compatibility rules are in
 [docs/compatibility.md](docs/compatibility.md), current changes are in
 [CHANGELOG.md](CHANGELOG.md). The generated `api/v4.txt` snapshot tracks the
-development contract, not a public release. Released snapshots remain byte-exact
-in `api/v1.txt`, `api/v2.txt` and `api/v3.txt`; Localized v3 and maintained Tools
-consumers need explicit future adoption of APIQuery v4.
+v4 contract. Historical snapshots remain byte-exact in `api/v1.txt`,
+`api/v2.txt` and `api/v3.txt`. Existing consumers must explicitly adopt
+the new module path; named types from different majors are not interchangeable.
 
 ## Documentation
 
