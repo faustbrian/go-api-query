@@ -269,6 +269,7 @@ func sealPlain(t *testing.T, plain []byte) string {
 		t.Fatal(err)
 	}
 	nonce := make([]byte, aead.NonceSize())
+	// #nosec G407 -- deterministic malformed-payload test fixture uses a public key and reused zero nonce, never protected data
 	sealed := aead.Seal(nonce, nonce, plain, []byte("v1.primary"))
 	return "v1.primary." + base64.RawURLEncoding.EncodeToString(sealed)
 }
