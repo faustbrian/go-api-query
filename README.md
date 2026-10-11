@@ -3,7 +3,7 @@
 [![CI](https://github.com/faustbrian/go-api-query/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/faustbrian/go-api-query/actions/workflows/ci.yml)
 [![CodeQL](https://img.shields.io/badge/CodeQL-required-blue)](https://github.com/faustbrian/go-api-query/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
-[![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
+[![Mutation](https://img.shields.io/badge/mutation-local_and_scheduled-blue)](CONTRIBUTING.md#verification)
 [![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
 [![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-api-query/v4.svg)](https://pkg.go.dev/github.com/faustbrian/go-api-query/v4)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-api-query?sort=semver)](https://github.com/faustbrian/go-api-query/releases)
@@ -115,15 +115,18 @@ and its [Service edge family](https://github.com/faustbrian/go-library-tools/blo
 ## Local quality gates
 
 ```sh
-make inventory   # repository and package manifest consistency
-make check       # the complete shared module contract
-make ci          # repository contract plus the complete module contract
+go test ./...    # standalone tests; live PostgreSQL skips when unconfigured
+make check       # bounded local route with the declared PostgreSQL fixture
+make ci          # repository checks plus bounded local verification
 ```
 
 Verification is provided by the pinned `go-library-tools` release declared in
 `.golib.yaml`. PostgreSQL defaults to the shared task-owned fixture; set
 `APIQUERY_TEST_DATABASE_URL` to use an existing test database. No package
 executes queries or contacts a service at runtime.
+`make check-full` preserves full assurance. See
+[contributor verification](CONTRIBUTING.md#verification) for service requirements,
+focused 2s fuzzing, optional mutation and relevant integration/release boundaries.
 
 ## Stability
 
