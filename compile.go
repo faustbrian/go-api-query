@@ -12,44 +12,72 @@ import (
 type CapabilityKind string
 
 const (
-	CapabilityField        CapabilityKind = "field"
-	CapabilityFilter       CapabilityKind = "filter"
-	CapabilitySort         CapabilityKind = "sort"
+	// CapabilityField identifies response field authorization.
+	CapabilityField CapabilityKind = "field"
+	// CapabilityFilter identifies predicate authorization.
+	CapabilityFilter CapabilityKind = "filter"
+	// CapabilitySort identifies explicit or implicit sort authorization.
+	CapabilitySort CapabilityKind = "sort"
+	// CapabilityRelationship identifies each traversed include edge.
 	CapabilityRelationship CapabilityKind = "relationship"
 )
 
 // Capability describes a declared element to an application authorizer.
 type Capability struct {
+	// Kind identifies the field, filter, sort or relationship authorization boundary.
 	Kind CapabilityKind
+	// Name is the declared public name, including a dotted relationship prefix.
 	Name string
 }
 
 // AuthorizeFunc decides whether a declared capability is available to the
-// current principal. It runs only after the schema declaration is found.
+// current principal. It runs synchronously only after the declaration is found,
+// without a library lock, cancellation preemption or panic recovery. Concurrent
+// Compile calls may invoke it concurrently; application code owns reentrancy safety.
 type AuthorizeFunc func(context.Context, Capability) bool
 
 // CursorDecoder authenticates and decodes one opaque cursor for an exact
 // schema revision and ordered sort contract.
 type CursorDecoder interface {
+	// DecodeCursor authenticates token against revision and the copied ordered sorts.
+	// Implementations own cancellation, policy matching and replay side effects.
 	DecodeCursor(context.Context, string, string, []SortTerm) (CursorState, error)
 }
 
 // CompileOptions supplies request-scoped policy without mutating the schema.
 type CompileOptions struct {
-	Authorize            AuthorizeFunc
+	// Authorize is a synchronous borrowed callback; nil permits all declared client
+	// capabilities.
+	Authorize AuthorizeFunc
+	// MandatoryConstraints is a borrowed server-owned equality list snapshotted into the
+	// plan, separate from client filters.
 	MandatoryConstraints []Constraint
-	CursorDecoder        CursorDecoder
+	// CursorDecoder is borrowed and called synchronously for supplied tokens; its
+	// authentication and lifecycle are application-owned.
+	CursorDecoder CursorDecoder
 }
 
 // Constraint is a server-owned mandatory equality predicate. Transport input
 // cannot create, remove, or replace constraints.
 type Constraint struct {
-	Name      string `json:"name"`
-	Value     Value  `json:"value"`
-	Protected bool   `json:"protected"`
+	// Name selects a server-owned mapping, not a client filter declaration.
+	Name string `json:"name"`
+	// Value is a non-null closed typed equality operand subject to value-size limits.
+	Value Value `json:"value"`
+	// Protected marks sensitive policy metadata; all constraints are mandatory regardless
+	// of this flag.
+	Protected bool `json:"protected"`
 }
 
-// Compile validates and snapshots a request into an immutable plan.
+// Compile validates and snapshots a request into an immutable plan. Inputs and
+// callbacks must remain valid and unmodified during the call. Failures return nil
+// and bounded Violations, never a partial plan. ctx is forwarded to callbacks but
+// Compile does not poll ctx.Err or enforce deadlines itself. A decoder may consume
+// a replay token before a later validation failure; external effects are not rolled
+// back. Direct values are checked for type and size, not reparsed for canonical text.
+// Plan.Canonical separately checks its encoded size; successful Compile need not
+// imply successful Canonical. No query or page fetch is executed; application
+// callbacks supply authorization policy.
 func Compile(ctx context.Context, schema *Schema, request Request, options CompileOptions) (*Plan, error) {
 	if schema == nil {
 		return nil, &Violations{items: []Violation{{Code: CodeInvalidElement,
@@ -105,6 +133,8 @@ func compileConstraints(schema *Schema, constraints []Constraint, plan *Plan, co
 	}
 }
 
+// compileFields separates required execution dependencies from response disclosure;
+// server-required fields do not go through client capability authorization.
 func compileFields(ctx context.Context, schema *Schema, requested Optional[[]string], options CompileOptions, plan *Plan, collector *violationCollector) {
 	fields, present := requested.Value()
 	if !present {
@@ -215,6 +245,8 @@ func relationshipPrefixes(path string) []string {
 	return append(result, path)
 }
 
+// compileFilter counts structural work before descent and rejects repeated
+// name/operator pairs across the whole tree, not just within one logical branch.
 func compileFilter(ctx context.Context, schema *Schema, filter *FilterExpr, options CompileOptions, collector *violationCollector) *FilterExpr {
 	if filter == nil {
 		return nil
@@ -373,6 +405,7 @@ func compileSorts(ctx context.Context, schema *Schema, requested Optional[[]Sort
 	return result
 }
 
+// compilePage normalizes page state and completes the sort order before decoding.
 func compilePage(ctx context.Context, schema *Schema, page *PageRequest, sorts []SortTerm, options CompileOptions, collector *violationCollector) []SortTerm {
 	if page.Mode == "" {
 		page.Mode = PageNone
@@ -444,6 +477,8 @@ func compilePage(ctx context.Context, schema *Schema, page *PageRequest, sorts [
 	return sorts
 }
 
+// compileCursor calls the decoder even if other violations are already collected.
+// Decoder acceptance is not atomic with the final compile outcome.
 func compileCursor(ctx context.Context, schema *Schema, plan *Plan, options CompileOptions, collector *violationCollector) {
 	if plan.page.Mode != PageCursor || (plan.page.After == "" && plan.page.Before == "") ||
 		(plan.page.After != "" && plan.page.Before != "") {

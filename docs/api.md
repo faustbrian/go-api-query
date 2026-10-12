@@ -16,7 +16,8 @@ cost. Paths use dots. Schema construction rejects duplicate names and resource
 cycles; compilation enforces depth, count, and authorization on every traversed
 edge.
 
-`FilterDefinition` declares one type and exact operator set plus protected,
+`FilterDefinition.Protected` is descriptive metadata, not enforced authorization.
+`FilterDefinition` declares one type and exact operator set plus
 deprecated, nullable, empty-string, and cost behavior. Supported operators are
 `eq`, `neq`, `lt`, `lte`, `gt`, `gte`, `in`, `not_in`, `between`, `is_null`,
 `contains`, `starts_with`, and `ends_with`. Operators remain type-checked.
@@ -30,8 +31,8 @@ Every cursor plan appends it when absent, after authorization.
 a bounded default page size, and caps offsets. Offset mode has no cursor
 stability claim.
 
-Zero `Bounds` receive conservative nonzero defaults. Positive declarations can
-only narrow them; negative bounds invalidate the schema. `Schema.Bounds`
+Zero `Bounds` receive conservative nonzero defaults. Positive declarations replace
+them and may be larger; negative bounds invalidate the schema. `Schema.Bounds`
 returns the normalized copy so transport adapters can use `MaxRequestBytes`.
 Cost is a deterministic schema weight with overflow-safe aggregation, not a
 database optimizer estimate.
@@ -43,11 +44,15 @@ schema revision with `Optional[T]`, constructed by `Present`. `FilterExpr` is
 either one `Predicate` or one bounded logical group. `PageRequest` selects
 `none`, `cursor`, or `offset`; `after` and `before` conflict.
 
-`Value` is a closed canonical type. Constructors are `StringValue`, `IntValue`,
+`Value` is a closed typed representation. Constructors are `StringValue`, `IntValue`,
 `UintValue`, finite `FloatValue`, `BoolValue`, UTC `TimeValue`, `BytesValue`, and
-`NullValue`. Null is valid for cursor positions or mandatory values but is not a
-schema field type or typed filter value. JSON contains an explicit type and
-canonical string representation.
+`NullValue`. Null is valid only for cursor positions, not mandatory constraints,
+schema field types or typed filter values. JSON contains an explicit type and
+canonical string representation when decoded successfully. Direct string and time
+constructors do not validate UTF-8 or the RFC3339 year range, and compilation
+does not reparse their payload text. `FloatValue` returns invalid zero Value
+for NaN/infinities. `Value.UnmarshalJSON` is not a strict object-shape decoder: it
+inherits member matching/null behavior and accepts unknown members.
 
 ## Compilation and plans
 
@@ -57,16 +62,23 @@ canonical string representation.
 list. `CursorDecoder` is required whenever an after/before token is present; the
 core verifies returned direction, position count/types, and bounds. A nil
 authorizer allows declared capabilities; applications needing authorization
-should always provide one.
+should always provide one. `FilterDefinition.Protected` does not supply one.
+
+Compile forwards context to callbacks but does not check cancellation itself.
+Callbacks are synchronous and borrowed; concurrent callers own callback safety.
+A cursor replay store can consume a token before later compile rejection, without
+rollback. Authenticate and compare application cursor policy identity explicitly.
+Inputs must not be mutated during compilation; `Optional` itself does not deep-copy.
 
 Plan accessors return defensive copies: resource and revision, response and
 execution fields, includes, deep-cloned filter, mandatory constraints, ordered
 sorts, page request, and cost. `Canonical` returns deterministic bounded JSON
-for cache keys, signatures, conformance, or equality. Randomized raw cursor
+for cache keys, signatures, conformance, or equality. The size check occurs after
+encoding; Compile success does not ensure Canonical success. Randomized raw cursor
 tokens never enter a successful plan or canonical output; canonical pages use a
 digest of authenticated `CursorState`. `Plan.Cursor` returns a defensive copy
-for seek compilation. It is not an execution format and contains protected
-constraints; store it accordingly.
+for seek compilation. Canonical output is not an execution format and can contain
+sensitive filter and protected-constraint values; store it accordingly.
 
 ## Errors
 

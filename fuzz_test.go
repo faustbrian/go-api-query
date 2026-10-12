@@ -8,6 +8,8 @@ import (
 	apiquery "github.com/faustbrian/go-api-query/v4"
 )
 
+// FuzzCompileFilterExpression exercises generated bounded trees, not JSON decoding or
+// backend evaluation.
 func FuzzCompileFilterExpression(f *testing.F) {
 	f.Add([]byte{0, 1, 2, 3, 4, 5})
 	f.Add([]byte("\xff\x00duplicate-depth"))

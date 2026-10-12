@@ -7,7 +7,9 @@ import (
 )
 
 // Plan is an immutable, reviewed query description. Accessors return copies so
-// adapters cannot mutate a plan after compilation.
+// adapters cannot mutate a plan after compilation. Use Compile rather than the
+// zero value. Review means schema and supplied policy validation, not execution
+// or an independently verified database/authorization result.
 type Plan struct {
 	resource        string
 	revision        string
@@ -68,11 +70,15 @@ func (p *Plan) Cursor() *CursorState {
 		Positions: append([]Value(nil), p.cursor.Positions...), Policy: p.cursor.Policy}
 }
 
-// Cost returns the conservative schema-defined projected cost.
+// Cost returns summed schema weights including base cost one. It is not a
+// latency, memory or database optimizer estimate.
 func (p *Plan) Cost() int { return p.cost }
 
 // Canonical returns deterministic JSON suitable for cache keys, signing, and
 // equality tests. It contains no maps and preserves semantically ordered lists.
+// Size is checked after JSON allocation. Output may contain sensitive filter and
+// mandatory-constraint values; cursor positions are represented by a state digest.
+// Cache identity must also account for application authorization/policy context.
 func (p *Plan) Canonical() ([]byte, error) {
 	encoded, _ := json.Marshal(struct {
 		Resource        string        `json:"resource"`

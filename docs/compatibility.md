@@ -31,6 +31,8 @@ tightening a bound below observed use, changing canonical output, or changing a
 sort requires a schema revision. Cursor-incompatible changes also require a new
 cursor protocol version or rejection of old tokens.
 
-Deprecated declarations fail compilation rather than silently changing
-meaning. Keep the old schema revision available for an announced window or
+Deprecated client-selected fields and filters fail compilation rather than
+silently changing meaning. Required execution fields are server dependencies
+and remain independent of client deprecation/authorization. Keep the old schema
+revision available for an announced window or
 return `version_mismatch` and migration guidance at the application layer.

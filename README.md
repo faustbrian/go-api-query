@@ -93,8 +93,10 @@ parts, err := pgCompiler.Compile(plan)
 ```
 
 An explicitly empty JSON-RPC array such as `"fields": []` remains different
-from an absent `fields` member. JSON objects reject unknown or duplicate members
-and parsing is byte-bounded before compilation.
+from an absent `fields` member. Parsing is byte-bounded and rejects exact duplicate
+member names and ordinary unknown fields. Existing `encoding/json` limitations
+include null-to-absence, case-insensitive field matching, repaired invalid UTF-8
+and nested extra members handled by `Value.UnmarshalJSON`; see [the RPC guide](docs/openrpc.md).
 
 ## Contract boundary
 

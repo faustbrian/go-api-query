@@ -1,5 +1,6 @@
 // Package strictjson provides bounded JSON decoding with duplicate and unknown
-// object member rejection.
+// object member rejection. Duplicate matching is exact and case-sensitive;
+// encoding/json still controls field matching, null and invalid UTF-8 behavior.
 package strictjson
 
 import (
@@ -12,8 +13,12 @@ import (
 
 const maxDepth = 64
 
-// Decode validates size, syntax, duplicate members, unknown fields, and trailing
-// data before populating target.
+// Decode first validates bounded syntax, exact duplicate names, depth (64) and
+// trailing data, then decodes target with DisallowUnknownFields. The second pass
+// can partially populate target before returning an error; discard it on failure.
+// Custom unmarshaling controls its own nested unknown fields. Errors can contain
+// source details and are not a safe public diagnostic. No object-only root shape
+// is enforced independently of target, and JSON null follows encoding/json.
 func Decode(data []byte, maxBytes int, target any) error {
 	if len(data) == 0 {
 		return errors.New("JSON size is outside its bounds")

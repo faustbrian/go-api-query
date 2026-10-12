@@ -7,13 +7,16 @@ maps public capability names to application-reviewed PostgreSQL identifiers.
 Mappings are snapshotted and validated as at most three identifier segments.
 Client values always become positional arguments.
 
-Applications own the complete statement:
+Applications own the complete statement, including LIMIT/OFFSET, cursor seek
+predicates, joins and include fetching. Fragments may be empty when the plan has
+no selection, filter or sort; only add SQL keywords for valid nonempty fragments:
 
 ```go
 parts, err := compiler.Compile(plan)
 if err != nil { return err }
 
 // The surrounding statement and joins are a reviewed application variant.
+// This variant requires a nonempty projection, predicates and ordering.
 sql := "SELECT " + parts.Projection +
     " FROM orders WHERE " + parts.Where +
     " ORDER BY " + parts.OrderBy

@@ -9,21 +9,33 @@ import (
 type ErrorCode string
 
 const (
-	CodeInvalidElement  ErrorCode = "invalid_element"
-	CodeUnsupported     ErrorCode = "unsupported_operation"
-	CodeConflict        ErrorCode = "conflict"
-	CodeAuthorization   ErrorCode = "authorization_rejected"
-	CodeCostLimit       ErrorCode = "cost_limit"
-	CodeCursorFailure   ErrorCode = "cursor_failure"
+	// CodeInvalidElement reports malformed or undeclared elements.
+	CodeInvalidElement ErrorCode = "invalid_element"
+	// CodeUnsupported reports a capability or operation not enabled by the schema.
+	CodeUnsupported ErrorCode = "unsupported_operation"
+	// CodeConflict reports duplicate or incompatible request/declaration components.
+	CodeConflict ErrorCode = "conflict"
+	// CodeAuthorization reports a denied capability without exposing policy details.
+	CodeAuthorization ErrorCode = "authorization_rejected"
+	// CodeCostLimit reports a projected schema-weight limit.
+	CodeCostLimit ErrorCode = "cost_limit"
+	// CodeCursorFailure reports cursor decoder or state rejection without its underlying
+	// cause.
+	CodeCursorFailure ErrorCode = "cursor_failure"
+	// CodeVersionMismatch reports an unequal requested schema revision.
 	CodeVersionMismatch ErrorCode = "version_mismatch"
-	CodeLimitExceeded   ErrorCode = "limit_exceeded"
+	// CodeLimitExceeded reports a structural or encoded size limit.
+	CodeLimitExceeded ErrorCode = "limit_exceeded"
 )
 
 // Violation is one sanitized failure at a stable request path.
 type Violation struct {
-	Code    ErrorCode `json:"code"`
-	Path    string    `json:"path"`
-	Message string    `json:"message"`
+	// Code is the stable machine-readable category.
+	Code ErrorCode `json:"code"`
+	// Path identifies request or declaration structure without rejected values.
+	Path string `json:"path"`
+	// Message is library-supplied diagnostic text, not a callback cause or raw input.
+	Message string `json:"message"`
 }
 
 // Violations aggregates a bounded set of query failures.

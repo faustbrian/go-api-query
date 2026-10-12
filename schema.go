@@ -6,87 +6,155 @@ import (
 )
 
 // Bounds contains hard compilation and resource limits. Zero values receive
-// conservative defaults rather than disabling a bound.
+// conservative defaults rather than disabling a bound. Positive limits replace
+// defaults and can be larger; negatives fail NewSchema. These are request limits,
+// not limits on trusted schema construction or callback execution time.
 type Bounds struct {
-	MaxRequestBytes   int
-	MaxFields         int
-	MaxIncludes       int
-	MaxIncludeDepth   int
-	MaxFilterDepth    int
-	MaxFilterNodes    int
-	MaxValues         int
-	MaxMembership     int
-	MaxStringBytes    int
-	MaxSorts          int
-	MaxPageSize       int
-	MaxCursorBytes    int
+	// MaxRequestBytes is the byte limit adapters should apply before decoding (default 16
+	// KiB); Compile does not decode transport bytes.
+	MaxRequestBytes int
+	// MaxFields caps selected response fields, not required execution fields (default 64).
+	MaxFields int
+	// MaxIncludes caps requested include paths (default 16).
+	MaxIncludes int
+	// MaxIncludeDepth caps requested dotted relationship depth (default 4), not trusted
+	// schema construction depth.
+	MaxIncludeDepth int
+	// MaxFilterDepth caps expression nesting with the root at depth one (default 8).
+	MaxFilterDepth int
+	// MaxFilterNodes caps predicates and logical groups together (default 128).
+	MaxFilterNodes int
+	// MaxValues caps filter values and, separately, mandatory constraints (default 256).
+	MaxValues int
+	// MaxMembership caps values in one in/not_in predicate (default 100).
+	MaxMembership int
+	// MaxStringBytes caps each value text and cursor policy in bytes (default 4096).
+	MaxStringBytes int
+	// MaxSorts caps final sort terms including an appended tie-breaker (default 8).
+	MaxSorts int
+	// MaxPageSize caps requested page size (default 100).
+	MaxPageSize int
+	// MaxCursorBytes rejects compilation for oversized raw tokens (default 4096);
+	// a decoder can still be called after this violation is collected.
+	MaxCursorBytes int
+	// MaxCanonicalBytes caps Canonical output after JSON encoding (default 64 KiB).
 	MaxCanonicalBytes int
-	MaxErrors         int
-	MaxCost           int
+	// MaxErrors caps retained violations; later failures are omitted (default 16).
+	MaxErrors int
+	// MaxCost caps summed declared weights including base cost one (default 1000).
+	MaxCost int
 }
 
 // FieldDefinition declares one selectable field.
 type FieldDefinition struct {
-	Name       string
-	Type       ValueType
-	Default    bool
-	Required   bool
+	// Name is a unique lowercase ASCII capability name.
+	Name string
+	// Type declares a non-null closed value type.
+	Type ValueType
+	// Default selects this response field when Fields is absent.
+	Default bool
+	// Required adds this execution field independently of response selection or
+	// authorization.
+	Required bool
+	// Deprecated rejects client selection, including default response selection.
 	Deprecated bool
-	Cost       int
+	// Cost is a nonnegative declared weight, not a database estimate.
+	Cost int
 }
 
 // FilterDefinition declares the only operations accepted for one filter.
 type FilterDefinition struct {
-	Name       string
-	Type       ValueType
-	Operators  []Operator
-	Protected  bool
+	// Name is a unique lowercase ASCII filter capability name.
+	Name string
+	// Type must match every predicate value; null is not a declared type.
+	Type ValueType
+	// Operators is the nonempty allowlist of type-compatible operations, copied by
+	// NewSchema.
+	Operators []Operator
+	// Protected is retained metadata; Compile does not enforce policy from this flag.
+	Protected bool
+	// Deprecated rejects predicates using this filter.
 	Deprecated bool
-	Nullable   bool
+	// Nullable permits declaring OpIsNull; it does not admit NullValue operands.
+	Nullable bool
+	// AllowEmpty permits an empty TypeString operand.
 	AllowEmpty bool
-	Cost       int
+	// Cost is charged once per admitted predicate.
+	Cost int
 }
 
 // PaginationDefinition explicitly enables bounded page modes.
 type PaginationDefinition struct {
-	Cursor          bool
-	Offset          bool
+	// Cursor enables cursor requests and requires exactly one declared tie-breaker.
+	Cursor bool
+	// Offset enables offset requests independently of cursor pagination.
+	Offset bool
+	// DefaultPageSize replaces size zero for enabled modes and must be positive within
+	// MaxPageSize.
 	DefaultPageSize int
-	MaxOffset       int
+	// MaxOffset is the inclusive offset ceiling when Offset is enabled; zero allows only
+	// offset zero.
+	MaxOffset int
 }
 
 // SortDefinition declares one sortable field and its ordering role.
 type SortDefinition struct {
-	Name       string
-	Type       ValueType
+	// Name is a unique lowercase ASCII sort capability name.
+	Name string
+	// Type declares the expected cursor position type.
+	Type ValueType
+	// TieBreaker marks the unique cursor tie-breaker; the application must ensure its data
+	// is actually unique.
 	TieBreaker bool
-	Nulls      NullOrder
-	Cost       int
+	// Nulls fixes null placement; empty leaves backend default placement.
+	Nulls NullOrder
+	// Cost is charged once per final sort term.
+	Cost int
 }
 
 // RelationshipDefinition declares one includable edge.
 type RelationshipDefinition struct {
-	Name          string
-	Resource      string
-	Cost          int
+	// Name is one lowercase ASCII path segment, unique within its parent path.
+	Name string
+	// Resource identifies the target resource; repeating an ancestor resource is rejected.
+	Resource string
+	// Cost is charged once for each traversed relationship edge.
+	Cost int
+	// Relationships declares nested edges; NewSchema recursively snapshots the indexed
+	// definitions.
 	Relationships []RelationshipDefinition
 }
 
 // SchemaConfig is mutable caller input used only while constructing a Schema.
 type SchemaConfig struct {
-	Resource      string
-	Revision      string
-	Fields        []FieldDefinition
-	Filters       []FilterDefinition
-	Sorts         []SortDefinition
+	// Resource is the lowercase ASCII resource identity.
+	Resource string
+	// Revision is a nonempty UTF-8 application contract identity, not automatically
+	// derived from declarations.
+	Revision string
+	// Fields declares response and required execution capabilities.
+	Fields []FieldDefinition
+	// Filters declares filter types and allowed operations.
+	Filters []FilterDefinition
+	// Sorts declares sort capabilities and any cursor tie-breaker.
+	Sorts []SortDefinition
+	// Relationships declares trusted relationship trees, not limited by request include
+	// bounds.
 	Relationships []RelationshipDefinition
-	DefaultSort   []SortTerm
-	AllowedLogic  []Logic
-	Pagination    PaginationDefinition
-	Bounds        Bounds
+	// DefaultSort is used only when request Sorts is absent.
+	DefaultSort []SortTerm
+	// AllowedLogic enables group operations; empty defaults to LogicAnd only.
+	AllowedLogic []Logic
+	// Pagination declares enabled page modes and their defaults.
+	Pagination PaginationDefinition
+	// Bounds supplies request limits; zeros default, positives replace defaults and
+	// negatives are rejected.
+	Bounds Bounds
 }
 
-// Schema is an immutable server-declared query capability set.
+// Schema is an immutable server-declared query capability set. Construct it with
+// NewSchema; the zero value is not a validated schema. Successful construction
+// permits concurrent readers while request callbacks remain application-owned.
 type Schema struct {
 	resource      string
 	revision      string
@@ -104,7 +172,10 @@ type Schema struct {
 	pagination    PaginationDefinition
 }
 
-// NewSchema validates and defensively copies a declared schema.
+// NewSchema validates and defensively snapshots a trusted declared schema.
+// Configuration must not be mutated during the call. Invalid declarations return
+// nil and bounded Violations; resource names use lowercase ASCII capability syntax.
+// This does not prove tie-breaker uniqueness in data or authorize database exposure.
 func NewSchema(config SchemaConfig) (*Schema, error) {
 	collector := violationCollector{limit: normalizedBounds(config.Bounds).MaxErrors}
 	validateDeclaredBounds(config.Bounds, &collector)
@@ -283,6 +354,8 @@ type relationshipNode struct {
 	depth      int
 }
 
+// indexRelationships snapshots each indexed edge so later caller tree mutation
+// cannot alter compiled include paths. Ancestor resources detect declaration cycles.
 func indexRelationships(schema *Schema, relationships []RelationshipDefinition, prefix, schemaPath string, ancestors map[string]struct{}, collector *violationCollector) {
 	for index, relation := range relationships {
 		path := fmt.Sprintf("%s[%d]", schemaPath, index)

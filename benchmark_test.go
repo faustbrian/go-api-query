@@ -8,6 +8,8 @@ import (
 	apiquery "github.com/faustbrian/go-api-query/v4"
 )
 
+// BenchmarkCompile measures the declared fixture workload, not database execution
+// latency.
 func BenchmarkCompile(b *testing.B) {
 	schema := benchmarkSchema(b, 32)
 	request := benchmarkRequest(16)

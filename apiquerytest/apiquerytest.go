@@ -1,5 +1,7 @@
 // Package apiquerytest provides builders, fixtures, assertions, and
-// conformance suites for API query consumers and adapters.
+// conformance suites for API query consumers and adapters. Canonical comparisons
+// compare application decoders, not an independent protocol or database oracle.
+// Use synthetic fixtures: failed assertions may print canonical predicate values.
 package apiquerytest
 
 import (
@@ -13,6 +15,8 @@ import (
 )
 
 // SchemaBuilder incrementally assembles explicit schema declarations for tests.
+// It is mutable and not safe for concurrent mutation. Nested definition slices
+// remain borrowed until MustBuild snapshots them through NewSchema.
 type SchemaBuilder struct{ config apiquery.SchemaConfig }
 
 // NewSchema starts a schema builder.
@@ -67,6 +71,7 @@ func (b *SchemaBuilder) MustBuild(t testing.TB) *apiquery.Schema {
 }
 
 // RequestBuilder incrementally assembles transport-neutral requests for tests.
+// Mutation requires caller synchronization; Build returns an independent snapshot.
 type RequestBuilder struct{ request apiquery.Request }
 
 // NewRequest starts an absent-component request builder.

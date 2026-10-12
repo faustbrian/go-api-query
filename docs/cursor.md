@@ -48,7 +48,14 @@ then reverse results back to canonical response order. Mixed directions and
 null ordering require explicit application-owned seek variants. Never splice a
 decoded position into SQL.
 
-`BuildPage` snapshots items and emits a backward cursor from the first item only
+The codec authenticates the policy text but does not compare it with an expected
+application policy identity. Replay acceptance is not rolled back if later core
+compilation rejects the decoded state or another request component. Cancellation
+is checked at decode entry and before the store, not continuously. An operation
+which copied a key before retirement can finish using that key.
+
+`BuildPage` shallow-copies the items slice without sorting/reversing it and emits
+a backward cursor from the first item only
 when a previous page exists, and a forward cursor from the last item only when a
 next page exists. Empty, first, and last pages have explicit booleans and omit
 unavailable cursors.

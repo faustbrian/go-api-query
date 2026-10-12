@@ -7,6 +7,7 @@ import (
 	apiquery "github.com/faustbrian/go-api-query/v4"
 )
 
+// FuzzDecode exercises hostile envelopes using synthetic keys, not live replay storage.
 func FuzzDecode(f *testing.F) {
 	keyring, err := NewKeyring(Key{ID: "active", Secret: make([]byte, 32)})
 	if err != nil {

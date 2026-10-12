@@ -7,6 +7,10 @@ semantic versioning.
 
 ### Changed
 
+- Clarify query presence and ownership, JSON decoder limitations, application-owned
+  authorization/cancellation and replay failure windows, and PostgreSQL fragment
+  execution boundaries without changing runtime or exported signatures.
+
 - Reconcile installation and migration guidance with published v4.0.1 and
   distinguish historical cursor hardening from unconfirmed vulnerabilities.
   Record current replay-store and clock residual owners and review conditions.

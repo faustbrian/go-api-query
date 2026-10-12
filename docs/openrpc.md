@@ -1,13 +1,16 @@
 # OpenRPC and JSON-RPC
 
 Import `github.com/faustbrian/go-api-query/v4/adapters/jsonrpc` with its default
-package identifier `apiqueryjsonrpc`. `apiqueryjsonrpc.Parse` accepts one
-strict bounded JSON object, normally using
-`schema.Bounds().MaxRequestBytes`. Unknown or duplicate
-members, trailing data, malformed UTF-8/JSON, excess nesting, and excess bytes
-fail with `ErrInvalid`. `Params` uses pointers so absent values remain distinct
-from explicit zero or empty values; `Params.Request` deep-copies slices and
-filters.
+package identifier `apiqueryjsonrpc`. `apiqueryjsonrpc.Parse` accepts
+bounded JSON parameters, normally using `schema.Bounds().MaxRequestBytes`.
+Exact duplicate names, ordinary unknown fields, trailing data, malformed JSON,
+excess nesting and excess bytes fail with `ErrInvalid`. `Params` uses pointers
+so explicit zero/empty values differ from absence; `Params.Request` deep-copies
+slices and filters. Existing wire limitations are not conformance guarantees:
+top-level null becomes empty parameters, null optional members become absent,
+field matching is case-insensitive, and invalid UTF-8 can be repaired by
+`encoding/json`. `Value.UnmarshalJSON` accepts nested extra members. Applications
+requiring stricter wire shape must enforce it before accepting parameters.
 
 `OpenRPCContentDescriptor` returns a minimal optional content descriptor named
 `query`, with `additionalProperties: false`. The returned map is caller-owned.

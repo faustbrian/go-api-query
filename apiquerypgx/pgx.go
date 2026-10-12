@@ -18,9 +18,13 @@ var ErrInvalid = errors.New("PostgreSQL query mapping is invalid")
 
 // Mapping binds public capability names to reviewed PostgreSQL identifiers.
 type Mapping struct {
-	Fields      map[string]string
-	Filters     map[string]string
-	Sorts       map[string]string
+	// Fields maps execution field names to trusted identifiers.
+	Fields map[string]string
+	// Filters maps filter names to trusted identifiers.
+	Filters map[string]string
+	// Sorts maps sort names to trusted identifiers.
+	Sorts map[string]string
+	// Constraints maps mandatory server predicate names to trusted identifiers.
 	Constraints map[string]string
 }
 
@@ -30,13 +34,21 @@ type Compiler struct{ mapping Mapping }
 // QueryParts contains fragments for an application-owned SQL statement.
 // Arguments remain typed and must be bound positionally in the listed order.
 type QueryParts struct {
+	// Projection is a comma-separated execution field list without a SELECT keyword.
 	Projection string
-	Where      string
-	OrderBy    string
-	Arguments  []apiquery.Value
+	// Where is the mandatory-and-client predicate fragment without a WHERE keyword.
+	Where string
+	// OrderBy is the ordered sort fragment without an ORDER BY keyword.
+	OrderBy string
+	// Arguments is a caller-owned positional slice of typed values; convert to driver
+	// types and bind in order.
+	Arguments []apiquery.Value
 }
 
-// NewCompiler validates and snapshots every mapped identifier.
+// NewCompiler validates and snapshots every mapped identifier. Maps must not be
+// mutated during construction. Values are trusted identifiers of one to three
+// segments, not arbitrary SQL; construction does not prove schema coverage.
+// Empty mappings are valid until a compiled plan requires a missing mapping.
 func NewCompiler(mapping Mapping) (*Compiler, error) {
 	cloned := Mapping{Fields: cloneMap(mapping.Fields), Filters: cloneMap(mapping.Filters),
 		Sorts: cloneMap(mapping.Sorts), Constraints: cloneMap(mapping.Constraints)}
@@ -52,6 +64,9 @@ func NewCompiler(mapping Mapping) (*Compiler, error) {
 
 // Compile translates all execution fields, mandatory constraints, client
 // filters, and sorts. A missing mapping fails closed.
+// Compile supplies no LIMIT/OFFSET, seek predicate, joins or include fetching.
+// Applications own complete SQL, driver conversion, execution and response masking.
+// Missing mappings return zero QueryParts and ErrInvalid, not partial output.
 func (c *Compiler) Compile(plan *apiquery.Plan) (QueryParts, error) {
 	if c == nil || plan == nil {
 		return QueryParts{}, ErrInvalid

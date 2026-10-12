@@ -21,21 +21,33 @@ var ErrUnsupported = errors.New("JSON:API query family is not configured")
 
 // FilterDecoder gives application code authority over JSON:API filter profile
 // or implementation-specific semantics.
+// The family is copied before invocation; the returned expression stays borrowed
+// by the request. Callbacks run synchronously without context or panic recovery.
 type FilterDecoder func(jsonapi.ParameterFamily) (*apiquery.FilterExpr, error)
 
 // PageDecoder gives application code authority over JSON:API pagination
 // profile or implementation-specific semantics.
+// The family is copied before invocation. Caller code owns concurrent-call and
+// reentrancy safety; errors become sanitized ErrInvalid without their causes.
 type PageDecoder func(jsonapi.ParameterFamily) (apiquery.PageRequest, error)
 
 // Config binds one resource fieldset and application-owned family decoders.
 type Config struct {
-	Resource     string
+	// Resource selects the sparse fieldset resource and must be nonempty.
+	Resource string
+	// DecodeFilter is required for a present filter family; the returned expression is
+	// borrowed, not cloned.
 	DecodeFilter FilterDecoder
-	DecodePage   PageDecoder
+	// DecodePage is required for a present page family; its returned page is copied by
+	// value.
+	DecodePage PageDecoder
 }
 
 // FromQuery converts an already parsed jsonapi Query without reinterpreting
 // JSON:API parameter syntax.
+// Callback filter results are not cloned; do not mutate them during Compile.
+// Only the configured sparse-fieldset resource is selected. Protocol validation
+// belongs to go-jsonapi; this bridge does not reparse it.
 func FromQuery(query jsonapi.Query, config Config) (apiquery.Request, error) {
 	if config.Resource == "" {
 		return apiquery.Request{}, ErrInvalid

@@ -11,7 +11,9 @@ and all filter values are hostile input. A plan is reviewed only after
 ## Enforced controls
 
 - Capability names and operations come from immutable schema allowlists.
-- Authorization is evaluated per field, filter, sort, and relationship edge.
+- Supplied authorization callbacks are evaluated per client field, filter, sort
+  and relationship edge; nil permits declared capabilities. Required execution
+  fields bypass client selection and must not authorize response disclosure.
 - Required execution fields are separate from response projection.
 - Tenant and policy constraints are server-owned and cannot be supplied,
   removed, shadowed, or replaced by a client filter.
@@ -24,8 +26,11 @@ and all filter values are hostile input. A plan is reviewed only after
   `crypto/rand.Reader` and construction rejects caller-controlled randomness.
 - Optional replay stores receive only the request context, opaque SHA-256
   fingerprint and expiry. Calls are concurrent, not globally serialized.
-- HTTP and JSON-RPC reject malformed UTF-8, unknown members, duplicate members
-  or parameters, invalid encoding, trailing data, and oversized input.
+- HTTP rejects malformed UTF-8, unknown/repeated parameters and invalid URL
+  encoding. Both JSON paths reject exact duplicate names, ordinary unknown
+  fields, trailing data and oversized input. Existing JSON wire limitations
+  include case aliases, RPC null-to-absence and repaired invalid UTF-8, and
+  custom Value decoding accepts nested extra members; see [RPC](docs/openrpc.md).
 - Bounds cover fields, includes, relationship depth, filter depth and nodes,
   values, membership lists, strings, sorts, page size, offset, cursors,
   canonical output, error count, and conservative cost.
@@ -46,13 +51,14 @@ and all filter values are hostile input. A plan is reviewed only after
 | Cursor forgery | Authenticated encryption, exact schema/sort binding, size and TTL bounds |
 | Cursor replay | Optional context-aware concurrent replay store with opaque fingerprints |
 | Expensive queries | Conservative declared costs and structural bounds before adapters |
-| Unicode confusion | ASCII capability grammar and strict UTF-8 transport parsing |
+| Unicode confusion | ASCII capability grammar; HTTP validates UTF-8, while RPC inherits encoding/json repair behavior |
 | Schema probing | Authorization failures are stable and intentionally nonspecific |
 | Resource exhaustion | Bounded decode, compile, canonicalization, errors, and page sizes |
 
 ## Consistency model
 
-Cursor traversal is seek-based over the exact total order in the cursor. It
+The application must implement seek traversal over the exact total order in
+the cursor; the library does not generate seek SQL. Under that ordering it
 prevents duplicates caused by inserts before an already consumed boundary and
 continues after deleted boundary rows because positions, not row identity, are
 used. It is not snapshot isolation: rows inserted after the boundary may appear

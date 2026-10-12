@@ -8,11 +8,15 @@ identifier `apiqueryjsonapi`, then pass the parsed `jsonapi.Query` to
 `apiqueryjsonapi.FromQuery`. The released `apiqueryjsonapi` path remains
 supported only as the documented compatibility path.
 
-Sparse fieldsets and includes map only through the configured resource. Filter
+Sparse fieldsets select only the configured resource; includes retain their parsed
+paths. Filter
 and page parameter families require explicit `FilterDecoder` and `PageDecoder`
 callbacks because JSON:API does not assign one universal semantic grammar to
 them. An unconfigured present family returns `ErrUnsupported`; callback errors
-become sanitized `ErrInvalid`.
+become sanitized `ErrInvalid`. Family maps and value slices are copied before
+callbacks. Returned filter expressions remain borrowed by the request; do not
+mutate them during compilation. Callbacks run synchronously without a context
+parameter or panic recovery; the application owns concurrency and lifetime.
 
 Do not feed a conventional HTTP query directly to this bridge and do not use it
 to override JSON:API member naming or extension negotiation. After composition,

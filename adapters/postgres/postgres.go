@@ -19,9 +19,13 @@ var ErrInvalid = legacy.ErrInvalid
 
 // Mapping binds public capability names to reviewed PostgreSQL identifiers.
 type Mapping struct {
-	Fields      map[string]string
-	Filters     map[string]string
-	Sorts       map[string]string
+	// Fields maps execution field names to trusted identifiers.
+	Fields map[string]string
+	// Filters maps filter names to trusted identifiers.
+	Filters map[string]string
+	// Sorts maps sort names to trusted identifiers.
+	Sorts map[string]string
+	// Constraints maps mandatory server predicate names to trusted identifiers.
 	Constraints map[string]string
 }
 
@@ -32,13 +36,20 @@ type Compiler struct {
 
 // QueryParts contains fragments for an application-owned SQL statement.
 type QueryParts struct {
+	// Projection is a comma-separated execution field list without a SELECT keyword.
 	Projection string
-	Where      string
-	OrderBy    string
-	Arguments  []apiquery.Value
+	// Where is the mandatory-and-client predicate fragment without a WHERE keyword.
+	Where string
+	// OrderBy is the ordered sort fragment without an ORDER BY keyword.
+	OrderBy string
+	// Arguments is a caller-owned positional slice of typed values; convert to driver
+	// types and bind in order.
+	Arguments []apiquery.Value
 }
 
-// NewCompiler validates and snapshots every mapped identifier.
+// NewCompiler validates and snapshots every mapped identifier. Maps must not be
+// mutated during construction. Empty mappings are valid until a plan requires
+// one; this does not prove schema coverage or authorize data exposure.
 func NewCompiler(mapping Mapping) (*Compiler, error) {
 	compiler, err := legacy.NewCompiler(legacy.Mapping{
 		Fields:      mapping.Fields,
@@ -52,7 +63,13 @@ func NewCompiler(mapping Mapping) (*Compiler, error) {
 	return &Compiler{legacy: compiler}, nil
 }
 
-// Compile translates a reviewed plan to PostgreSQL statement primitives.
+// Compile translates a plan to projection, predicates, order and typed positional
+// arguments. All mandatory constraints are AND-composed regardless of Protected.
+// String pattern operands escape LIKE metacharacters; comparisons/nulls otherwise
+// follow PostgreSQL semantics. No statement is executed and no LIMIT, OFFSET,
+// cursor seek predicate, join or include fetch is supplied. Applications own
+// complete SQL, driver conversion, response masking and pagination. Missing
+// mappings return zero QueryParts and ErrInvalid, not usable partial fragments.
 func (compiler *Compiler) Compile(plan *apiquery.Plan) (QueryParts, error) {
 	if compiler == nil {
 		return QueryParts{}, ErrInvalid

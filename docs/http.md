@@ -10,7 +10,9 @@ Supported names are `schema_revision`, `fields`, `include`, `filter`, `sort`,
 
 Fields and includes are comma-separated. Sorts are comma-separated and use a
 leading `-` for descending order. Filter is strict JSON for `FilterExpr` after
-URL decoding. Empty `fields`, `include`, or `sort` is explicitly empty; absence
+URL decoding. The shared typed-value decoder still accepts extra Value object
+members and case aliases; see the existing [JSON wire limits](openrpc.md). Empty
+`fields`, `include`, or `sort` is explicitly empty; absence
 remains absent.
 
 The parser rejects invalid percent encoding, malformed UTF-8, unknown names,

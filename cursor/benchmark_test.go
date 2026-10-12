@@ -7,6 +7,8 @@ import (
 	apiquery "github.com/faustbrian/go-api-query/v4"
 )
 
+// BenchmarkCodec measures local codec work with synthetic key material, not service
+// performance.
 func BenchmarkCodec(b *testing.B) {
 	now := time.Unix(1_700_000_000, 0)
 	keyring, err := NewKeyring(Key{ID: "active", Secret: make([]byte, 32)})

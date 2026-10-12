@@ -41,23 +41,37 @@ var (
 type Direction = apiquery.CursorDirection
 
 const (
-	Forward  Direction = apiquery.CursorForward
+	// Forward is the forward cursor direction.
+	Forward Direction = apiquery.CursorForward
+	// Backward is the backward cursor direction.
 	Backward Direction = apiquery.CursorBackward
 )
 
 // Payload binds typed positions to schema, sort, direction, expiry, and policy.
 type Payload struct {
+	// SchemaRevision binds the cursor to one application schema revision.
 	SchemaRevision string
-	Direction      Direction
-	Sorts          []apiquery.SortTerm
-	Positions      []apiquery.Value
-	ExpiresAt      time.Time
-	Policy         string
+	// Direction selects forward or backward traversal.
+	Direction Direction
+	// Sorts is the exact ordered sort contract; Encode borrows it for the call.
+	Sorts []apiquery.SortTerm
+	// Positions contains sensitive typed boundary values in sort order; Encode borrows it
+	// for the call.
+	Positions []apiquery.Value
+	// ExpiresAt must be after the configured clock and no more than MaxTTL ahead.
+	ExpiresAt time.Time
+	// Policy is authenticated metadata; the caller owns matching it to current application
+	// policy.
+	Policy string
 }
 
 // Key is one named 256-bit AES key. Secret is defensively copied.
 type Key struct {
-	ID     string
+	// ID is public nonsecret routing metadata, one to 64 ASCII letters, digits,
+	// underscores or hyphens.
+	ID string
+	// Secret must contain 32 bytes and is copied by keyring construction/rotation; caller
+	// custody remains its own.
 	Secret []byte
 }
 
@@ -77,7 +91,9 @@ func NewKeyring(active Key, retained ...Key) (*Keyring, error) {
 	return keyring, nil
 }
 
-// Rotate replaces the active and retained key snapshot atomically.
+// Rotate validates and copies all keys before atomically replacing the snapshot.
+// Failure leaves the old snapshot unchanged. An in-flight operation may finish
+// using a key already copied before retirement; secrets are not explicitly zeroized.
 func (k *Keyring) Rotate(active Key, retained ...Key) error {
 	keys := make(map[string][]byte)
 	all := append([]Key{active}, retained...)
@@ -97,6 +113,8 @@ func (k *Keyring) Rotate(active Key, retained ...Key) error {
 	return nil
 }
 
+// activeKey copies under the lock, so encryption never holds it across entropy
+// reads or application callbacks. Retirement cannot revoke this copied snapshot.
 func (k *Keyring) activeKey() (string, []byte, bool) {
 	if k == nil {
 		return "", nil, false
@@ -119,18 +137,30 @@ func (k *Keyring) key(id string) ([]byte, bool) {
 
 // Config contains hard cursor protocol limits and dependencies.
 type Config struct {
-	Version         string
-	Keys            *Keyring
+	// Version is the caller-selected protocol identity authenticated in the envelope.
+	Version string
+	// Keys is a borrowed rotating keyring which must have an active key at construction.
+	Keys *Keyring
+	// MaxEncodedBytes bounds incoming tokens before decoding and outgoing plaintext/token
+	// after encoding.
 	MaxEncodedBytes int
-	MaxPositions    int
-	MaxStringBytes  int
-	MaxTTL          time.Duration
-	Clock           func() time.Time
+	// MaxPositions is the positive maximum number of cursor positions.
+	MaxPositions int
+	// MaxStringBytes caps revision, policy, sort names and position text; nonpositive
+	// values default to 256.
+	MaxStringBytes int
+	// MaxTTL is the positive maximum remaining lifetime accepted by Encode and Decode.
+	MaxTTL time.Duration
+	// Clock is a borrowed synchronous clock; nil defaults to time.Now and concurrent
+	// callers may invoke it concurrently.
+	Clock func() time.Time
 	// ReplayGuard is the deprecated context-free replay callback.
 	//
 	// Deprecated: Use ReplayStore. NewCodec rejects non-nil ReplayGuard values;
 	// the field may be removed in v4 after the deprecation interval.
 	ReplayGuard ReplayGuard
+	// ReplayStore is optional borrowed atomic-consumption storage; nil disables replay
+	// prevention.
 	ReplayStore ReplayStore
 	// Random is the deprecated caller-controlled nonce source.
 	//
@@ -152,7 +182,10 @@ type ReplayGuard func(fingerprint [32]byte, expiresAt time.Time) bool
 // retention until expiry.
 type ReplayStore func(ctx context.Context, fingerprint [32]byte, expiresAt time.Time) bool
 
-// Codec encrypts and validates cursor payloads.
+// Codec encrypts and validates cursor payloads. It borrows the keyring, clock
+// and optional replay store; keep them valid for its lifetime. Concurrent calls
+// can invoke callbacks concurrently. No collaborator shutdown, panic recovery
+// or background goroutine is supplied.
 type Codec struct {
 	version         string
 	keys            *Keyring
@@ -190,7 +223,9 @@ func NewCodec(config Config) (*Codec, error) {
 }
 
 // SetClock replaces the time source atomically. It is intended for controlled
-// tests and applications with an injected clock.
+// tests and applications with an injected clock. nil leaves the existing clock
+// unchanged. The borrowed callback executes outside the lock and must support
+// concurrent calls when the codec is shared.
 func (c *Codec) SetClock(clock func() time.Time) {
 	if clock == nil {
 		return
@@ -200,7 +235,10 @@ func (c *Codec) SetClock(clock func() time.Time) {
 	c.clockMu.Unlock()
 }
 
-// Encode returns an encrypted and authenticated opaque cursor.
+// Encode returns an encrypted and authenticated opaque cursor using AES-256-GCM
+// and library-selected crypto/rand entropy. It borrows payload slices during the
+// synchronous call, checks size after allocations, and returns empty token on
+// failure. Position payload text is not independently revalidated here.
 func (c *Codec) Encode(payload Payload) (string, error) {
 	now := c.now()
 	if !c.validPayload(payload, now) {
@@ -240,7 +278,8 @@ func (c *Codec) Encode(payload Payload) (string, error) {
 }
 
 // Decode authenticates, decrypts, and binds a cursor to the expected schema
-// revision and exact ordered sort definition.
+// revision and exact ordered sort definition. It rejects replay-enabled codecs;
+// use DecodeContext for those, rather than hiding the caller context.
 func (c *Codec) Decode(token, expectedSchema string, expectedSorts []apiquery.SortTerm) (Payload, error) {
 	if c.replayStore != nil {
 		return Payload{}, ErrInvalid
@@ -249,8 +288,12 @@ func (c *Codec) Decode(token, expectedSchema string, expectedSorts []apiquery.So
 }
 
 // DecodeContext authenticates, decrypts, and binds a cursor while propagating
-// cancellation to configured replay storage. ReplayStore implementations must
-// honor cancellation before returning.
+// cancellation to configured replay storage. ctx must be non-nil. Cancellation
+// is checked at entry and before the store, not continuously; successful store
+// acceptance is the commit point even if cancellation races with its return.
+// Store calls are synchronous and outside library locks, with no forced preemption.
+// Returned slices are caller-owned. Application policy identity must be compared
+// separately; expiry/schema/sort checks do not establish application authorization.
 func (c *Codec) DecodeContext(ctx context.Context, token, expectedSchema string,
 	expectedSorts []apiquery.SortTerm) (Payload, error) {
 	if ctx == nil {

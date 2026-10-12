@@ -22,20 +22,32 @@ var (
 	ErrUnsupported = legacy.ErrUnsupported
 )
 
-// FilterDecoder decodes application-owned filter semantics.
+// FilterDecoder synchronously decodes a copied parameter family. Its returned
+// expression is borrowed by the request, not cloned; callbacks own reentrancy
+// and concurrent-call safety. Errors become ErrInvalid without their causes.
 type FilterDecoder func(jsonapi.ParameterFamily) (*apiquery.FilterExpr, error)
 
-// PageDecoder decodes application-owned pagination semantics.
+// PageDecoder synchronously decodes a copied parameter family into page state.
+// It owns profile semantics and callback safety; errors become ErrInvalid.
 type PageDecoder func(jsonapi.ParameterFamily) (apiquery.PageRequest, error)
 
 // Config binds one resource and its application-owned family decoders.
 type Config struct {
-	Resource     string
+	// Resource selects the sparse fieldset resource and must be nonempty.
+	Resource string
+	// DecodeFilter is required for a present filter family; the returned expression is
+	// borrowed, not cloned.
 	DecodeFilter FilterDecoder
-	DecodePage   PageDecoder
+	// DecodePage is required for a present page family; its returned page is copied by
+	// value.
+	DecodePage PageDecoder
 }
 
-// FromQuery converts an already parsed JSON:API query.
+// FromQuery converts an already parsed JSON:API query without reparsing protocol
+// syntax. Only the configured sparse-fieldset resource is selected; other
+// fieldsets are ignored. Filter/page families require their respective decoders.
+// Returned selections are copied, but a decoder filter expression remains shared.
+// Callbacks have no context parameter, forced cancellation or panic recovery.
 func FromQuery(query jsonapi.Query, config Config) (apiquery.Request, error) {
 	return legacy.FromQuery(query, legacy.Config{
 		Resource:     config.Resource,
