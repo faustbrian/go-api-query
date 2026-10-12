@@ -132,3 +132,12 @@ on every exit. Remote main/CI/delivery remain coordinator-owned.
 Unverified: live PostgreSQL execution, race/fuzz/mutation/performance campaigns,
 external protocol qualification, collaborator deployments and hosted CI/main
 delivery. These are not new claims of this documentation-only source pass.
+
+## Objective Enforcement
+
+The checksum-pinned public Tools v2.4.0 verifier now supplies
+`make source-docs-check` as a prerequisite of the existing local and CI Make
+routes. Ordinary shared CI selects strict source-documentation checking and
+requires its result. Native prerequisites, operation budgets, security and
+release controls are retained. Hosted exact-head evidence is recorded by the
+coordination ledger; configuration alone does not establish green delivery.
