@@ -1,5 +1,7 @@
 # Performance and cost budgets
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Schema cost is a conservative deterministic API weight. Field, relationship
 edge, filter, and sort costs are summed with a base cost and rejected before an
 adapter when `Bounds.MaxCost` is exceeded. It is not a PostgreSQL planner cost,
@@ -24,3 +26,6 @@ Apple M4 Max, Go 1.26.5 baseline (1 second sample, July 16, 2026):
 Run `make check-full` on comparable hardware and retain multiple samples before changing
 budgets. Tune public structural bounds from workload evidence; never raise them
 merely to accept a hostile or accidental expensive query.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

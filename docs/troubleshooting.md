@@ -1,5 +1,7 @@
 # Troubleshooting
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## A request fails after a schema change
 
 Send the expected schema revision and inspect stable violation codes/paths. A
@@ -47,3 +49,6 @@ is available from the public module proxy and checksum database.
 If a Validation v1 `Limits` or `Report` no longer type-checks, use the `/v2`
 Validation import consistently with API Query v2. Changing a version pin alone
 does not change Go import identity.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

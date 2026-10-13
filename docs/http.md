@@ -1,5 +1,7 @@
 # Conventional HTTP integration
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Import `github.com/faustbrian/go-api-query/v4/adapters/http` with its default
 package identifier `apiqueryhttp`. Pass the raw query string and
 `schema.Bounds().MaxRequestBytes` (or a stricter positive byte limit) to
@@ -29,3 +31,6 @@ schema_revision=orders-v1&fields=id,status&sort=-created_at,id&page%5Bmode%5D=cu
 Compile the returned request with the same schema and request-scoped policy used
 by other transports. Cross-transport conformance tests should compare canonical
 plans, not raw syntax.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

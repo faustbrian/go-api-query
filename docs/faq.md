@@ -1,5 +1,7 @@
 # Frequently asked questions
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## Is this an ORM or query builder?
 
 No. It validates an API query contract. Applications still own repositories,
@@ -35,3 +37,6 @@ required.
 
 Yes, as separate declared capabilities. Offset limits and consistency are
 documented independently; offset state cannot be mixed with cursors.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

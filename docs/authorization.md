@@ -1,5 +1,7 @@
 # Authorization and tenant constraints
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Authorization changes capabilities before they enter a plan. The callback sees
 only a declared capability kind and canonical public name. Return `false` for a
 field, filter, sort, or relationship edge that the principal cannot use.
@@ -29,3 +31,6 @@ Authorization rejection deliberately does not say whether a hidden capability
 exists. Avoid reflecting schema listings to principals that cannot inspect
 them. Cache plans only inside the same schema revision, authorization identity,
 tenant, and mandatory-policy context.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

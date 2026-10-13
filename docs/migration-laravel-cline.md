@@ -1,5 +1,7 @@
 # Laravel and Cline RPC migration
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Inventory each existing resource/query-builder convention before replacing it:
 selected/default/hidden fields, eager-load paths, validation rules, operators,
 authorization checks, scopes, tenant predicates, default ordering, pagination,
@@ -30,3 +32,6 @@ explicit. The Go adapter must not become a repository or reproduce lazy loading.
 For SQLC, prefer a bounded set of named query variants for approved filter/sort
 shapes. Use generated code for execution and `adapters/postgres` only for reviewed
 fragments where variants are impractical.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

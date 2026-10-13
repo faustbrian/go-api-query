@@ -1,5 +1,7 @@
 # PostgreSQL and SQLC
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Core plans contain no SQL concepts. Import
 `github.com/faustbrian/go-api-query/v4/adapters/postgres` with its default package
 identifier `apiquerypostgres`. `apiquerypostgres.Compiler` is optional and only
@@ -36,3 +38,6 @@ bind decoded positions as parameters. Fetch one extra row to determine
 
 The released `apiquerypgx` path remains supported only as the documented
 compatibility path.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

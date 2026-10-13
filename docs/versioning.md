@@ -1,5 +1,7 @@
 # Schema and cursor versioning
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Schema revision identifies the full application query behavior, not merely a
 database migration. Change it when clients could observe a capability, default,
 projection, filter, sort, page, cost, error, or canonical-plan difference.
@@ -22,3 +24,6 @@ Recommended rollout:
 Never reuse a revision or cursor version for different semantics. Record changes
 in `CHANGELOG.md` and update the API export baseline only for intentional,
 reviewed compatible additions or a new major version.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

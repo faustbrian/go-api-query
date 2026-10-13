@@ -1,5 +1,7 @@
 # JSON:API composition
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 This project does not define JSON:API query syntax. Parse and validate JSON:API
 parameters with `github.com/faustbrian/go-jsonapi/v2`; its names, extensions,
 profiles, and recommendations remain authoritative. Import
@@ -22,3 +24,6 @@ Do not feed a conventional HTTP query directly to this bridge and do not use it
 to override JSON:API member naming or extension negotiation. After composition,
 compile the ordinary transport-neutral request and compare its canonical plan
 with equivalent JSON-RPC/HTTP requests in conformance tests.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

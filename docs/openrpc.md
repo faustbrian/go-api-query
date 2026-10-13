@@ -1,5 +1,7 @@
 # OpenRPC and JSON-RPC
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Import `github.com/faustbrian/go-api-query/v4/adapters/jsonrpc` with its default
 package identifier `apiqueryjsonrpc`. `apiqueryjsonrpc.Parse` accepts
 bounded JSON parameters, normally using `schema.Bounds().MaxRequestBytes`.
@@ -25,3 +27,6 @@ OpenRPC generation must not compile or execute a request.
 
 The released `apiqueryrpc` path remains supported only as the documented
 compatibility path.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

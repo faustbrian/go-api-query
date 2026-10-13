@@ -1,5 +1,7 @@
 # Cursor protocol and rotation
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Cursor pagination requires an exact total order. Declare one stable unique
 tie-breaker and fixed null ordering. The compiler appends the tie-breaker when a
 request omits it. Storage reads fetch `page size + 1` rows to determine the next
@@ -61,3 +63,6 @@ next page exists. Empty, first, and last pages have explicit booleans and omit
 unavailable cursors.
 
 See the consistency limits in [the security model](../SECURITY.md).
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

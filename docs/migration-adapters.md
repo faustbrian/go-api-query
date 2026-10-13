@@ -1,5 +1,7 @@
 # Adapter package migration
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## Adopting v4
 
 Published APIQuery v4.0.1 is available with the v4 JSONAPI type contract.
@@ -117,3 +119,6 @@ Before publication, rollback is a normal revert of the coherent change. After
 publication, keep both paths resolvable, roll back consumer pins or imports
 independently when necessary, and publish a forward patch for successor defects.
 Do not delete, move, or replace the published release tag.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

@@ -1,5 +1,7 @@
 # API reference
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## Schema declarations
 
 `SchemaConfig` declares `Resource`, semantic `Revision`, fields, filters, sorts,
@@ -121,3 +123,6 @@ projecting a compile error as validation.
 The released `apiqueryhttp`, `apiqueryjsonapi`, `apiquerypgx`, `apiqueryrpc`,
 and `apiqueryvalidation` packages remain supported compatibility paths during
 the documented interval. See the [migration guide](migration-adapters.md).
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

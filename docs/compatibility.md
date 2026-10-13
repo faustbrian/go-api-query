@@ -1,5 +1,7 @@
 # Compatibility policy
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Semantic versioning applies to exported Go APIs and documented query behavior.
 The published v4 export baseline is `api/v4.txt`.
 `api/v3.txt` preserves the released v3 API byte-for-byte.
@@ -36,3 +38,6 @@ silently changing meaning. Required execution fields are server dependencies
 and remain independent of client deprecation/authorization. Keep the old schema
 revision available for an announced window or
 return `version_mismatch` and migration guidance at the application layer.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

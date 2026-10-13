@@ -1,5 +1,7 @@
 # Threat model
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Model version: 3.0.0. This model distinguishes the historical v2.0.0 and
 [v3.0.0](https://github.com/faustbrian/go-api-query/releases/tag/v3.0.0) cursor
 contracts and their application-owned dependencies. Published
@@ -113,3 +115,6 @@ against compromised keys. This documentation records the released contract;
 it identifies the published v3/v4 `ReplayStore` API and its bounded library-owned
 work separately from trusted collaborators. Review whenever the cursor API or its dependency
 ownership changes. Report vulnerabilities through [SECURITY.md](../SECURITY.md).
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.
