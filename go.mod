@@ -4,7 +4,7 @@ go 1.27.0
 
 require (
 	github.com/faustbrian/go-jsonapi/v2 v2.0.0
-	github.com/faustbrian/go-validation/v2 v2.0.0
+	github.com/faustbrian/go-validation/v2 v2.0.1
 	github.com/jackc/pgx/v5 v5.11.0
 )
 
