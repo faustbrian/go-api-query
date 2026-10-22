@@ -66,6 +66,12 @@ the published v3 cursor changes are described above.
   v1 until an explicit future consumer migration. See the
   [migration guide](docs/migration-adapters.md#adopting-v2).
 
+## 4.0.2 - 2026-10-22
+
+### Changed
+
+- Publish the current source and documentation with a fresh immutable tag.
+
 ## 4.0.1 - 2026-10-07
 
 ### Changed
