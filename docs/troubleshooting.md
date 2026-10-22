@@ -41,13 +41,13 @@ decoders to `apiquerytest.RunCanonicalConformance`.
 
 ## Validation dependency resolution fails
 
-This module selects the published `github.com/faustbrian/go-validation/v2` release
+This module selects the published `github.com/faustbrian/go-validation/v3` release
 recorded in `go.mod` without a replacement or workspace override. Use
 `GOWORK=off` when diagnosing resolution, and confirm that the selected version
 is available from the public module proxy and checksum database.
 
-If a Validation v1 `Limits` or `Report` no longer type-checks, use the `/v2`
-Validation import consistently with API Query v2. Changing a version pin alone
+If a Validation `Limits` or `Report` no longer type-checks, use the `/v3`
+Validation import consistently with API Query v5. Changing a version pin alone
 does not change Go import identity.
 
 Choose the next guide in the [documentation index](README.md)

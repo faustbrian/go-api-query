@@ -16,18 +16,7 @@ func TestPostgresInjectionResistanceAndStableCursorOrder(t *testing.T) {
 	if databaseURL == "" {
 		t.Skip("APIQUERY_TEST_DATABASE_URL is not configured")
 	}
-	variants := []struct {
-		name    string
-		compile func(testing.TB) func(*apiquery.Plan) (integrationParts, error)
-	}{
-		{name: "compatibility", compile: legacyIntegrationCompiler},
-		{name: "preferred", compile: successorIntegrationCompiler},
-	}
-	for _, variant := range variants {
-		t.Run(variant.name, func(t *testing.T) {
-			exercisePostgresIntegration(t, databaseURL, variant.compile(t))
-		})
-	}
+	exercisePostgresIntegration(t, databaseURL, integrationCompiler(t))
 }
 
 type integrationParts struct {
@@ -37,25 +26,7 @@ type integrationParts struct {
 	Arguments  []apiquery.Value
 }
 
-func legacyIntegrationCompiler(t testing.TB) func(*apiquery.Plan) (integrationParts, error) {
-	t.Helper()
-	compiler, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{
-		Fields: map[string]string{"id": "orders.id", "status": "orders.status",
-			"created_at": "orders.created_at"},
-		Filters:     map[string]string{"status": "orders.status"},
-		Sorts:       map[string]string{"created_at": "orders.created_at", "id": "orders.id"},
-		Constraints: map[string]string{"tenant_id": "orders.tenant_id"},
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-	return func(plan *apiquery.Plan) (integrationParts, error) {
-		parts, err := compiler.Compile(plan)
-		return integrationParts{Projection: parts.Projection, Where: parts.Where, OrderBy: parts.OrderBy, Arguments: parts.Arguments}, err
-	}
-}
-
-func successorIntegrationCompiler(t testing.TB) func(*apiquery.Plan) (integrationParts, error) {
+func integrationCompiler(t testing.TB) func(*apiquery.Plan) (integrationParts, error) {
 	t.Helper()
 	compiler, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{
 		Fields: map[string]string{"id": "orders.id", "status": "orders.status",

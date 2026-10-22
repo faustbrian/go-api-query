@@ -44,9 +44,9 @@ reader must provide cryptographically secure nonce bytes and bounded reads;
 production callers should retain the default. Clock callbacks are also
 application-owned synchronous work.
 
-## Published v3 and v4 callback contract
+## Published v3, v4 and v5 callback contract
 
-The `/v3` and `/v4` modules reject non-nil `Config.Random` and `Config.ReplayGuard`.
+The `/v3`, `/v4` and `/v5` modules reject non-nil `Config.Random` and `Config.ReplayGuard`.
 It captures `crypto/rand.Reader` privately at construction for nonce generation.
 `ReplayStore` receives the request context, opaque SHA-256 fingerprint and expiry.
 It owns atomic consumption, concurrency safety and expiry-based retention.
@@ -109,10 +109,10 @@ of an application's backend, deployment or the entire ecosystem.
 
 ## Scope limits
 
-Replay protection is disabled when no guard (v2) or store (v3/v4) is configured.
+Replay protection is disabled when no guard (v2) or store (v3 to v5) is configured.
 The library does not supply durable shared replay storage, snapshot isolation, or protection
 against compromised keys. This documentation records the released contract;
-it identifies the published v3/v4 `ReplayStore` API and its bounded library-owned
+it identifies the published v3 to v5 `ReplayStore` API and its bounded library-owned
 work separately from trusted collaborators. Review whenever the cursor API or its dependency
 ownership changes. Report vulnerabilities through [SECURITY.md](../SECURITY.md).
 

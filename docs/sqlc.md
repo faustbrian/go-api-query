@@ -36,8 +36,5 @@ conditions must implement the exact ordered directions and null placement and
 bind decoded positions as parameters. Fetch one extra row to determine
 `has_more`; SQLC or pgx remains responsible for execution and scanning.
 
-The released `apiquerypgx` path remains supported only as the documented
-compatibility path.
-
 Choose the next guide in the [documentation index](README.md)
 or return to the [repository entry](../README.md) for installation and ownership.

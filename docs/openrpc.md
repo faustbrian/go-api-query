@@ -25,8 +25,5 @@ translate `Violations` to its stable application error envelope, execute an
 application-owned adapter, and use `cursor.Page` for response boundaries.
 OpenRPC generation must not compile or execute a request.
 
-The released `apiqueryrpc` path remains supported only as the documented
-compatibility path.
-
 Choose the next guide in the [documentation index](README.md)
 or return to the [repository entry](../README.md) for installation and ownership.

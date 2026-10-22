@@ -5,8 +5,7 @@
 Import `github.com/faustbrian/go-api-query/v5/adapters/http` with its default
 package identifier `apiqueryhttp`. Pass the raw query string and
 `schema.Bounds().MaxRequestBytes` (or a stricter positive byte limit) to
-`apiqueryhttp.Parse`. The released `apiqueryhttp` path remains supported only
-as the documented compatibility path.
+`apiqueryhttp.Parse`.
 Supported names are `schema_revision`, `fields`, `include`, `filter`, `sort`,
 `page[mode]`, `page[size]`, `page[after]`, `page[before]`, and `page[offset]`.
 

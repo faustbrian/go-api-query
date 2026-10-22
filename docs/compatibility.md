@@ -10,8 +10,9 @@ released v2 API byte-for-byte; `api/v1.txt` preserves the
 byte-exact released v1.1.1 API from commit
 `47773a680c06821214acc7eac92d2d2be7c85ca5`; it is historical evidence rather
 than the current-major check baseline. See [adopting v3](migration-adapters.md#adopting-v3)
-for the retained cursor migration, [adopting v5](migration-adapters.md#adopting-v5), and [adopting v4](migration-adapters.md#adopting-v4)
-for the JSONAPI v2 named-type boundary. V5 selects Validation v3.
+for the retained cursor migration, [adopting v4](migration-adapters.md#adopting-v4)
+for the JSONAPI v2 named-type boundary, and [adopting v5](migration-adapters.md#adopting-v5)
+for the adapter paths. V5 selects Validation v3.
 
 Version 5 removed the five top-level adapter paths in favour of `adapters/`.
 The v4 line keeps them for their announced compatibility interval: the longer

@@ -7,8 +7,7 @@ parameters with `github.com/faustbrian/go-jsonapi/v2`; its names, extensions,
 profiles, and recommendations remain authoritative. Import
 `github.com/faustbrian/go-api-query/v5/adapters/jsonapi` with its default package
 identifier `apiqueryjsonapi`, then pass the parsed `jsonapi.Query` to
-`apiqueryjsonapi.FromQuery`. The released `apiqueryjsonapi` path remains
-supported only as the documented compatibility path.
+`apiqueryjsonapi.FromQuery`.
 
 Sparse fieldsets select only the configured resource; includes retain their parsed
 paths. Filter

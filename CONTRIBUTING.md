@@ -71,11 +71,10 @@ golib mutation --module . --package ./cursor
 
 Authorization, cursor, transport, SQL and public API changes retain affected
 security, race, compatibility, live PostgreSQL and direct-adapter/consumer
-checks. The full PostgreSQL operation checks both legacy and preferred compilers
-for injection resistance and stable cursor ordering; preserve its fixture and
+checks. The full PostgreSQL operation checks the compiler for injection resistance and stable cursor ordering; preserve its fixture and
 connection cleanup ownership.
 
-`make check-full` preserves all full operations, including six native 5s fuzz
+`make check-full` preserves all full operations, including four native 5s fuzz
 budgets, PostgreSQL integration, documentation and benchmarks. Relevant release
 qualification remains `golib release dry-run --module .`, without a sibling
 catalog release prerequisite. Report unavailable, skipped and failed boundaries
