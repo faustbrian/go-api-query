@@ -1,5 +1,5 @@
 {
-  "go_version": "1.27.2",
+  "go_version": "1.27.3",
   "modules": [
     {
       "build_tags": [],
