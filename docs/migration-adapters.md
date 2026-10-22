@@ -21,11 +21,13 @@ package names except `adapters/jsonrpc` (package `apiqueryjsonrpc`, formerly
 Replace `/v4` with `/v5` in imports and move each removed path to its
 successor. `adapters/validation` now takes and returns Validation v3 types, so
 move `go-validation` to `/v3` in the same change. Query semantics, cursor wire
-formats and SQL generation are unchanged. Remove any reference to the
-`cursor.Config.Random` and `cursor.Config.ReplayGuard` fields and the
-`cursor.ReplayGuard` type, even zero-valued ones, and use `Config.ReplayStore`.
-The facades were removed before their announced support window ended; the v4
-line keeps them.
+formats and SQL generation are unchanged. Remove any reference to
+`cursor.Config.Random`, even a zero value; nonces always come from
+`crypto/rand.Reader`. Replace `cursor.Config.ReplayGuard` and the
+`cursor.ReplayGuard` type with `Config.ReplayStore`. The facades were removed
+before their announced support window ended; published v4 releases keep them,
+no further v4 releases are planned, and the fix commitment in the v3 section
+below no longer applies.
 
 ## Adopting v4
 

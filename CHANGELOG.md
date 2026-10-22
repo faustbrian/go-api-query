@@ -16,7 +16,8 @@ semantic versioning.
 - Remove the deprecated `apiqueryhttp`, `apiqueryjsonapi`, `apiqueryrpc`,
   `apiquerypgx` and `apiqueryvalidation` packages. Import the matching
   `adapters/*` path; the implementations moved there unchanged. The removal
-  precedes the announced support window; the v4 line keeps the packages.
+  precedes the announced support window; published v4 releases keep the
+  packages and no further v4 releases are planned.
 - Remove the deprecated `cursor.Config.Random` and `cursor.Config.ReplayGuard`
   fields and the `cursor.ReplayGuard` type, which `NewCodec` already rejected
   when set. Drop any zero-value references and use `Config.ReplayStore`.

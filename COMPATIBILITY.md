@@ -18,5 +18,6 @@ Specification-backed modules MUST NOT diverge from their declared standards.
 Ambiguities require documented decisions and stable tests. Deprecated APIs
 follow [`DEPRECATION.md`](DEPRECATION.md).
 
-Version 5 removed the five top-level adapter packages; the v4 line keeps them.
+Version 5 removed the five top-level adapter packages; published v4 releases
+keep them and no further v4 releases are planned.
 See [`docs/migration-adapters.md`](docs/migration-adapters.md#adopting-v5).

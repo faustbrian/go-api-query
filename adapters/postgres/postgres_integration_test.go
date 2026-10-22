@@ -19,14 +19,7 @@ func TestPostgresInjectionResistanceAndStableCursorOrder(t *testing.T) {
 	exercisePostgresIntegration(t, databaseURL, integrationCompiler(t))
 }
 
-type integrationParts struct {
-	Projection string
-	Where      string
-	OrderBy    string
-	Arguments  []apiquery.Value
-}
-
-func integrationCompiler(t testing.TB) func(*apiquery.Plan) (integrationParts, error) {
+func integrationCompiler(t testing.TB) func(*apiquery.Plan) (apiquerypostgres.QueryParts, error) {
 	t.Helper()
 	compiler, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{
 		Fields: map[string]string{"id": "orders.id", "status": "orders.status",
@@ -38,13 +31,10 @@ func integrationCompiler(t testing.TB) func(*apiquery.Plan) (integrationParts, e
 	if err != nil {
 		t.Fatal(err)
 	}
-	return func(plan *apiquery.Plan) (integrationParts, error) {
-		parts, err := compiler.Compile(plan)
-		return integrationParts{Projection: parts.Projection, Where: parts.Where, OrderBy: parts.OrderBy, Arguments: parts.Arguments}, err
-	}
+	return compiler.Compile
 }
 
-func exercisePostgresIntegration(t *testing.T, databaseURL string, compile func(*apiquery.Plan) (integrationParts, error)) {
+func exercisePostgresIntegration(t *testing.T, databaseURL string, compile func(*apiquery.Plan) (apiquerypostgres.QueryParts, error)) {
 	t.Helper()
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
