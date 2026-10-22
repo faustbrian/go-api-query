@@ -93,7 +93,7 @@ Collectors stop at `Bounds.MaxErrors`.
 Transport parsers expose one sanitized sentinel error. Cursor decoding exposes
 `ErrInvalid`, `ErrExpired`, `ErrVersion`, `ErrSchema`, `ErrSort`, and `ErrReplay`
 without payload content. PostgreSQL and JSON:API bridges fail with sanitized
-adapter errors. The preferred Validation import path is
+adapter errors. The Validation adapter import path is
 `github.com/faustbrian/go-api-query/v5/adapters/validation`;
 `apiqueryvalidation.Report` converts query violations into an
 immutable `validation` report and sanitizes unrelated errors. Applications must

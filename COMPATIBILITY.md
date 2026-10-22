@@ -4,8 +4,8 @@ Each independently releasable module follows semantic versioning. The root
 module uses `v<version>` tags; an independently releasable nested module, when
 present, uses `<module-directory>/v<version>` tags.
 
-Main prepares the v5 line; the current published module is on its stable v4
-line. Incompatible exported API or documented behavior changes require a new
+The current module is on its stable v5 line; the v4 line remains available.
+Incompatible exported API or documented behavior changes require a new
 major version. Historical v1 to v4 consumers are unaffected until they explicitly migrate; major
 module suffixes identify distinct Go type contracts, not source branches.
 
