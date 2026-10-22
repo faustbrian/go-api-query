@@ -1,5 +1,8 @@
-// Package apiqueryjsonrpc parses bounded JSON-RPC query parameters and describes
-// their OpenRPC content without compiling or executing a query.
+// Package apiqueryjsonrpc parses bounded JSON-RPC query parameters and exposes
+// a caller-owned OpenRPC descriptor without compiling or executing a query.
+// Operations are stateless and safe for concurrent independent calls; returned
+// requests and descriptor maps are fresh copies. The package does not own
+// methods, handlers, transport policy, authorization, or schema compilation.
 package apiqueryjsonrpc
 
 import (

@@ -38,8 +38,8 @@ lifetime. Callers must keep those collaborators valid and concurrency safe.
 The codec invokes replay storage concurrently and passes through cancellation;
 a shared keyring may be rotated concurrently and each operation observes its
 current key snapshot. Cursor nonces always come directly from
-`crypto/rand.Reader`. Non-nil deprecated `Config.Random` or `Config.ReplayGuard`
-values are rejected; migrate replay callbacks to `Config.ReplayStore`.
+`crypto/rand.Reader`; v5 removed the deprecated `Config.Random` and
+`Config.ReplayGuard` fields, so migrate replay callbacks to `Config.ReplayStore`.
 `DecodeContext` is the context-aware direct decode entry point. `Decode` uses a
 background context only when replay storage is absent and otherwise fails
 closed with `ErrInvalid`. `SetClock` atomically replaces the borrowed clock.

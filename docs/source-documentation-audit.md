@@ -2,6 +2,10 @@
 
 [Documentation index](README.md) · [Repository entry](../README.md)
 
+This is a dated historical record of the v4 module. Version 5 removed the
+top-level adapter packages and cursor markers it lists; it is not refreshed for
+v5.
+
 ## Scope and pre-edit decisions
 
 Base: `1a28fcea3f3b5c7fa2cd5e1910f6537b9303969e`. Documentation-only Tier A;

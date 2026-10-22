@@ -6,7 +6,9 @@ Model version: 3.0.0. This model distinguishes the historical v2.0.0 and
 [v3.0.0](https://github.com/faustbrian/go-api-query/releases/tag/v3.0.0) cursor
 contracts and their application-owned dependencies. Published
 [v4.0.1](https://github.com/faustbrian/go-api-query/releases/tag/v4.0.1)
-retains the v3 cursor hardening; its major change adopts JSONAPI v2 named types.
+and v4.0.2 retain the v3 cursor hardening; v4's major change adopts JSONAPI v2
+named types. The v5 source keeps the same cursor contract and removes the
+rejected `Config.Random` and `Config.ReplayGuard` markers.
 It supplements the repository-wide
 [security model and threat matrix](../SECURITY.md); it is not a certification
 that every ecosystem security requirement has been satisfied.
@@ -44,9 +46,10 @@ reader must provide cryptographically secure nonce bytes and bounded reads;
 production callers should retain the default. Clock callbacks are also
 application-owned synchronous work.
 
-## Published v3, v4 and v5 callback contract
+## Published v3 and v4, and v5 source callback contract
 
-The `/v3`, `/v4` and `/v5` modules reject non-nil `Config.Random` and `Config.ReplayGuard`.
+The `/v3` and `/v4` modules reject non-nil `Config.Random` and `Config.ReplayGuard`;
+the `/v5` source no longer has those fields.
 It captures `crypto/rand.Reader` privately at construction for nonce generation.
 `ReplayStore` receives the request context, opaque SHA-256 fingerprint and expiry.
 It owns atomic consumption, concurrency safety and expiry-based retention.
@@ -71,7 +74,7 @@ uncooperative application code.
 
 Inspected unsuffixed v1.0.0, v1.1.0 and v1.1.1, and `/v2` v2.0.0 contain
 the historical callback limitations. `/v3` v3.0.0 first publishes the hardening;
-`/v4` v4.0.0 and v4.0.1 retain it. Migration crosses a major module boundary,
+`/v4` v4.0.0 to v4.0.2 retain it. Migration crosses a major module boundary,
 not a same-module v2 patch.
 
 The source review establishes lifecycle limitations and hazardous trusted

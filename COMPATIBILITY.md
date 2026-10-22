@@ -4,9 +4,9 @@ Each independently releasable module follows semantic versioning. The root
 module uses `v<version>` tags; an independently releasable nested module, when
 present, uses `<module-directory>/v<version>` tags.
 
-The current published module is on its stable v4 line. Incompatible exported
-API or documented behavior changes require a new major version. Historical
-v1, v2 and v3 consumers are unaffected until they explicitly migrate; major
+Main prepares the v5 line; the current published module is on its stable v4
+line. Incompatible exported API or documented behavior changes require a new
+major version. Historical v1 to v4 consumers are unaffected until they explicitly migrate; major
 module suffixes identify distinct Go type contracts, not source branches.
 
 Compatibility includes exported Go APIs, error classification, serialization,
@@ -18,6 +18,5 @@ Specification-backed modules MUST NOT diverge from their declared standards.
 Ambiguities require documented decisions and stable tests. Deprecated APIs
 follow [`DEPRECATION.md`](DEPRECATION.md).
 
-The released adapter packages and their preferred `adapters/` successors remain
-supported together for the interval defined in
-[`docs/migration-adapters.md`](docs/migration-adapters.md).
+Version 5 removed the five top-level adapter packages; the v4 line keeps them.
+See [`docs/migration-adapters.md`](docs/migration-adapters.md#adopting-v5).

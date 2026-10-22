@@ -1,5 +1,7 @@
-// Package apiqueryhttp strictly parses conventional HTTP query strings into
-// transport-neutral API query requests.
+// Package apiqueryhttp strictly parses the repository's bounded conventional
+// HTTP query representation into transport-neutral API query requests. Parse
+// is stateless, performs no I/O and retains no input. It does not own server
+// limits, authorization, schema compilation, or HTTP handling.
 package apiqueryhttp
 
 import (

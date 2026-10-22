@@ -154,28 +154,10 @@ type Config struct {
 	// Clock is a borrowed synchronous clock; nil defaults to time.Now and concurrent
 	// callers may invoke it concurrently.
 	Clock func() time.Time
-	// ReplayGuard is the deprecated context-free replay callback.
-	//
-	// Deprecated: Use ReplayStore. NewCodec rejects non-nil ReplayGuard values;
-	// the field may be removed in v4 after the deprecation interval.
-	ReplayGuard ReplayGuard
 	// ReplayStore is optional borrowed atomic-consumption storage; nil disables replay
 	// prevention.
 	ReplayStore ReplayStore
-	// Random is the deprecated caller-controlled nonce source.
-	//
-	// Deprecated: Leave Random nil. NewCodec rejects non-nil Random values and
-	// cursor nonces always come from crypto/rand.Reader. The field may be removed
-	// in v4 after the deprecation interval.
-	Random io.Reader
 }
-
-// ReplayGuard is the deprecated context-free replay callback.
-//
-// Deprecated: Use ReplayStore so decoding can propagate cancellation and
-// callers can execute concurrently. This type may be removed in v4 after the
-// deprecation interval.
-type ReplayGuard func(fingerprint [32]byte, expiresAt time.Time) bool
 
 // ReplayStore atomically accepts a new opaque fingerprint or rejects replay.
 // It must honor context cancellation, permit concurrent calls, and own bounded
@@ -204,7 +186,7 @@ type Codec struct {
 // NewCodec validates a bounded cursor protocol configuration.
 func NewCodec(config Config) (*Codec, error) {
 	if !validKeyID(config.Version) || config.Keys == nil || config.MaxEncodedBytes <= 0 ||
-		config.MaxPositions <= 0 || config.MaxTTL <= 0 || config.ReplayGuard != nil || config.Random != nil {
+		config.MaxPositions <= 0 || config.MaxTTL <= 0 {
 		return nil, ErrInvalid
 	}
 	if _, _, exists := config.Keys.activeKey(); !exists {

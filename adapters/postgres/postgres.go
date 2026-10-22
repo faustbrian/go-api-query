@@ -1,5 +1,7 @@
 // Package apiquerypostgres translates reviewed plans into bounded PostgreSQL query
-// primitives. It does not execute queries, own joins, or accept raw SQL.
+// primitives. Compiler snapshots caller-owned mappings and Compile returns
+// caller-owned arguments. It is safe for concurrent use after construction and
+// never owns SQL execution, connections, transactions, joins, schemas, or raw SQL.
 package apiquerypostgres
 
 import (
@@ -61,7 +63,9 @@ func NewCompiler(mapping Mapping) (*Compiler, error) {
 }
 
 // Compile translates all execution fields, mandatory constraints, client
-// filters, and sorts. A missing mapping fails closed.
+// filters, and sorts. All mandatory constraints are AND-composed regardless of
+// Protected. String pattern operands escape LIKE metacharacters; comparisons and
+// nulls otherwise follow PostgreSQL semantics. A missing mapping fails closed.
 // Compile supplies no LIMIT/OFFSET, seek predicate, joins or include fetching.
 // Applications own complete SQL, driver conversion, execution and response masking.
 // Missing mappings return zero QueryParts and ErrInvalid, not partial output.

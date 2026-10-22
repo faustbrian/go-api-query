@@ -1,7 +1,6 @@
 package cursor_test
 
 import (
-	"bytes"
 	"context"
 	"errors"
 	"strings"
@@ -12,38 +11,6 @@ import (
 	apiquery "github.com/faustbrian/go-api-query/v5"
 	"github.com/faustbrian/go-api-query/v5/cursor"
 )
-
-func TestCodecRejectsCallerControlledRandomness(t *testing.T) {
-	t.Parallel()
-
-	keys, err := cursor.NewKeyring(cursor.Key{ID: "one", Secret: []byte("0123456789abcdef0123456789abcdef")})
-	if err != nil {
-		t.Fatalf("NewKeyring() error = %v", err)
-	}
-	_, err = cursor.NewCodec(cursor.Config{
-		Version: "v1", Keys: keys, MaxEncodedBytes: 512, MaxPositions: 1,
-		MaxTTL: time.Hour, Random: bytes.NewReader(make([]byte, 32)),
-	})
-	if !errors.Is(err, cursor.ErrInvalid) {
-		t.Fatalf("NewCodec(caller randomness) error = %v, want ErrInvalid", err)
-	}
-}
-
-func TestCodecRejectsContextFreeReplayGuard(t *testing.T) {
-	t.Parallel()
-
-	keys, err := cursor.NewKeyring(cursor.Key{ID: "one", Secret: []byte("0123456789abcdef0123456789abcdef")})
-	if err != nil {
-		t.Fatalf("NewKeyring() error = %v", err)
-	}
-	_, err = cursor.NewCodec(cursor.Config{
-		Version: "v1", Keys: keys, MaxEncodedBytes: 512, MaxPositions: 1, MaxTTL: time.Hour,
-		ReplayGuard: func([32]byte, time.Time) bool { return true },
-	})
-	if !errors.Is(err, cursor.ErrInvalid) {
-		t.Fatalf("NewCodec(context-free replay guard) error = %v, want ErrInvalid", err)
-	}
-}
 
 func TestDecodeCursorRejectsCanceledContextBeforeReplayStore(t *testing.T) {
 	t.Parallel()

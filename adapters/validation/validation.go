@@ -1,5 +1,9 @@
-// Package apiqueryvalidation projects query failures into validation
-// reports without exposing rejected values or unsafe causes.
+// Package apiqueryvalidation projects API Query failures into immutable
+// go-validation reports without exposing rejected values or unsafe causes.
+// Report is stateless, retains no caller values, and is safe for concurrent
+// independent calls. Applications must route cancellation and deadline
+// outcomes before projection; this package does not own context, transport
+// envelopes, localization, or validation execution.
 package apiqueryvalidation
 
 import (

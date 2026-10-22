@@ -156,6 +156,10 @@ func TestPostgresCompilerSnapshotsMappingAndReturnsFreshArguments(t *testing.T) 
 	if _, err := (*apiquerypostgres.Compiler)(nil).Compile(plan); err != apiquerypostgres.ErrInvalid { //nolint:errorlint // The exact returned sentinel is the contract.
 		t.Fatalf("nil compiler error = %v", err)
 	}
+	var zero apiquerypostgres.Compiler
+	if parts, err := zero.Compile(plan); err != apiquerypostgres.ErrInvalid || !reflect.DeepEqual(parts, apiquerypostgres.QueryParts{}) { //nolint:errorlint // The exact returned sentinel is the contract.
+		t.Fatalf("zero compiler = %#v, %v", parts, err)
+	}
 	if _, err := compiler.Compile(nil); err != apiquerypostgres.ErrInvalid { //nolint:errorlint // The exact returned sentinel is the contract.
 		t.Fatalf("nil plan error = %v", err)
 	}
