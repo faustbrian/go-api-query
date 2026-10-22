@@ -5,7 +5,7 @@
 [![Coverage](https://img.shields.io/badge/coverage-risk_selected-blue)](CONTRIBUTING.md#verification)
 [![Mutation](https://img.shields.io/badge/mutation-optional_local%2Fselected_scheduled-blue)](CONTRIBUTING.md#verification)
 [![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
-[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-api-query/v4.svg)](https://pkg.go.dev/github.com/faustbrian/go-api-query/v4)
+[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-api-query/v5.svg)](https://pkg.go.dev/github.com/faustbrian/go-api-query/v5)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-api-query?sort=semver)](https://github.com/faustbrian/go-api-query/releases)
 [![Go](https://img.shields.io/badge/go-1.27.0-00ADD8?logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
@@ -17,26 +17,26 @@ costs, and strict transport adapters without becoming an ORM or SQL language.
 
 The minimum supported toolchain is Go 1.27.0.
 
-The published v4 line uses JSONAPI v2 named query types and the published
-JSONAPI v2.0.0 dependency. Install the current release:
+The v5 line uses JSONAPI v2 and Validation v3 named types. Install the
+current release:
 
 ```sh
-go get github.com/faustbrian/go-api-query/v4@v4.0.1
+go get github.com/faustbrian/go-api-query/v5@v5.0.0
 ```
 
-New integrations should use the target-oriented packages under `adapters/`.
-The complete [package map](docs/api.md#adapter-packages) and
-[adapter migration guide](docs/migration-adapters.md) describe the supported
-legacy paths and explicit named-type conversions.
+Integrations use the packages under `adapters/`. The
+[package map](docs/api.md#adapter-packages) and
+[adapter migration guide](docs/migration-adapters.md) describe the v5 move
+from the removed top-level adapter paths.
 
-For existing applications, first read [adopting v3](docs/migration-adapters.md#adopting-v3),
-including the cursor callback migration, retained Validation v2 dependency,
-and cross-major type boundary.
+For existing applications, read [adopting v5](docs/migration-adapters.md#adopting-v5)
+and the earlier sections for the cursor callback migration and cross-major
+type boundaries.
 
 ## Five-minute JSON-RPC quickstart
 
-The example uses `github.com/faustbrian/go-api-query/v4/adapters/jsonrpc` as
-`apiqueryjsonrpc` and `github.com/faustbrian/go-api-query/v4/adapters/validation` as
+The example uses `github.com/faustbrian/go-api-query/v5/adapters/jsonrpc` as
+`apiqueryjsonrpc` and `github.com/faustbrian/go-api-query/v5/adapters/validation` as
 `apiqueryvalidation`.
 
 ```go
@@ -132,12 +132,12 @@ focused 2s fuzzing, optional mutation and relevant integration/release boundarie
 
 ## Stability
 
-The repository maintains the published v4 line and supports Go 1.27.0. Public
+The repository maintains the v5 line and supports Go 1.27.0. Public
 compatibility rules are in
 [docs/compatibility.md](docs/compatibility.md), current changes are in
-[CHANGELOG.md](CHANGELOG.md). The generated `api/v4.txt` snapshot tracks the
-v4 contract. Historical snapshots remain byte-exact in `api/v1.txt`,
-`api/v2.txt` and `api/v3.txt`. Existing consumers must explicitly adopt
+[CHANGELOG.md](CHANGELOG.md). The generated `api/v5.txt` snapshot tracks the
+v5 contract. Historical snapshots remain byte-exact in `api/v1.txt`,
+`api/v2.txt`, `api/v3.txt` and `api/v4.txt`. Existing consumers must explicitly adopt
 the new module path; named types from different majors are not interchangeable.
 
 ## Documentation

@@ -6,7 +6,7 @@ import (
 	"math"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
+	apiquery "github.com/faustbrian/go-api-query/v5"
 )
 
 func TestMandatoryConstraintsAreImmutableAndSeparateFromClientFilters(t *testing.T) {

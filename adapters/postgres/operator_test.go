@@ -1,11 +1,11 @@
-package apiquerypgx_test
+package apiquerypostgres_test
 
 import (
 	"context"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
-	"github.com/faustbrian/go-api-query/v4/apiquerypgx"
+	apiquery "github.com/faustbrian/go-api-query/v5"
+	"github.com/faustbrian/go-api-query/v5/adapters/postgres"
 )
 
 func TestFilterOperatorCompilationMatrix(t *testing.T) {
@@ -63,7 +63,7 @@ func TestCompilerFailureAndOrderingMatrix(t *testing.T) {
 	t.Parallel()
 
 	plan := operatorPlan(t, leaf(apiquery.OpEqual, "a"))
-	if _, err := (*apiquerypgx.Compiler)(nil).Compile(plan); err == nil {
+	if _, err := (*apiquerypostgres.Compiler)(nil).Compile(plan); err == nil {
 		t.Fatal("nil compiler accepted")
 	}
 	compiler := operatorCompiler(t)
@@ -71,11 +71,11 @@ func TestCompilerFailureAndOrderingMatrix(t *testing.T) {
 		t.Fatal("nil plan accepted")
 	}
 
-	missingField, _ := apiquerypgx.NewCompiler(apiquerypgx.Mapping{Filters: map[string]string{"value": "records.value"}})
+	missingField, _ := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{Filters: map[string]string{"value": "records.value"}})
 	if _, err := missingField.Compile(plan); err == nil {
 		t.Fatal("missing field mapping accepted")
 	}
-	missingFilter, _ := apiquerypgx.NewCompiler(apiquerypgx.Mapping{Fields: map[string]string{"id": "records.id"}})
+	missingFilter, _ := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{Fields: map[string]string{"id": "records.id"}})
 	if _, err := missingFilter.Compile(plan); err == nil {
 		t.Fatal("missing filter mapping accepted")
 	}
@@ -85,7 +85,7 @@ func TestCompilerFailureAndOrderingMatrix(t *testing.T) {
 	}
 
 	sorted := sortedPlan(t)
-	missingSort, _ := apiquerypgx.NewCompiler(apiquerypgx.Mapping{Fields: map[string]string{"id": "records.id"}})
+	missingSort, _ := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{Fields: map[string]string{"id": "records.id"}})
 	if _, err := missingSort.Compile(sorted); err == nil {
 		t.Fatal("missing sort mapping accepted")
 	}
@@ -102,21 +102,21 @@ func TestIdentifierValidationMatrix(t *testing.T) {
 	t.Parallel()
 
 	for _, identifier := range []string{"", ".id", "a.b.c.d", "1table.id", "table.bad-name"} {
-		if _, err := apiquerypgx.NewCompiler(apiquerypgx.Mapping{Fields: map[string]string{"id": identifier}}); err == nil {
+		if _, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{Fields: map[string]string{"id": identifier}}); err == nil {
 			t.Fatalf("NewCompiler() accepted %q", identifier)
 		}
 	}
-	if _, err := apiquerypgx.NewCompiler(apiquerypgx.Mapping{Fields: map[string]string{"id": "catalog.records.id"}}); err != nil {
+	if _, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{Fields: map[string]string{"id": "catalog.records.id"}}); err != nil {
 		t.Fatalf("NewCompiler() rejected three-part identifier: %v", err)
 	}
-	if _, err := apiquerypgx.NewCompiler(apiquerypgx.Mapping{Fields: map[string]string{"": "records.id"}}); err == nil {
+	if _, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{Fields: map[string]string{"": "records.id"}}); err == nil {
 		t.Fatal("NewCompiler() accepted empty capability name")
 	}
 }
 
-func operatorCompiler(t *testing.T) *apiquerypgx.Compiler {
+func operatorCompiler(t *testing.T) *apiquerypostgres.Compiler {
 	t.Helper()
-	compiler, err := apiquerypgx.NewCompiler(apiquerypgx.Mapping{
+	compiler, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{
 		Fields: map[string]string{"id": "records.id"}, Filters: map[string]string{"value": "records.value"},
 		Sorts: map[string]string{"id": "records.id"},
 	})

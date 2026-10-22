@@ -1,37 +1,35 @@
-// Package apiqueryjsonapi maps authoritative go-jsonapi query values into the
-// transport-neutral request model. Calls are synchronous and stateless;
-// callback inputs and returned slices preserve the compatibility path's copy
-// boundaries. The package does not define JSON:API syntax, profiles, schema
-// compilation, transport handling, or callback concurrency.
-//
-//nolint:staticcheck // This successor facade intentionally delegates to the deprecated compatibility implementation.
+// Package apiqueryjsonapi composes parsed jsonapi queries with apiquery.
+// JSON:API names, syntax, extensions, and recommendations remain exclusively
+// owned by github.com/faustbrian/go-jsonapi/v2.
 package apiqueryjsonapi
 
-//lint:file-ignore SA1019 This successor facade intentionally delegates to the supported compatibility implementation.
-
 import (
-	apiquery "github.com/faustbrian/go-api-query/v4"
-	legacy "github.com/faustbrian/go-api-query/v4/apiqueryjsonapi"
+	"errors"
+
+	apiquery "github.com/faustbrian/go-api-query/v5"
 	jsonapi "github.com/faustbrian/go-jsonapi/v2"
 )
 
-var (
-	// ErrInvalid reports an invalid bridge configuration or callback result.
-	ErrInvalid = legacy.ErrInvalid
-	// ErrUnsupported reports a present family without an application decoder.
-	ErrUnsupported = legacy.ErrUnsupported
-)
+// ErrInvalid reports an invalid bridge configuration or callback result.
+var ErrInvalid = errors.New("JSON:API query bridge is invalid")
 
-// FilterDecoder synchronously decodes a copied parameter family. Its returned
-// expression is borrowed by the request, not cloned; callbacks own reentrancy
-// and concurrent-call safety. Errors become ErrInvalid without their causes.
+// ErrUnsupported reports a JSON:API family that the application did not bind
+// to its general query contract.
+var ErrUnsupported = errors.New("JSON:API query family is not configured")
+
+// FilterDecoder gives application code authority over JSON:API filter profile
+// or implementation-specific semantics.
+// The family is copied before invocation; the returned expression stays borrowed
+// by the request. Callbacks run synchronously without context or panic recovery.
 type FilterDecoder func(jsonapi.ParameterFamily) (*apiquery.FilterExpr, error)
 
-// PageDecoder synchronously decodes a copied parameter family into page state.
-// It owns profile semantics and callback safety; errors become ErrInvalid.
+// PageDecoder gives application code authority over JSON:API pagination
+// profile or implementation-specific semantics.
+// The family is copied before invocation. Caller code owns concurrent-call and
+// reentrancy safety; errors become sanitized ErrInvalid without their causes.
 type PageDecoder func(jsonapi.ParameterFamily) (apiquery.PageRequest, error)
 
-// Config binds one resource and its application-owned family decoders.
+// Config binds one resource fieldset and application-owned family decoders.
 type Config struct {
 	// Resource selects the sparse fieldset resource and must be nonempty.
 	Resource string
@@ -43,15 +41,60 @@ type Config struct {
 	DecodePage PageDecoder
 }
 
-// FromQuery converts an already parsed JSON:API query without reparsing protocol
-// syntax. Only the configured sparse-fieldset resource is selected; other
-// fieldsets are ignored. Filter/page families require their respective decoders.
-// Returned selections are copied, but a decoder filter expression remains shared.
-// Callbacks have no context parameter, forced cancellation or panic recovery.
+// FromQuery converts an already parsed jsonapi Query without reinterpreting
+// JSON:API parameter syntax.
+// Callback filter results are not cloned; do not mutate them during Compile.
+// Only the configured sparse-fieldset resource is selected. Protocol validation
+// belongs to go-jsonapi; this bridge does not reparse it.
 func FromQuery(query jsonapi.Query, config Config) (apiquery.Request, error) {
-	return legacy.FromQuery(query, legacy.Config{
-		Resource:     config.Resource,
-		DecodeFilter: legacy.FilterDecoder(config.DecodeFilter),
-		DecodePage:   legacy.PageDecoder(config.DecodePage),
-	})
+	if config.Resource == "" {
+		return apiquery.Request{}, ErrInvalid
+	}
+	request := apiquery.Request{}
+	if fields, present := query.Fields[config.Resource]; present {
+		request.Fields = apiquery.Present(append([]string(nil), fields...))
+	}
+	if query.IncludePresent {
+		request.Includes = apiquery.Present(append([]string(nil), query.Include...))
+	}
+	if query.SortPresent {
+		sorts := make([]apiquery.SortTerm, len(query.Sort))
+		for index, sort := range query.Sort {
+			direction := apiquery.Ascending
+			if sort.Descending {
+				direction = apiquery.Descending
+			}
+			sorts[index] = apiquery.SortTerm{Name: sort.Name, Direction: direction}
+		}
+		request.Sorts = apiquery.Present(sorts)
+	}
+	if len(query.Filter) > 0 {
+		if config.DecodeFilter == nil {
+			return apiquery.Request{}, ErrUnsupported
+		}
+		filter, err := config.DecodeFilter(cloneFamily(query.Filter))
+		if err != nil || filter == nil {
+			return apiquery.Request{}, ErrInvalid
+		}
+		request.Filter = filter
+	}
+	if len(query.Page) > 0 {
+		if config.DecodePage == nil {
+			return apiquery.Request{}, ErrUnsupported
+		}
+		page, err := config.DecodePage(cloneFamily(query.Page))
+		if err != nil {
+			return apiquery.Request{}, ErrInvalid
+		}
+		request.Page = page
+	}
+	return request, nil
+}
+
+func cloneFamily(family jsonapi.ParameterFamily) jsonapi.ParameterFamily {
+	result := make(jsonapi.ParameterFamily, len(family))
+	for name, values := range family {
+		result[name] = append([]string(nil), values...)
+	}
+	return result
 }

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
+	apiquery "github.com/faustbrian/go-api-query/v5"
 )
 
 // FuzzDecode exercises hostile envelopes using synthetic keys, not live replay storage.

@@ -2,6 +2,28 @@
 
 [Documentation index](README.md) · [Repository entry](../README.md)
 
+## Adopting v5
+
+Version 5 removes the deprecated top-level adapter packages; their
+implementations now live at the `adapters/*` paths, which keep the same
+package names except `adapters/jsonrpc` (package `apiqueryjsonrpc`, formerly
+`apiqueryrpc`) and `adapters/postgres` (package `apiquerypostgres`, formerly
+`apiquerypgx`):
+
+| Removed path | Successor |
+| --- | --- |
+| `apiqueryhttp` | `adapters/http` |
+| `apiqueryjsonapi` | `adapters/jsonapi` |
+| `apiqueryrpc` | `adapters/jsonrpc` |
+| `apiquerypgx` | `adapters/postgres` |
+| `apiqueryvalidation` | `adapters/validation` |
+
+Replace `/v4` with `/v5` in imports and move each removed path to its
+successor. `adapters/validation` now takes and returns Validation v3 types, so
+move `go-validation` to `/v3` in the same change. Query semantics, cursor wire
+formats and SQL generation are unchanged. The facades are removed before
+their announced support window ended; the v4 line keeps them.
+
 ## Adopting v4
 
 Published APIQuery v4.0.1 is available with the v4 JSONAPI type contract.

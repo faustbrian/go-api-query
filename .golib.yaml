@@ -16,7 +16,7 @@ api:
   baselines:
     - module: .
       mode: apidiff
-      path: api/v4.txt
+      path: api/v5.txt
 operations:
   # Concurrent readers must retain canonical plans and defensive field copies.
   - module: .
@@ -51,17 +51,7 @@ operations:
         budget: 5s
         timeout: 2m
       - type: go-test
-        packages: [./apiqueryhttp]
-        fuzz: '^FuzzParse$'
-        budget: 5s
-        timeout: 2m
-      - type: go-test
         packages: [./adapters/http]
-        fuzz: '^FuzzParse$'
-        budget: 5s
-        timeout: 2m
-      - type: go-test
-        packages: [./apiqueryrpc]
         fuzz: '^FuzzParse$'
         budget: 5s
         timeout: 2m

@@ -1,36 +1,121 @@
-//nolint:staticcheck // This compatibility test intentionally exercises the deprecated facade.
 package apiqueryjsonapi_test
-
-//lint:file-ignore SA1019 This compatibility test intentionally exercises the deprecated facade.
 
 import (
 	"errors"
-	"reflect"
+	"net/url"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
-	apiqueryjsonapi "github.com/faustbrian/go-api-query/v4/adapters/jsonapi"
-	legacy "github.com/faustbrian/go-api-query/v4/apiqueryjsonapi"
+	apiquery "github.com/faustbrian/go-api-query/v5"
+	"github.com/faustbrian/go-api-query/v5/adapters/jsonapi"
 	jsonapi "github.com/faustbrian/go-jsonapi/v2"
 )
 
-func TestFromQueryMatchesCompatibilityPath(t *testing.T) {
+func TestBridgeComposesAuthoritativeJSONAPIQuery(t *testing.T) {
 	t.Parallel()
 
-	query := jsonapi.Query{Fields: map[string][]string{"orders": {"id"}}, Filter: jsonapi.ParameterFamily{"filter[status]": {"paid"}}, Page: jsonapi.ParameterFamily{"page[size]": {"10"}}}
-	decodeFilter := func(jsonapi.ParameterFamily) (*apiquery.FilterExpr, error) {
-		return &apiquery.FilterExpr{Predicate: &apiquery.Predicate{Name: "status", Operator: apiquery.OpEqual, Values: []apiquery.Value{apiquery.StringValue("paid")}}}, nil
+	query, err := jsonapi.ParseQuery(url.Values{
+		"fields[orders]": {"status"},
+		"include":        {"customer.address"},
+		"sort":           {"-created_at,id"},
+		"filter[status]": {"paid"},
+		"page[size]":     {"20"},
+	})
+	if err != nil {
+		t.Fatalf("jsonapi.ParseQuery() error = %v", err)
 	}
-	decodePage := func(jsonapi.ParameterFamily) (apiquery.PageRequest, error) {
-		return apiquery.PageRequest{Mode: apiquery.PageCursor, Size: 10}, nil
+	request, err := apiqueryjsonapi.FromQuery(query, apiqueryjsonapi.Config{
+		Resource: "orders",
+		DecodeFilter: func(family jsonapi.ParameterFamily) (*apiquery.FilterExpr, error) {
+			values := family["filter[status]"]
+			return &apiquery.FilterExpr{Predicate: &apiquery.Predicate{
+				Name: "status", Operator: apiquery.OpEqual,
+				Values: []apiquery.Value{apiquery.StringValue(values[0])},
+			}}, nil
+		},
+		DecodePage: func(family jsonapi.ParameterFamily) (apiquery.PageRequest, error) {
+			if family["page[size]"][0] != "20" {
+				t.Fatal("page family was altered before application decoding")
+			}
+			return apiquery.PageRequest{Mode: apiquery.PageCursor, Size: 20}, nil
+		},
+	})
+	if err != nil {
+		t.Fatalf("FromQuery() error = %v", err)
 	}
-	want, wantErr := legacy.FromQuery(query, legacy.Config{Resource: "orders", DecodeFilter: decodeFilter, DecodePage: decodePage})
-	got, gotErr := apiqueryjsonapi.FromQuery(query, apiqueryjsonapi.Config{Resource: "orders", DecodeFilter: decodeFilter, DecodePage: decodePage})
-	if !reflect.DeepEqual(got, want) || gotErr != wantErr { //nolint:errorlint // Exact sentinel identity is the compatibility contract.
-		t.Fatalf("FromQuery() = (%#v, %v), want (%#v, %v)", got, gotErr, want, wantErr)
+	fields, present := request.Fields.Value()
+	if !present || len(fields) != 1 || fields[0] != "status" {
+		t.Fatalf("fields = %v, present = %v", fields, present)
 	}
-	_, gotErr = apiqueryjsonapi.FromQuery(jsonapi.Query{Filter: jsonapi.ParameterFamily{"filter[x]": {"1"}}}, apiqueryjsonapi.Config{Resource: "orders"})
-	if !errors.Is(gotErr, apiqueryjsonapi.ErrUnsupported) || apiqueryjsonapi.ErrInvalid != legacy.ErrInvalid || apiqueryjsonapi.ErrUnsupported != legacy.ErrUnsupported { //nolint:errorlint // Exact sentinel identity is the compatibility contract.
-		t.Fatalf("sentinel behavior = (%v, %v, %v)", gotErr, apiqueryjsonapi.ErrInvalid, apiqueryjsonapi.ErrUnsupported)
+	includes, present := request.Includes.Value()
+	if !present || len(includes) != 1 || includes[0] != "customer.address" {
+		t.Fatalf("includes = %v, present = %v", includes, present)
+	}
+	sorts, present := request.Sorts.Value()
+	if !present || len(sorts) != 2 || sorts[0].Direction != apiquery.Descending {
+		t.Fatalf("sorts = %#v, present = %v", sorts, present)
+	}
+}
+
+func TestBridgeRefusesToInterpretJSONAPIFamilies(t *testing.T) {
+	t.Parallel()
+
+	query, err := jsonapi.ParseQuery(url.Values{"filter[status]": {"paid"}})
+	if err != nil {
+		t.Fatalf("jsonapi.ParseQuery() error = %v", err)
+	}
+	_, err = apiqueryjsonapi.FromQuery(query, apiqueryjsonapi.Config{Resource: "orders"})
+	if !errors.Is(err, apiqueryjsonapi.ErrUnsupported) {
+		t.Fatalf("FromQuery() error = %v, want ErrUnsupported", err)
+	}
+}
+
+func TestBridgeSkipsAbsentFamilies(t *testing.T) {
+	t.Parallel()
+
+	filterCalled := false
+	pageCalled := false
+	_, err := apiqueryjsonapi.FromQuery(jsonapi.Query{}, apiqueryjsonapi.Config{
+		Resource: "orders",
+		DecodeFilter: func(jsonapi.ParameterFamily) (*apiquery.FilterExpr, error) {
+			filterCalled = true
+			return nil, nil
+		},
+		DecodePage: func(jsonapi.ParameterFamily) (apiquery.PageRequest, error) {
+			pageCalled = true
+			return apiquery.PageRequest{}, nil
+		},
+	})
+	if err != nil || filterCalled || pageCalled {
+		t.Fatalf("absent families: filter called = %v, page called = %v, error = %v", filterCalled, pageCalled, err)
+	}
+}
+
+func TestBridgeFailureMatrix(t *testing.T) {
+	t.Parallel()
+
+	failure := errors.New("decoder failed")
+	tests := []struct {
+		name   string
+		query  jsonapi.Query
+		config apiqueryjsonapi.Config
+		want   error
+	}{
+		{name: "missing resource", config: apiqueryjsonapi.Config{}, want: apiqueryjsonapi.ErrInvalid},
+		{name: "missing page decoder", query: jsonapi.Query{Page: jsonapi.ParameterFamily{"page[size]": {"1"}}},
+			config: apiqueryjsonapi.Config{Resource: "orders"}, want: apiqueryjsonapi.ErrUnsupported},
+		{name: "filter decoder error", query: jsonapi.Query{Filter: jsonapi.ParameterFamily{"filter[x]": {"1"}}},
+			config: apiqueryjsonapi.Config{Resource: "orders", DecodeFilter: func(jsonapi.ParameterFamily) (*apiquery.FilterExpr, error) { return nil, failure }}, want: apiqueryjsonapi.ErrInvalid},
+		{name: "filter decoder nil", query: jsonapi.Query{Filter: jsonapi.ParameterFamily{"filter[x]": {"1"}}},
+			config: apiqueryjsonapi.Config{Resource: "orders", DecodeFilter: func(jsonapi.ParameterFamily) (*apiquery.FilterExpr, error) { return nil, nil }}, want: apiqueryjsonapi.ErrInvalid},
+		{name: "page decoder error", query: jsonapi.Query{Page: jsonapi.ParameterFamily{"page[size]": {"1"}}},
+			config: apiqueryjsonapi.Config{Resource: "orders", DecodePage: func(jsonapi.ParameterFamily) (apiquery.PageRequest, error) { return apiquery.PageRequest{}, failure }}, want: apiqueryjsonapi.ErrInvalid},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			t.Parallel()
+			if _, err := apiqueryjsonapi.FromQuery(test.query, test.config); !errors.Is(err, test.want) {
+				t.Fatalf("FromQuery() error = %v, want %v", err, test.want)
+			}
+		})
 	}
 }

@@ -94,7 +94,7 @@ Transport parsers expose one sanitized sentinel error. Cursor decoding exposes
 `ErrInvalid`, `ErrExpired`, `ErrVersion`, `ErrSchema`, `ErrSort`, and `ErrReplay`
 without payload content. PostgreSQL and JSON:API bridges fail with sanitized
 adapter errors. The preferred Validation import path is
-`github.com/faustbrian/go-api-query/v4/adapters/validation`;
+`github.com/faustbrian/go-api-query/v5/adapters/validation`;
 `apiqueryvalidation.Report` converts query violations into an
 immutable `validation` report and sanitizes unrelated errors. Applications must
 branch on `ctx.Err()` and apply their cancellation or deadline policy before
@@ -102,15 +102,15 @@ projecting a compile error as validation.
 
 ## Adapter packages
 
-- Import `github.com/faustbrian/go-api-query/v4/adapters/http` and use
+- Import `github.com/faustbrian/go-api-query/v5/adapters/http` and use
   `apiqueryhttp.Parse` to strictly parse one bounded raw query string.
-- Import `github.com/faustbrian/go-api-query/v4/adapters/jsonrpc` and use
+- Import `github.com/faustbrian/go-api-query/v5/adapters/jsonrpc` and use
   `apiqueryjsonrpc.Parse` to strictly parse bounded parameters; `Params.Request`
   returns a defensive request; `OpenRPCContentDescriptor` returns fresh maps.
-- Import `github.com/faustbrian/go-api-query/v4/adapters/jsonapi` and use
+- Import `github.com/faustbrian/go-api-query/v5/adapters/jsonapi` and use
   `apiqueryjsonapi.FromQuery` to consume a query parsed by `jsonapi`; callbacks
   explicitly own filter and pagination profile semantics.
-- Import `github.com/faustbrian/go-api-query/v4/adapters/postgres` and use
+- Import `github.com/faustbrian/go-api-query/v5/adapters/postgres` and use
   `apiquerypostgres.NewCompiler` to snapshot allowlisted mappings. `Compile` returns
   projection, where, order, and typed positional arguments, never execution.
 - `cursor.NewKeyring`, `Rotate`, `NewCodec`, `Encode`, `DecodeContext`,
@@ -120,9 +120,9 @@ projecting a compile error as validation.
 - `apiquerytest` provides schema/request builders, `MustCompile`, violation and
   canonical assertions, an order fixture, and cross-decoder conformance suite.
 
-The released `apiqueryhttp`, `apiqueryjsonapi`, `apiquerypgx`, `apiqueryrpc`,
-and `apiqueryvalidation` packages remain supported compatibility paths during
-the documented interval. See the [migration guide](migration-adapters.md).
+Version 5 removed the former top-level `apiqueryhttp`, `apiqueryjsonapi`,
+`apiquerypgx`, `apiqueryrpc`, and `apiqueryvalidation` packages; see the
+[migration guide](migration-adapters.md#adopting-v5).
 
 Choose the next guide in the [documentation index](README.md)
 or return to the [repository entry](../README.md) for installation and ownership.

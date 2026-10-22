@@ -1,84 +1,104 @@
-//nolint:staticcheck // This compatibility test intentionally exercises the deprecated facade.
 package apiquerypostgres_test
-
-//lint:file-ignore SA1019 This compatibility test intentionally exercises the deprecated facade.
 
 import (
 	"context"
-	"errors"
+	"strings"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
-	apiquerypostgres "github.com/faustbrian/go-api-query/v4/adapters/postgres"
-	legacy "github.com/faustbrian/go-api-query/v4/apiquerypgx"
+	apiquery "github.com/faustbrian/go-api-query/v5"
+	"github.com/faustbrian/go-api-query/v5/adapters/postgres"
 )
 
-func TestCompilerMatchesCompatibilityPath(t *testing.T) {
+func TestCompilerKeepsIdentifiersAllowlistedAndValuesParameterized(t *testing.T) {
 	t.Parallel()
 
-	mapping := apiquerypostgres.Mapping{Fields: map[string]string{"id": "orders.id"}}
-	compiler, err := apiquerypostgres.NewCompiler(mapping)
+	plan := databasePlan(t, "paid' OR true --")
+	compiler, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{
+		Fields:      map[string]string{"id": "orders.id", "status": "orders.status"},
+		Filters:     map[string]string{"status": "orders.status"},
+		Sorts:       map[string]string{"id": "orders.id"},
+		Constraints: map[string]string{"tenant_id": "orders.tenant_id"},
+	})
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("NewCompiler() error = %v", err)
 	}
-	mapping.Fields["id"] = "changed.bad"
-	plan := fieldPlan(t)
 	parts, err := compiler.Compile(plan)
-	if err != nil || parts.Projection != `"orders"."id"` {
-		t.Fatalf("Compile() = (%#v, %v)", parts, err)
+	if err != nil {
+		t.Fatalf("Compile() error = %v", err)
 	}
-	parts.Arguments = append(parts.Arguments, apiquery.StringValue("changed"))
-	second, err := compiler.Compile(plan)
-	if err != nil || len(second.Arguments) != 0 {
-		t.Fatalf("second Compile() = (%#v, %v)", second, err)
+	if strings.Contains(parts.Where, "paid") || strings.Contains(parts.Where, "OR true") {
+		t.Fatalf("Where exposed client value: %q", parts.Where)
 	}
-	if _, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{Fields: map[string]string{"id": "bad-name"}}); !errors.Is(err, apiquerypostgres.ErrInvalid) {
-		t.Fatalf("unsafe mapping error = %v", err)
+	wantWhere := `("orders"."tenant_id" = $1) AND ("orders"."status" = $2)`
+	if parts.Where != wantWhere {
+		t.Fatalf("Where = %q, want %q", parts.Where, wantWhere)
 	}
-	if _, err := compiler.Compile(nil); !errors.Is(err, apiquerypostgres.ErrInvalid) {
-		t.Fatalf("nil plan error = %v", err)
+	if parts.Projection != `"orders"."id", "orders"."status"` {
+		t.Fatalf("Projection = %q", parts.Projection)
 	}
-	var zero apiquerypostgres.Compiler
-	if _, err := zero.Compile(plan); !errors.Is(err, apiquerypostgres.ErrInvalid) {
-		t.Fatalf("zero compiler error = %v", err)
+	if parts.OrderBy != `"orders"."id" ASC` {
+		t.Fatalf("OrderBy = %q", parts.OrderBy)
 	}
-	if _, err := (*apiquerypostgres.Compiler)(nil).Compile(plan); !errors.Is(err, apiquerypostgres.ErrInvalid) {
-		t.Fatalf("nil compiler error = %v", err)
-	}
-	if apiquerypostgres.ErrInvalid != legacy.ErrInvalid { //nolint:errorlint // Exact sentinel identity is the compatibility contract.
-		t.Fatal("ErrInvalid does not share compatibility identity")
+	if len(parts.Arguments) != 2 || parts.Arguments[0].String() != "tenant-42" ||
+		parts.Arguments[1].String() != "paid' OR true --" {
+		t.Fatalf("Arguments = %#v", parts.Arguments)
 	}
 }
 
-func TestZeroCompilerMatchesCompatibilityPathForEmptyPlan(t *testing.T) {
+func TestCompilerCannotDropMandatoryConstraint(t *testing.T) {
 	t.Parallel()
 
-	schema, err := apiquery.NewSchema(apiquery.SchemaConfig{Resource: "records", Revision: "v1"})
+	plan := databasePlan(t, "paid")
+	compiler, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{
+		Fields:  map[string]string{"id": "orders.id", "status": "orders.status"},
+		Filters: map[string]string{"status": "orders.status"},
+		Sorts:   map[string]string{"id": "orders.id"},
+	})
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("NewCompiler() error = %v", err)
 	}
-	plan, err := apiquery.Compile(context.Background(), schema, apiquery.Request{}, apiquery.CompileOptions{})
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	legacyParts, legacyErr := new(legacy.Compiler).Compile(plan)
-	var successor apiquerypostgres.Compiler
-	parts, err := successor.Compile(plan)
-	if !errors.Is(err, legacyErr) || parts.Projection != legacyParts.Projection || parts.Where != legacyParts.Where || parts.OrderBy != legacyParts.OrderBy || len(parts.Arguments) != len(legacyParts.Arguments) {
-		t.Fatalf("successor Compile() = (%#v, %v), legacy = (%#v, %v)", parts, err, legacyParts, legacyErr)
+	if _, err := compiler.Compile(plan); err == nil {
+		t.Fatal("Compile() accepted a plan without mandatory constraint mapping")
 	}
 }
 
-func fieldPlan(t *testing.T) *apiquery.Plan {
-	t.Helper()
-	schema, err := apiquery.NewSchema(apiquery.SchemaConfig{Resource: "orders", Revision: "v1", Fields: []apiquery.FieldDefinition{{Name: "id", Type: apiquery.TypeString, Required: true}}})
-	if err != nil {
-		t.Fatal(err)
+func TestCompilerRejectsUnsafeMappedIdentifier(t *testing.T) {
+	t.Parallel()
+
+	_, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{
+		Fields: map[string]string{"id": `orders.id; DROP TABLE orders`},
+	})
+	if err == nil {
+		t.Fatal("NewCompiler() accepted unsafe identifier")
 	}
-	plan, err := apiquery.Compile(context.Background(), schema, apiquery.Request{}, apiquery.CompileOptions{})
+}
+
+func databasePlan(t *testing.T, status string) *apiquery.Plan {
+	t.Helper()
+	schema, err := apiquery.NewSchema(apiquery.SchemaConfig{
+		Resource: "orders", Revision: "v1",
+		Fields: []apiquery.FieldDefinition{
+			{Name: "id", Type: apiquery.TypeString, Required: true},
+			{Name: "status", Type: apiquery.TypeString, Default: true},
+		},
+		Filters: []apiquery.FilterDefinition{{Name: "status", Type: apiquery.TypeString,
+			Operators: []apiquery.Operator{apiquery.OpEqual}, AllowEmpty: true}},
+		Sorts:       []apiquery.SortDefinition{{Name: "id", Type: apiquery.TypeString, TieBreaker: true}},
+		DefaultSort: []apiquery.SortTerm{{Name: "id", Direction: apiquery.Ascending}},
+	})
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("NewSchema() error = %v", err)
+	}
+	plan, err := apiquery.Compile(context.Background(), schema, apiquery.Request{
+		Filter: &apiquery.FilterExpr{Predicate: &apiquery.Predicate{
+			Name: "status", Operator: apiquery.OpEqual,
+			Values: []apiquery.Value{apiquery.StringValue(status)},
+		}},
+	}, apiquery.CompileOptions{MandatoryConstraints: []apiquery.Constraint{{
+		Name: "tenant_id", Value: apiquery.StringValue("tenant-42"), Protected: true,
+	}}})
+	if err != nil {
+		t.Fatalf("apiquery.Compile() error = %v", err)
 	}
 	return plan
 }

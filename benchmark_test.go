@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
+	apiquery "github.com/faustbrian/go-api-query/v5"
 )
 
 // BenchmarkCompile measures the declared fixture workload, not database execution

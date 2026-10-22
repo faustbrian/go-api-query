@@ -1,10 +1,10 @@
-package apiquerypgx
+package apiquerypostgres
 
 import (
 	"errors"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
+	apiquery "github.com/faustbrian/go-api-query/v5"
 )
 
 func TestCompileFilterFailsClosedForImpossiblePlanState(t *testing.T) {

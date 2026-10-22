@@ -1,43 +1,70 @@
-//nolint:staticcheck // This compatibility test intentionally exercises the deprecated facade.
-package apiqueryjsonrpc_test
-
-//lint:file-ignore SA1019 This compatibility test intentionally exercises the deprecated facade.
+package apiqueryjsonrpc
 
 import (
 	"errors"
-	"reflect"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
-	apiqueryjsonrpc "github.com/faustbrian/go-api-query/v4/adapters/jsonrpc"
-	legacy "github.com/faustbrian/go-api-query/v4/apiqueryrpc"
+	apiquery "github.com/faustbrian/go-api-query/v5"
 )
 
-func TestParamsAndDescriptorMatchCompatibilityPath(t *testing.T) {
+func TestParseAndRequestPreserveCompleteParams(t *testing.T) {
 	t.Parallel()
 
-	data := []byte(`{"schema_revision":"v1","fields":["id"],"includes":[],"sorts":[{"name":"id","direction":"asc"}],"page":{"mode":"cursor","size":10}}`)
-	want, wantErr := legacy.Parse(data, 512)
-	got, gotErr := apiqueryjsonrpc.Parse(data, 512)
-	if gotErr != wantErr || !reflect.DeepEqual(got.Request(), want.Request()) { //nolint:errorlint // Exact sentinel identity is the compatibility contract.
-		t.Fatalf("Parse() = (%#v, %v), want (%#v, %v)", got, gotErr, want, wantErr)
+	params, err := Parse([]byte(`{
+		"schema_revision":"v1","fields":[],"includes":["customer"],
+		"filter":{"logic":"not","children":[{"predicate":{"name":"status","operator":"eq","values":[{"type":"string","value":"paid"}]}}]},
+		"sorts":[{"name":"id","direction":"asc"}],
+		"page":{"mode":"cursor","size":10,"after":"opaque"}
+	}`), 1000)
+	if err != nil {
+		t.Fatalf("Parse() error = %v", err)
 	}
-	fields, fieldsPresent := got.Request().Fields.Value()
-	if !fieldsPresent || len(fields) != 1 {
-		t.Fatalf("Request fields = %#v", fields)
+	request := params.Request()
+	if revision, present := request.SchemaRevision.Value(); !present || revision != "v1" {
+		t.Fatalf("revision = %q, present = %v", revision, present)
 	}
-	fields[0] = "changed"
-	fieldsAgain, fieldsAgainPresent := got.Request().Fields.Value()
-	if !fieldsAgainPresent || len(fieldsAgain) != 1 || fieldsAgain[0] != "id" {
-		t.Fatal("Request retained returned field mutation")
+	if fields, present := request.Fields.Value(); !present || len(fields) != 0 {
+		t.Fatalf("fields = %v", fields)
 	}
-	if _, err := apiqueryjsonrpc.Parse([]byte(`{"unknown":true}`), 128); !errors.Is(err, apiqueryjsonrpc.ErrInvalid) || apiqueryjsonrpc.ErrInvalid != legacy.ErrInvalid { //nolint:errorlint // Exact sentinel identity is the compatibility contract.
-		t.Fatalf("invalid parse = %v", err)
+	if includes, present := request.Includes.Value(); !present || len(includes) != 1 {
+		t.Fatalf("includes = %v", includes)
 	}
-	descriptor := apiqueryjsonrpc.OpenRPCContentDescriptor()
-	descriptor.Schema["type"] = "changed"
-	if next := apiqueryjsonrpc.OpenRPCContentDescriptor(); next.Name != "query" || next.Required || next.Schema["type"] != "object" {
-		t.Fatalf("descriptor = %#v", next)
+	if sorts, present := request.Sorts.Value(); !present || len(sorts) != 1 {
+		t.Fatalf("sorts = %#v", sorts)
 	}
-	_ = apiqueryjsonrpc.Params{Filter: &apiquery.FilterExpr{}}.Request()
+	if request.Page.After != "opaque" || request.Filter.Children[0].Predicate.Values[0].String() != "paid" {
+		t.Fatalf("request = %#v", request)
+	}
+	params.Filter.Children[0].Predicate.Values[0] = apiquery.StringValue("changed")
+	if request.Filter.Children[0].Predicate.Values[0].String() != "paid" {
+		t.Fatal("Request() returned Params-owned filter storage")
+	}
+}
+
+func TestParseRejectsStrictJSONFailures(t *testing.T) {
+	t.Parallel()
+
+	for _, data := range [][]byte{nil, []byte(`[]`), []byte(`{"unknown":1}`),
+		[]byte(`{"fields":[],"fields":[]}`)} {
+		if _, err := Parse(data, 100); !errors.Is(err, ErrInvalid) {
+			t.Fatalf("Parse(%q) error = %v", data, err)
+		}
+	}
+}
+
+func TestOpenRPCDescriptorIsIndependent(t *testing.T) {
+	t.Parallel()
+
+	first := OpenRPCContentDescriptor()
+	second := OpenRPCContentDescriptor()
+	if first.Name != "query" || first.Required || first.Schema["type"] != "object" {
+		t.Fatalf("descriptor = %#v", first)
+	}
+	first.Schema["type"] = "changed"
+	if second.Schema["type"] != "object" {
+		t.Fatal("descriptors shared map storage")
+	}
+	if request := (Params{}).Request(); request.Filter != nil {
+		t.Fatalf("empty request = %#v", request)
+	}
 }

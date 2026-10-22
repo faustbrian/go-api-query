@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
+	apiquery "github.com/faustbrian/go-api-query/v5"
 )
 
 // FuzzCompileFilterExpression exercises generated bounded trees, not JSON decoding or

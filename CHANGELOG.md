@@ -3,7 +3,23 @@
 All notable changes follow Keep a Changelog. Public releases follow
 semantic versioning.
 
-## Unreleased
+## 5.0.0 - 2026-10-22
+
+### Changed
+
+- Move the module to `github.com/faustbrian/go-api-query/v5` and adopt
+  `go-validation/v3`; `adapters/validation` takes and returns Validation v3
+  types.
+
+### Removed
+
+- Remove the deprecated `apiqueryhttp`, `apiqueryjsonapi`, `apiqueryrpc`,
+  `apiquerypgx` and `apiqueryvalidation` packages. Import the matching
+  `adapters/*` path; the implementations moved there unchanged. The removal
+  precedes the announced support window, which the v4 line continues to
+  honour.
+
+## Earlier unversioned notes (shipped by 4.0.2)
 
 ### Changed
 

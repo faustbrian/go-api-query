@@ -1,7 +1,4 @@
-//nolint:staticcheck // This conformance test intentionally exercises deprecated compatibility facades.
 package apiquery_test
-
-//lint:file-ignore SA1019 This conformance test intentionally exercises deprecated compatibility facades.
 
 import (
 	"context"
@@ -11,11 +8,11 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
-	"github.com/faustbrian/go-api-query/v4/apiqueryhttp"
-	"github.com/faustbrian/go-api-query/v4/apiqueryjsonapi"
-	"github.com/faustbrian/go-api-query/v4/apiqueryrpc"
-	"github.com/faustbrian/go-api-query/v4/cursor"
+	apiquery "github.com/faustbrian/go-api-query/v5"
+	"github.com/faustbrian/go-api-query/v5/adapters/http"
+	"github.com/faustbrian/go-api-query/v5/adapters/jsonapi"
+	"github.com/faustbrian/go-api-query/v5/adapters/jsonrpc"
+	"github.com/faustbrian/go-api-query/v5/cursor"
 	jsonapi "github.com/faustbrian/go-jsonapi/v2"
 )
 
@@ -23,7 +20,7 @@ func TestHTTPRPCJSONAPIAndOpenRPCProduceEquivalentContracts(t *testing.T) {
 	t.Parallel()
 
 	schema := transportSchema(t)
-	rpcParams, err := apiqueryrpc.Parse([]byte(`{
+	rpcParams, err := apiqueryjsonrpc.Parse([]byte(`{
 		"schema_revision":"v1",
 		"fields":["status"],
 		"filter":{"predicate":{"name":"status","operator":"eq","values":[{"type":"string","value":"paid"}]}},
@@ -86,7 +83,7 @@ func TestHTTPRPCJSONAPIAndOpenRPCProduceEquivalentContracts(t *testing.T) {
 			rpcCanonical, httpCanonical, jsonAPICanonical)
 	}
 
-	descriptor := apiqueryrpc.OpenRPCContentDescriptor()
+	descriptor := apiqueryjsonrpc.OpenRPCContentDescriptor()
 	properties, ok := descriptor.Schema["properties"].(map[string]any)
 	if !ok || descriptor.Schema["additionalProperties"] != false {
 		t.Fatalf("OpenRPC descriptor does not describe a closed query object: %#v", descriptor)
@@ -127,7 +124,7 @@ func TestTransportsCanonicalizeEquivalentAuthenticatedCursors(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	rpcParams, err := apiqueryrpc.Parse([]byte(fmt.Sprintf(
+	rpcParams, err := apiqueryjsonrpc.Parse([]byte(fmt.Sprintf(
 		`{"sorts":[{"name":"created_at","direction":"desc"}],"page":{"mode":"cursor","after":%q}}`,
 		rpcToken)), 4096)
 	if err != nil {
@@ -174,22 +171,22 @@ func TestTransportParsersRejectAmbiguityAndExcess(t *testing.T) {
 			return err
 		}},
 		{name: "RPC duplicate", parse: func() error {
-			_, err := apiqueryrpc.Parse([]byte(`{"fields":[],"fields":["id"]}`), 100)
+			_, err := apiqueryjsonrpc.Parse([]byte(`{"fields":[],"fields":["id"]}`), 100)
 			return err
 		}},
 		{name: "RPC unknown", parse: func() error {
-			_, err := apiqueryrpc.Parse([]byte(`{"sql":"drop"}`), 100)
+			_, err := apiqueryjsonrpc.Parse([]byte(`{"sql":"drop"}`), 100)
 			return err
 		}},
 		{name: "RPC oversized", parse: func() error {
-			_, err := apiqueryrpc.Parse([]byte(`{"fields":["id"]}`), 5)
+			_, err := apiqueryjsonrpc.Parse([]byte(`{"fields":["id"]}`), 5)
 			return err
 		}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
-			if err := test.parse(); !errors.Is(err, apiqueryrpc.ErrInvalid) &&
+			if err := test.parse(); !errors.Is(err, apiqueryjsonrpc.ErrInvalid) &&
 				!errors.Is(err, apiqueryhttp.ErrInvalid) {
 				t.Fatalf("parse error = %v, want transport ErrInvalid", err)
 			}
@@ -200,7 +197,7 @@ func TestTransportParsersRejectAmbiguityAndExcess(t *testing.T) {
 func TestTransportsPreserveExplicitlyEmptyFields(t *testing.T) {
 	t.Parallel()
 
-	rpcParams, err := apiqueryrpc.Parse([]byte(`{"fields":[]}`), 100)
+	rpcParams, err := apiqueryjsonrpc.Parse([]byte(`{"fields":[]}`), 100)
 	if err != nil {
 		t.Fatalf("rpc Parse() error = %v", err)
 	}

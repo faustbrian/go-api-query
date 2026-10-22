@@ -138,6 +138,7 @@
     "Toxiproxy",
     "Tracestate",
     "Unacked",
+    "unsuffixed",
     "Valkey",
     "Verkle",
     "XSTS",

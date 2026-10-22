@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Repository entry](../README.md)
 
-Import `github.com/faustbrian/go-api-query/v4/adapters/jsonrpc` with its default
+Import `github.com/faustbrian/go-api-query/v5/adapters/jsonrpc` with its default
 package identifier `apiqueryjsonrpc`. `apiqueryjsonrpc.Parse` accepts
 bounded JSON parameters, normally using `schema.Bounds().MaxRequestBytes`.
 Exact duplicate names, ordinary unknown fields, trailing data, malformed JSON,

@@ -1,4 +1,4 @@
-package apiquerypgx_test
+package apiquerypostgres_test
 
 import (
 	"context"
@@ -6,9 +6,8 @@ import (
 	"testing"
 	"time"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
-	apiquerypostgres "github.com/faustbrian/go-api-query/v4/adapters/postgres"
-	"github.com/faustbrian/go-api-query/v4/apiquerypgx"
+	apiquery "github.com/faustbrian/go-api-query/v5"
+	"github.com/faustbrian/go-api-query/v5/adapters/postgres"
 	"github.com/jackc/pgx/v5"
 )
 
@@ -40,7 +39,7 @@ type integrationParts struct {
 
 func legacyIntegrationCompiler(t testing.TB) func(*apiquery.Plan) (integrationParts, error) {
 	t.Helper()
-	compiler, err := apiquerypgx.NewCompiler(apiquerypgx.Mapping{
+	compiler, err := apiquerypostgres.NewCompiler(apiquerypostgres.Mapping{
 		Fields: map[string]string{"id": "orders.id", "status": "orders.status",
 			"created_at": "orders.created_at"},
 		Filters:     map[string]string{"status": "orders.status"},

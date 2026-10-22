@@ -1,16 +1,12 @@
-//nolint:staticcheck // The supported compatibility adapter is part of this contract.
 package apiquery_test
-
-//lint:file-ignore SA1019 The supported compatibility adapter is part of this contract.
 
 import (
 	"context"
 	"net/url"
 	"testing"
 
-	apiquery "github.com/faustbrian/go-api-query/v4"
-	preferred "github.com/faustbrian/go-api-query/v4/adapters/jsonapi"
-	legacy "github.com/faustbrian/go-api-query/v4/apiqueryjsonapi"
+	apiquery "github.com/faustbrian/go-api-query/v5"
+	apiqueryjsonapi "github.com/faustbrian/go-api-query/v5/adapters/jsonapi"
 	jsonapi "github.com/faustbrian/go-jsonapi/v2"
 )
 
@@ -36,11 +32,11 @@ func TestJSONAPIV2BothAdaptersComposeFiniteCursorQuery(t *testing.T) {
 		page, parseErr := pagination.Parse(family)
 		return apiquery.PageRequest{Mode: apiquery.PageCursor, Size: page.Size}, parseErr
 	}
-	first, err := legacy.FromQuery(query, legacy.Config{Resource: "orders", DecodeFilter: decodeFilter, DecodePage: decodePage})
+	first, err := apiqueryjsonapi.FromQuery(query, apiqueryjsonapi.Config{Resource: "orders", DecodeFilter: decodeFilter, DecodePage: decodePage})
 	if err != nil {
 		t.Fatal(err)
 	}
-	second, err := preferred.FromQuery(query, preferred.Config{Resource: "orders", DecodeFilter: decodeFilter, DecodePage: decodePage})
+	second, err := apiqueryjsonapi.FromQuery(query, apiqueryjsonapi.Config{Resource: "orders", DecodeFilter: decodeFilter, DecodePage: decodePage})
 	if err != nil {
 		t.Fatal(err)
 	}
