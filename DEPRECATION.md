@@ -9,7 +9,8 @@ publicly consumable and two stable minor releases containing both paths, unless
 the owner authorizes an earlier major-version removal. Version 5 is such a
 removal: it drops the five released adapter packages listed in
 [`docs/migration-adapters.md`](docs/migration-adapters.md) and the deprecated
-cursor markers below before that interval ended. The v4 line keeps them.
+cursor markers below before that interval ended. Published v4 releases keep
+them; no further v4 releases are planned.
 
 Silent behavior changes, undocumented aliases, and indefinite deprecated code
 are prohibited. Deprecations are checked during compatibility and release

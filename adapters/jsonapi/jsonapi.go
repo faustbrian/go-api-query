@@ -1,6 +1,9 @@
 // Package apiqueryjsonapi composes parsed jsonapi queries with apiquery.
 // JSON:API names, syntax, extensions, and recommendations remain exclusively
-// owned by github.com/faustbrian/go-jsonapi/v2.
+// owned by github.com/faustbrian/go-jsonapi/v2. Calls are synchronous and
+// stateless; callback inputs and returned selections are copies. The package
+// does not own schema compilation, transport handling, or callback
+// concurrency.
 package apiqueryjsonapi
 
 import (
@@ -20,7 +23,9 @@ var ErrUnsupported = errors.New("JSON:API query family is not configured")
 // FilterDecoder gives application code authority over JSON:API filter profile
 // or implementation-specific semantics.
 // The family is copied before invocation; the returned expression stays borrowed
-// by the request. Callbacks run synchronously without context or panic recovery.
+// by the request. Callbacks run synchronously without context or panic recovery
+// and own reentrancy and concurrent-call safety. Errors become sanitized
+// ErrInvalid without their causes.
 type FilterDecoder func(jsonapi.ParameterFamily) (*apiquery.FilterExpr, error)
 
 // PageDecoder gives application code authority over JSON:API pagination
@@ -43,7 +48,8 @@ type Config struct {
 
 // FromQuery converts an already parsed jsonapi Query without reinterpreting
 // JSON:API parameter syntax.
-// Callback filter results are not cloned; do not mutate them during Compile.
+// Returned field, include and sort selections are copied, but callback filter
+// results are not cloned; do not mutate them during Compile.
 // Only the configured sparse-fieldset resource is selected. Protocol validation
 // belongs to go-jsonapi; this bridge does not reparse it.
 func FromQuery(query jsonapi.Query, config Config) (apiquery.Request, error) {

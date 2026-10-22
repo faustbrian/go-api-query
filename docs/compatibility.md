@@ -14,10 +14,9 @@ for the retained cursor migration, [adopting v4](migration-adapters.md#adopting-
 for the JSONAPI v2 named-type boundary, and [adopting v5](migration-adapters.md#adopting-v5)
 for the adapter paths. V5 selects Validation v3.
 
-Version 5 removed the five top-level adapter paths in favour of `adapters/`.
-The v4 line keeps them for their announced compatibility interval: the longer
-of 180 days after the successors became publicly consumable and two published
-stable minor releases containing both paths. See
+Version 5 removed the five top-level adapter paths in favour of `adapters/`
+before their announced compatibility interval ended. Published v4 releases
+keep them and remain available; no further v4 releases are planned. See
 [adapter migration](migration-adapters.md#adopting-v5).
 
 The following are public contracts and require migration planning: capability

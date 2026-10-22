@@ -47,7 +47,8 @@ type QueryParts struct {
 
 // NewCompiler validates and snapshots every mapped identifier. Maps must not be
 // mutated during construction. Values are trusted identifiers of one to three
-// segments, not arbitrary SQL; construction does not prove schema coverage.
+// segments, not arbitrary SQL; construction does not prove schema coverage or
+// authorize data exposure.
 // Empty mappings are valid until a compiled plan requires a missing mapping.
 func NewCompiler(mapping Mapping) (*Compiler, error) {
 	cloned := Mapping{Fields: cloneMap(mapping.Fields), Filters: cloneMap(mapping.Filters),
@@ -67,7 +68,8 @@ func NewCompiler(mapping Mapping) (*Compiler, error) {
 // Protected. String pattern operands escape LIKE metacharacters; comparisons and
 // nulls otherwise follow PostgreSQL semantics. A missing mapping fails closed.
 // Compile supplies no LIMIT/OFFSET, seek predicate, joins or include fetching.
-// Applications own complete SQL, driver conversion, execution and response masking.
+// Applications own complete SQL, driver conversion, execution, response masking
+// and pagination.
 // Missing mappings return zero QueryParts and ErrInvalid, not partial output.
 func (c *Compiler) Compile(plan *apiquery.Plan) (QueryParts, error) {
 	if c == nil || plan == nil {
