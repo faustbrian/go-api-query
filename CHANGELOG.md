@@ -3,7 +3,7 @@
 All notable changes follow Keep a Changelog. Public releases follow
 semantic versioning.
 
-## 5.0.0 - 2026-10-22
+## 5.0.0 - 2026-10-23
 
 ### Changed
 
