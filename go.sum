@@ -1,8 +1,8 @@
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/faustbrian/go-jsonapi/v2 v2.0.0 h1:4CFe9HA28DxRSN+H3eAMjgfe637WXzvCNUyAn3+WJQ0=
-github.com/faustbrian/go-jsonapi/v2 v2.0.0/go.mod h1:MV6Dr+s3ii1yQK/FIZ9Z861Z+7ToQhiuxvZssu1nSEY=
+github.com/faustbrian/go-jsonapi/v2 v2.0.1 h1:6kfqQ3swtoHvKcaHVqftn6YnakRxkxWFl7K7BvMKSjc=
+github.com/faustbrian/go-jsonapi/v2 v2.0.1/go.mod h1:MV6Dr+s3ii1yQK/FIZ9Z861Z+7ToQhiuxvZssu1nSEY=
 github.com/faustbrian/go-validation/v3 v3.0.1 h1:KSC3671n3JMth1geUvU7JxjY/GVMFZ/rFPQxUsnaIY4=
 github.com/faustbrian/go-validation/v3 v3.0.1/go.mod h1:LBx0QgnEvR3kp+PhOwO92TR3PsbtxpFfu3t/EuKputo=
 github.com/jackc/pgpassfile v1.0.0 h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsIM=
