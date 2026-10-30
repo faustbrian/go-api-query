@@ -20,6 +20,8 @@ Map the old endpoint in this order:
 5. Declare the existing stable order. Add a unique tie-breaker before adopting
    cursors; do not pretend offset pages are cursor-stable.
 6. Parse RPC parameters with `adapters/jsonrpc`, compile, and adapt only the plan.
+   A method that must keep its resource-keyed filters, long operator names and
+   paginator cursors uses the [legacy list profile](legacy-list.md) instead.
 7. Run old and new implementations against a characterization corpus and
    compare projected records, ordering, boundaries, and structured failures.
 8. Version intentional differences and migrate clients before deleting the old

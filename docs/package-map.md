@@ -19,6 +19,7 @@ Internal packages and non-releasable fixtures are intentionally excluded.
 | [`github.com/faustbrian/go-api-query/v5/adapters/http`](../adapters/http/http.go) | Strict conventional HTTP query parsing before core compilation. |
 | [`github.com/faustbrian/go-api-query/v5/adapters/jsonapi`](../adapters/jsonapi/jsonapi.go) | Maps validated JSON:API query members into the transport-neutral request model. |
 | [`github.com/faustbrian/go-api-query/v5/adapters/jsonrpc`](../adapters/jsonrpc/jsonrpc.go) | Bounded JSON-RPC parameters and optional OpenRPC query content. |
+| [`github.com/faustbrian/go-api-query/v5/adapters/legacylist`](../adapters/legacylist/legacylist.go) | Parses the legacy Laravel-era JSON-RPC list profile and its unsigned cursors for migrated methods. |
 | [`github.com/faustbrian/go-api-query/v5/adapters/postgres`](../adapters/postgres/postgres.go) | Compiles reviewed plans into allowlisted PostgreSQL statement fragments without execution. |
 | [`github.com/faustbrian/go-api-query/v5/adapters/validation`](../adapters/validation/validation.go) | Translates query violations into immutable go-validation reports. |
 

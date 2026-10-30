@@ -8,6 +8,7 @@
           "github.com/faustbrian/go-api-query/v5/adapters/http",
           "github.com/faustbrian/go-api-query/v5/adapters/jsonapi",
           "github.com/faustbrian/go-api-query/v5/adapters/jsonrpc",
+          "github.com/faustbrian/go-api-query/v5/adapters/legacylist",
           "github.com/faustbrian/go-api-query/v5/adapters/postgres",
           "github.com/faustbrian/go-api-query/v5/adapters/validation"
         ],
@@ -67,6 +68,7 @@
           "github.com/faustbrian/go-api-query/v5/adapters/http": "Strict conventional HTTP query parsing before core compilation.",
           "github.com/faustbrian/go-api-query/v5/adapters/jsonapi": "Maps validated JSON:API query members into the transport-neutral request model.",
           "github.com/faustbrian/go-api-query/v5/adapters/jsonrpc": "Bounded JSON-RPC parameters and optional OpenRPC query content.",
+          "github.com/faustbrian/go-api-query/v5/adapters/legacylist": "Parses the legacy Laravel-era JSON-RPC list profile and its unsigned cursors for migrated methods.",
           "github.com/faustbrian/go-api-query/v5/adapters/postgres": "Compiles reviewed plans into allowlisted PostgreSQL statement fragments without execution.",
           "github.com/faustbrian/go-api-query/v5/adapters/validation": "Translates query violations into immutable go-validation reports.",
           "github.com/faustbrian/go-api-query/v5/apiquerytest": "Use in tests for deterministic builders, fixtures, assertions, and cross-transport conformance.",
@@ -183,6 +185,18 @@
           "kind": "adapter",
           "module_directory": ".",
           "name": "apiqueryjsonrpc",
+          "production": true
+        },
+        {
+          "build_required": true,
+          "build_tags": [],
+          "coverage_required": true,
+          "directory": "adapters/legacylist",
+          "executable": true,
+          "import_path": "github.com/faustbrian/go-api-query/v5/adapters/legacylist",
+          "kind": "adapter",
+          "module_directory": ".",
+          "name": "apiquerylegacylist",
           "production": true
         },
         {

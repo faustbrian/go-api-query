@@ -52,6 +52,18 @@
       "build_required": true,
       "build_tags": [],
       "coverage_required": true,
+      "directory": "adapters/legacylist",
+      "executable": true,
+      "import_path": "github.com/faustbrian/go-api-query/v5/adapters/legacylist",
+      "kind": "adapter",
+      "module_directory": ".",
+      "name": "apiquerylegacylist",
+      "production": true
+    },
+    {
+      "build_required": true,
+      "build_tags": [],
+      "coverage_required": true,
       "directory": "adapters/postgres",
       "executable": true,
       "import_path": "github.com/faustbrian/go-api-query/v5/adapters/postgres",

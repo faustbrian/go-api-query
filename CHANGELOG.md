@@ -3,6 +3,20 @@
 All notable changes follow Keep a Changelog. Public releases follow
 semantic versioning.
 
+## Unreleased
+
+### Added
+
+- Add `adapters/legacylist` (`apiquerylegacylist`) for migrated Laravel-era
+  JSON-RPC list methods. `Profile.ParseFilters` and `Profile.ParseSorts` read
+  resource-keyed filters and sorts with the fourteen long operator names,
+  `and`/`or` booleans and `asc`/`desc` directions, returning typed `*Error`
+  values so methods keep their own error documents. `DecodeCursor`,
+  `EncodeCursor` and `Page.Links` handle unsigned Laravel paginator cursors
+  and their self/prev/next links. Parsing checks declared names only; it does
+  not authorize, and cursors are not authenticated. See
+  [the legacy list profile](docs/legacy-list.md).
+
 ## 5.0.0 - 2026-10-23
 
 ### Changed

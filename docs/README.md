@@ -14,6 +14,7 @@ to compare related independently adoptable libraries.
 - [HTTP](http.md)
 - [JSON:API](jsonapi.md)
 - [JSON-RPC](openrpc.md)
+- [Legacy JSON-RPC list profile](legacy-list.md)
 
 ## Concepts and design
 

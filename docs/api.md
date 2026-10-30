@@ -107,6 +107,11 @@ projecting a compile error as validation.
 - Import `github.com/faustbrian/go-api-query/v5/adapters/jsonrpc` and use
   `apiqueryjsonrpc.Parse` to strictly parse bounded parameters; `Params.Request`
   returns a defensive request; `OpenRPCContentDescriptor` returns fresh maps.
+- Import `github.com/faustbrian/go-api-query/v5/adapters/legacylist` only for
+  migrated Laravel-era list methods: `Profile.ParseFilters` and
+  `Profile.ParseSorts` read resource-keyed members, `DecodeCursor` and
+  `EncodeCursor` handle unsigned paginator cursors, and `Page.Links` builds
+  self/prev/next links. See the [legacy list profile](legacy-list.md).
 - Import `github.com/faustbrian/go-api-query/v5/adapters/jsonapi` and use
   `apiqueryjsonapi.FromQuery` to consume a query parsed by `jsonapi`; callbacks
   explicitly own filter and pagination profile semantics.
